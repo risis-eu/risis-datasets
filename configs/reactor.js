@@ -12,7 +12,7 @@ export default {
                 maxNumberOfResourcesOnPage: 20,
                 datasetReactor: ['Dataset']
             },
-            'http://ld-r.org/users': {
+            'http://rdf.risis.eu/sms/users.ttl#': {
                 readOnly: 0
             }
         },
@@ -50,7 +50,7 @@ export default {
 
         },
         dataset_property: {
-            'http://ld-r.org/users': {
+            'http://rdf.risis.eu/sms/users.ttl#': {
                 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type': {
                     isHidden: 1
                 },
