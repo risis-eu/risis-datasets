@@ -90,6 +90,27 @@ export default {
             context.executeAction(loadResource, { dataset: graphName, resource: decodeURIComponent(payload.get('params').get('rid')), category: category, propertyPath: propertyPath}, done);
         }
     },
+    metadata: {
+        path: '/metadata/:name/:pcategory?/:propertyPath?',
+        method: 'get',
+        handler: require('../components/reactors/ResourceReactor'),
+        label: 'Resource',
+        action: (context, payload, done) => {
+            //predicate Category
+            let category = payload.get('params').get('pcategory');
+            if(!category){
+                category = 0;
+            }
+            let propertyPath = payload.get('params').get('propertyPath');
+            if(!propertyPath){
+                propertyPath = [];
+            }
+            let name = payload.get('params').get('name');
+            let graphName = 'http://rdf.risis.eu/dataset/' + name + '/1.0/void.ttl#';
+            let resourceURI = 'http://rdf.risis.eu/dataset/' + name + '/1.0/void.ttl#' + name + '_rdf_dataset';
+            context.executeAction(loadResource, { dataset: graphName, resource: resourceURI, category: category, propertyPath: propertyPath}, done);
+        }
+    },
     user: {
         path: '/user/:id',
         method: 'get',

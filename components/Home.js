@@ -27,7 +27,7 @@ class Home extends React.Component {
                       </div>
                       <i className="ui yellow large database middle aligned icon"></i>
                       <div className="content">
-                        <a className="header" routeName="resource" href={'/dataset/' + encodeURIComponent(node.g) + '/resource/' + encodeURIComponent(node.v)}>{node.title}</a>
+                        <a className="header" routeName="resource" href={'/metadata/' + encodeURIComponent(node.name)}>{node.title}</a>
                         <div className="description">{node.desc}</div>
                       </div>
                     </div>
