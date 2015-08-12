@@ -18,7 +18,7 @@ export default {
     name: 'dataset',
     // At least one of the CRUD methods is Required
     read: (req, resource, params, config, callback) => {
-        if (resource === 'dataset.resourcesByType') {
+        if(resource === 'dataset.list'){
             graphName = (params.id ? decodeURIComponent(params.id) : 0);
             endpointParameters = getEndpointParameters(graphName);
             //graph name used for server settings and configs
@@ -33,37 +33,32 @@ export default {
                 }
             }
             //config handler
-            let rconfig = configurator.prepareDatasetConfig(1, graphName);
-            let maxOnPage = parseInt(rconfig.maxNumberOfResourcesOnPage);
-            if(!maxOnPage){
-                maxOnPage = 20;
-            }
-            let offset = (params.page - 1) * maxOnPage;
+            let rconfig = configurator.prepareDatasetConfig(graphName);
             //control access on authentication
             if(enableAuthentication){
                 if(!req.user){
-                    callback(null, {graphName: graphName, resources: [], page: params.page, config: rconfig});
+                    callback(null, {graphName: graphName, resources: [], page: 1, config: rconfig});
                 }else{
                     user = req.user;
                 }
             }else{
                 user = {accountName: 'open'};
             }
-            query = queryObject.getResourcesByType(cGraphName, rconfig.resourceFocusType, maxOnPage, offset);
-            //build http uri
+            //SPARQL QUERY
+            query = queryObject.getDatasetsList();
             //send request
             rp.get({uri: getHTTPQuery('read', query, endpointParameters, outputFormat)}).then(function(res){
                 callback(null, {
                     graphName: graphName,
-                    resources: utilObject.parseResourcesByType(res, graphName),
-                    page: params.page,
+                    resources: utilObject.parseDatasetsList(res),
+                    page: 1,
                     config: rconfig
                 });
             }).catch(function (err) {
                 console.log(err);
-                callback(null, {graphName: graphName, resources: [], page: params.page, config: rconfig});
+                callback(null, {graphName: graphName, resources: [], page: 1, config: rconfig});
             });
-        } else if (resource === 'dataset.countResourcesByType') {
+        } else if (resource === 'dataset.resourcesByType') {
             //SPARQL QUERY
             graphName = (params.id ? decodeURIComponent(params.id) : 0);
             cGraphName = graphName;

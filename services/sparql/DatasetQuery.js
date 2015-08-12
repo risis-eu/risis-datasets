@@ -4,15 +4,33 @@ class DatasetQuery{
     constructor() {
         /*jshint multistr: true */
         this.prefixes='\
-        PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \
+        PREFIX risis: <http://risis.eu/> \
         PREFIX dcterms: <http://purl.org/dc/terms/> \
         PREFIX void: <http://rdfs.org/ns/void#> \
+        PREFIX pav: <http://purl.org/pav/> \
+        PREFIX wv: <http://vocab.org/waiver/terms/norms> \
         PREFIX foaf: <http://xmlns.com/foaf/0.1/> \
         PREFIX skos: <http://www.w3.org/2004/02/skos/core#> \
-        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> \
+        PREFIX risisVoid: <http://rdf.risis.eu/dataset/risis/1.0/void.ttl#> \
          ';
         this.query='';
     }
+    //-----------RISIS------------
+    getDatasetsList() {
+      /*jshint multistr: true */
+      this.query = '\
+      SELECT DISTINCT ?dataset ?subject ?title ?desc WHERE { \
+        { \
+          GRAPH risisVoid:  { \
+            risisVoid:risis_rdf_dataset void:subset ?dataset . \
+          } \
+          GRAPH ?dataset {?subject a void:Dataset. ?subject dcterms:title ?title . ?subject dcterms:description ?desc .} \
+        } \
+      } ORDER BY ASC(?title) \
+      ';
+      return this.prefixes + this.query;
+    }
+    //--------------------------------
     countResourcesByType(graphName, type) {
         let st = '?resource a <'+ type + '> .';
         //will get all the types

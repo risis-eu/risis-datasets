@@ -15,6 +15,21 @@ class DatasetUtil{
         }
         return property;
     }
+    parseDatasetsList(body) {
+      let parsed = JSON.parse(body);
+      let output=[];
+      if(parsed.results.bindings.length){
+        parsed.results.bindings.forEach(function(el) {
+          let tmp=el.subject.value;
+          let tmp2=tmp.split('#');
+          tmp=tmp2[1];
+          tmp2=tmp.split('_rdf_dataset');
+          let name=tmp2[0];
+          output.push({title: el.title.value, desc: el.desc.value, name: name, v: el.subject.value, g: el.dataset.value});
+        });
+        return output;
+      }
+    }
     getResourceFocusType(config){
         let output = [];
         if(config){

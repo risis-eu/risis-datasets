@@ -1,5 +1,7 @@
 'use strict';
-var React = require('react');
+import React from 'react';
+import DatasetStore from '../stores/DatasetStore';
+import {connectToStores} from 'fluxible-addons-react';
 
 class Home extends React.Component {
     componentDidMount() {
@@ -13,6 +15,25 @@ class Home extends React.Component {
         });
     }
     render() {
+        let list;
+        let self = this;
+        if(this.props.DatasetStore.dataset.resources){
+            list = this.props.DatasetStore.dataset.resources.map(function(node, index) {
+                return (
+                    <div className="item" key={index}>
+                      <div className="right floated">
+                          <div className="ui small button hint" data-variation="inverted" data-content="This option will guide you through the procedure to aply for data access."><i className="ui privacy icon"></i>Access Request</div>
+                          <div className="ui small button hint" data-variation="inverted" data-content="This option will guide you through the procedure to apply for a dataset visit."><i className="ui travel icon"></i>Visit Request</div>
+                      </div>
+                      <i className="ui yellow large database middle aligned icon"></i>
+                      <div className="content">
+                        <a className="header" routeName="resource" href={'/dataset/' + encodeURIComponent(node.g) + '/resource/' + encodeURIComponent(node.v)}>{node.title}</a>
+                        <div className="description">{node.desc}</div>
+                      </div>
+                    </div>
+                );
+            });
+        }
         return (
             <div className="ui page grid homepage-body" ref="home">
               <div className="ui row">
@@ -34,31 +55,7 @@ class Home extends React.Component {
                 <div className="column">
 
                     <div className="ui relaxed divided list segment">
-                      <div className="item">
-                        <div className="right floated">
-                            <div className="ui small button hint" data-variation="inverted" data-content="This option will guide you through the procedure to aply for data access."><i className="ui privacy icon"></i>Access Request</div>
-                            <div className="ui small button hint" data-variation="inverted" data-content="This option will guide you through the procedure to apply for a dataset visit."><i className="ui travel icon"></i>Visit Request</div>
-                        </div>
-                        <i className="ui yellow large database middle aligned icon"></i>
-                        <div className="content">
-                          <a className="header">EUPRO</a>
-                          <div className="description">Updated 10 mins ago</div>
-                        </div>
-                      </div>
-                      <div className="item">
-                        <i className="ui yellow large database middle aligned icon"></i>
-                        <div className="content">
-                          <a className="header">ETER</a>
-                          <div className="description">Updated 22 mins ago</div>
-                        </div>
-                      </div>
-                      <div className="item">
-                        <i className="ui yellow large database middle aligned icon"></i>
-                        <div className="content">
-                          <a className="header">NANO</a>
-                          <div className="description">Updated 34 mins ago</div>
-                        </div>
-                      </div>
+                        {list}
                     </div>
                 </div>
               </div>
@@ -66,5 +63,12 @@ class Home extends React.Component {
         );
     }
 }
-
+Home.contextTypes = {
+    getUser: React.PropTypes.func
+};
+Home = connectToStores(Home, [DatasetStore], function (context, props) {
+    return {
+        DatasetStore: context.getStore(DatasetStore).getState()
+    };
+});
 module.exports = Home;

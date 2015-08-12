@@ -1,3 +1,4 @@
+import loadDatasetsList from '../actions/loadDatasetsList';
 import loadDataset from '../actions/loadDataset';
 import loadResource from '../actions/loadResource';
 import loadUsersList from '../actions/loadUsersList';
@@ -11,8 +12,17 @@ export default {
         handler: require('../components/Home'),
         label: appShortTitle,
         action: (context, payload, done) => {
-            context.dispatch('UPDATE_PAGE_TITLE', { pageTitle: appFullTitle + ' | Home'});
-            done();
+            context.executeAction(loadDatasetsList, {}, done);
+        }
+    },
+    datasets: {
+        //if no id is provided -> will start by defaultGraphName in reactor.config
+        path: '/datasets',
+        method: 'get',
+        handler: require('../components/Home'),
+        label: 'RISIS Datasets',
+        action: (context, payload, done) => {
+            context.executeAction(loadDatasetsList, {}, done);
         }
     },
     about: {
@@ -37,17 +47,6 @@ export default {
                 graphName = 0;
             }
             context.executeAction(loadFacets, {mode: 'init', id: graphName, selection: 0, page: 1}, done);
-        }
-    },
-    datasets: {
-        //if no id is provided -> will start by defaultGraphName in reactor.config
-        path: '/datasets',
-        method: 'get',
-        handler: require('../components/Datasets'),
-        label: 'Datasets',
-        action: (context, payload, done) => {
-            context.dispatch('UPDATE_PAGE_TITLE', { pageTitle: appFullTitle + ' | Datasets'});
-            done();
         }
     },
     dataset: {
