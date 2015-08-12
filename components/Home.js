@@ -36,8 +36,8 @@ class Home extends React.Component {
                     <div className="ui relaxed divided list segment">
                       <div className="item">
                         <div className="right floated">
-                            <div className="ui small button hint" data-variation="inverted" data-content="This option will guide you through the procedure to aply for data access.">Request access</div>
-                            <div className="ui small basic grey button hint" data-variation="inverted" data-content="This option will guide you through the procedure to apply for a dataset visit.">Request visit</div>
+                            <div className="ui small button hint" data-variation="inverted" data-content="This option will guide you through the procedure to aply for data access."><i className="ui privacy icon"></i>Access Request</div>
+                            <div className="ui small button hint" data-variation="inverted" data-content="This option will guide you through the procedure to apply for a dataset visit."><i className="ui travel icon"></i>Visit Request</div>
                         </div>
                         <i className="ui yellow large database middle aligned icon"></i>
                         <div className="content">
