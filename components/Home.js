@@ -22,8 +22,8 @@ class Home extends React.Component {
                 return (
                     <div className="item" key={index}>
                       <div className="right floated">
-                          <div className="ui small button hint" data-variation="inverted" data-content="This option will guide you through the procedure to aply for data access."><i className="ui privacy icon"></i>Access Request</div>
-                          <div className="ui small button hint" data-variation="inverted" data-content="This option will guide you through the procedure to apply for a dataset visit."><i className="ui travel icon"></i>Visit Request</div>
+                          <div className="ui small button hint" data-variation="inverted" data-content={'This option will guide you through the procedure to apply for accessing "' + node.title + '" data.'}><i className="ui privacy icon"></i>Access Request</div>
+                          <div className="ui small button hint" data-variation="inverted" data-content={'This option will guide you through the procedure to apply for a site visit on "' + node.title + '".'}><i className="ui travel icon"></i>Visit Request</div>
                       </div>
                       <i className="ui yellow large database middle aligned icon"></i>
                       <div className="content">
