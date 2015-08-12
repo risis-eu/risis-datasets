@@ -1,3 +1,10 @@
 .ld-r-custom-css {
     color: orange;
 }
+.page-footer {
+    text-align: center;
+     position: fixed;
+     bottom: 0px;
+     padding-bottom: 1.5rem;
+     width: 100%;
+}

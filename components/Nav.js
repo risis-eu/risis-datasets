@@ -31,7 +31,7 @@ class Nav extends React.Component {
             }
         }
         return (
-            <nav ref="defaultNavbar" className="ui black menu inverted navbar page grid">
+            <nav ref="defaultNavbar" className="ui black menu inverted navbar page grid page-header">
                     <NavLink routeName="home" className="brand item" activeClass="activei"><img className="ui image" src="/assets/img/risis_logo_full.jpg" alt="RISIS" /></NavLink>
                     <NavLink routeName="home" className="brand item header" activeClass="active"> Datasets Portal</NavLink>
                     <a className="ui item blue label" href="http://sms.risis.eu">SMS Platform</a>

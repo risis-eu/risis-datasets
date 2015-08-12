@@ -2,9 +2,19 @@
 var React = require('react');
 
 class Home extends React.Component {
+    componentDidMount() {
+        let currentComp = this.refs.home.getDOMNode();
+        //enable hints
+        /*global $*/
+        $(currentComp).find('.hint')
+        .popup({
+            hoverable: true,
+            position : 'bottom left',
+        });
+    }
     render() {
         return (
-            <div className="ui page grid" ref="home">
+            <div className="ui page grid homepage-body" ref="home">
               <div className="ui row">
                 <div className="center aligned column">
 
@@ -25,6 +35,10 @@ class Home extends React.Component {
 
                     <div className="ui relaxed divided list segment">
                       <div className="item">
+                        <div className="right floated">
+                            <div className="ui small button hint" data-variation="inverted" data-content="This option will guide you through the procedure to aply for data access.">Request access</div>
+                            <div className="ui small basic grey button hint" data-variation="inverted" data-content="This option will guide you through the procedure to apply for a dataset visit.">Request visit</div>
+                        </div>
                         <i className="ui yellow large database middle aligned icon"></i>
                         <div className="content">
                           <a className="header">EUPRO</a>

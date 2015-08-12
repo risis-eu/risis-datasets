@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Nav from './Nav';
+import Footer from './Footer';
 import HelpModal from './HelpModal';
 import Home from './Home';
 import About from './About';
@@ -24,10 +25,11 @@ class Application extends React.Component {
         var Handler = this.props.currentRoute.get('handler');
         //render content
         return (
-            <div>
+            <div className="page-container">
                 <Nav />
                 <Handler />
                 <HelpModal />
+                <Footer />
             </div>
         );
     }
