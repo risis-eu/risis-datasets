@@ -7,16 +7,13 @@
 	</head>
 	<body>
 		<div>
-			<nav  class="ui blue menu inverted navbar page grid">
-				<div class="ui item brand">
-					<a href="/"><img class="ui mini image" style="height:20px; width:20px" src="/assets/img/ld-reactor.gif" alt="ld-reactor" /></a>
-				</div>
-				<div class="ui item active brand">
-					<a href="/">{{appShortTitle}}</a>
-				</div>
-				<div class="ui item">
-					<a href="http://ld-r.org">Documentation</a>
-				</div>
+			<nav  class="ui black menu inverted navbar page grid">
+					<div class="ui item brand">
+						<a href="/register"><img class="ui image" src="/assets/img/risis_logo_full.jpg" alt="RISIS" /></a>
+					</div>
+					<a href="/" class="ui item label"> Datasets Portal</a>
+                    <a class="ui item blue label" href="http://sms.risis.eu">SMS Platform</a>
+                    <a class="ui item teal label" href="http://cortext.risis.eu">Cortext Platform</a>
 			</nav>
 		</div>
 		<div class="ui page grid">
@@ -44,15 +41,15 @@
 								</div>
 							</div>
 							<div class="twelve wide field required">
-								<label>Organization</label>
+								<label>Institution</label>
 								<div class="ui icon input">
-									<input type="text" placeholder="Organization" name="organization" value="{{data.organization}}"/>
+									<input type="text" placeholder="Institution" name="organization" value="{{data.organization}}"/>
 								</div>
 							</div>
 							<div class="twelve wide field required">
 								<label>Email Address</label>
 								<div class="ui icon input">
-									<input type="text" placeholder="Email" name="email" value="{{data.email}}"/>
+									<input type="text" placeholder="Email of the institutional affiliation" name="email" value="{{data.email}}"/>
 									<i class="at icon"></i>
 								</div>
 							</div>

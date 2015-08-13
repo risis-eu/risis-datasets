@@ -37,7 +37,8 @@ export default {
             //control access on authentication
             if(enableAuthentication){
                 if(!req.user){
-                    callback(null, {graphName: graphName, resources: [], page: 1, config: rconfig});
+                    user = {accountName: 'open'};
+                    //callback(null, {graphName: graphName, resources: [], page: 1, config: rconfig});
                 }else{
                     user = req.user;
                 }

@@ -48,8 +48,9 @@ export default {
             //control access on authentication
             if(enableAuthentication){
                 if(!req.user){
-                    callback(null, {graphName: graphName, resourceURI: resourceURI, resourceType: '', currentCategory: 0, propertyPath: [], properties: [], config: {}});
-                    return 0;
+                    //callback(null, {graphName: graphName, resourceURI: resourceURI, resourceType: '', currentCategory: 0, propertyPath: [], properties: [], config: {}});
+                    //return 0;
+                    user = {accountName: 'open'};
                 }else{
                     user = req.user;
                 }
@@ -97,8 +98,9 @@ export default {
             //control access on authentication
             if(enableAuthentication){
                 if(!req.user){
-                    callback(null, {objectURI: objectURI, objectType: '', properties: []});
-                    return 0;
+                    //callback(null, {objectURI: objectURI, objectType: '', properties: []});
+                    //return 0;
+                    user = {accountName: 'open'};
                 }else{
                     user = req.user;
                 }

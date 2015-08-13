@@ -27,7 +27,7 @@ class Nav extends React.Component {
                                 </div>
                             </div>;
             }else{
-                userMenu = <div className="ui right item"> <a className="ui mini circular teal button" href="/login">Sign-in</a> &nbsp;  <a href="/register" className="ui mini circular yellow button">Register</a> </div>;
+                userMenu = <div className="ui right item"> <a className="ui mini button" href="/login">Sign-in</a> &nbsp;  <a href="/register" className="ui mini violet button">Register</a> </div>;
             }
         }
         return (
