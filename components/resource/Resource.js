@@ -1,5 +1,6 @@
 import React from 'react';
 import PropertyReactor from '../reactors/PropertyReactor';
+import {authGraphName} from '../../configs/general';
 import {NavLink} from 'fluxible-router';
 import URIUtil from '../utils/URIUtil';
 class Resource extends React.Component {
@@ -73,23 +74,10 @@ class Resource extends React.Component {
                 if(readOnly){
                     configReadOnly = true;
                 }else{
-                    //the super user can edit all visible properties even readOnly ones!
-                    if(user && parseInt(user.isSuperUser)){
-                        configReadOnly = false;
-                    }else{
-                        //it property is readOnly from config
-                        if(node.config){
-                            if(node.config.readOnly){
-                                configReadOnly = true;
-                            }else{
-                                //check access levels
-                                accessLevel = self.checkAccess(user, self.props.graphName, self.props.resource, node.propertyURI);
-                                if(accessLevel.access){
-                                    configReadOnly = false;
-                                }else{
-                                    configReadOnly = true;
-                                }
-                            }
+                    //it property is readOnly from config
+                    if(node.config){
+                        if(node.config.readOnly){
+                            configReadOnly = true;
                         }else{
                             //check access levels
                             accessLevel = self.checkAccess(user, self.props.graphName, self.props.resource, node.propertyURI);
@@ -98,6 +86,22 @@ class Resource extends React.Component {
                             }else{
                                 configReadOnly = true;
                             }
+                            //make it read only in all cases
+                            if(self.props.graphName !== authGraphName){
+                                configReadOnly = false;
+                            }
+                        }
+                    }else{
+                        //check access levels
+                        accessLevel = self.checkAccess(user, self.props.graphName, self.props.resource, node.propertyURI);
+                        if(accessLevel.access){
+                            configReadOnly = false;
+                        }else{
+                            configReadOnly = true;
+                        }
+                        //make it read only in all cases
+                        if(self.props.graphName !== authGraphName){
+                            configReadOnly = false;
                         }
                     }
                 }
