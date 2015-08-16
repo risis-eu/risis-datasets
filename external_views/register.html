@@ -41,9 +41,15 @@
 								</div>
 							</div>
 							<div class="twelve wide field required">
-								<label>Institution</label>
+								<label>Institution Name</label>
 								<div class="ui icon input">
-									<input type="text" placeholder="Institution" name="organization" value="{{data.organization}}"/>
+									<input type="text" placeholder="Institution Name" name="organization" value="{{data.organization}}"/>
+								</div>
+							</div>
+							<div class="twelve wide field required">
+								<label>Position</label>
+								<div class="ui icon input">
+									<input type="text" placeholder="Position (professor, lecturer, phd student, post doc, researcher, other)" name="position" value="{{data.position}}"/>
 								</div>
 							</div>
 							<div class="twelve wide field required">
@@ -72,6 +78,12 @@
 								<div class="ui icon input">
 									<input type="password" name="cpassword">
 									<i class="lock icon"></i>
+								</div>
+							</div>
+							<div class="twelve wide field required">
+								<div class="ui checkbox">
+									<input type="checkbox" name="hot-deals" readonly="readonly" checked>
+									<label>I agree to the <a target="_blank" href="http://risis.eu/risis-code-of-conduct/">RISIS code of conduct</a>.</label>
 								</div>
 							</div>
 							<div class="field">

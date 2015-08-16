@@ -123,28 +123,32 @@ module.exports = function handleAuthentication(server) {
                              /*jshint multistr: true */
                              query = '\
                              PREFIX ldr: <https://github.com/ali1k/ld-reactor/blob/master/vocabulary/index.ttl#> \
+                             PREFIX vCard: <http://www.w3.org/2001/vcard-rdf/3.0#> \
                              PREFIX foaf: <http://xmlns.com/foaf/0.1/> \
                              PREFIX dcterms: <http://purl.org/dc/terms/> \
                              INSERT DATA { GRAPH <'+ generalConfig.authGraphName[0] +'> { \
-                             <'+ resourceURI + '> a foaf:Person; foaf:firstName """'+req.body.firstname+'"""; foaf:lastName """'+req.body.lastname+'"""; foaf:organization """'+req.body.organization+'"""; foaf:mbox <mailto:'+req.body.email+'>; dcterms:created "' + currentDate + '"^^xsd:dateTime; foaf:accountName """'+req.body.username+'"""; ldr:password """'+passwordHash.generate(req.body.password)+'"""; ldr:isActive "'+isActive+'"^^xsd:Integer; ldr:isSuperUser "0"^^xsd:Integer; ldr:editorOfGraph <'+dgraphURI+'>; ldr:editorOfResource <'+dresourceURI+'>; ldr:editorOfProperty <'+blanknode+'1>;ldr:editorOfProperty <'+blanknode+'2>; ldr:editorOfProperty <'+blanknode+'3>; ldr:editorOfProperty <'+blanknode+'4> . \
+                             <'+ resourceURI + '> a foaf:Person; foaf:firstName """'+req.body.firstname+'"""; foaf:lastName """'+req.body.lastname+'"""; foaf:organization """'+req.body.organization+'"""; vCard:ROLE """'+req.body.position+'"""; foaf:mbox <mailto:'+req.body.email+'>; dcterms:created "' + currentDate + '"^^xsd:dateTime; foaf:accountName """'+req.body.username+'"""; ldr:password """'+passwordHash.generate(req.body.password)+'"""; ldr:isActive "'+isActive+'"^^xsd:Integer; ldr:isSuperUser "0"^^xsd:Integer; ldr:editorOfGraph <'+dgraphURI+'>; ldr:editorOfResource <'+dresourceURI+'>; ldr:editorOfProperty <'+blanknode+'1>;ldr:editorOfProperty <'+blanknode+'2>; ldr:editorOfProperty <'+blanknode+'3>; ldr:editorOfProperty <'+blanknode+'4> . \
                              <'+blanknode+'1> ldr:resource <'+resourceURI+'> ; ldr:property foaf:firstName . \
                              <'+blanknode+'2> ldr:resource <'+resourceURI+'> ; ldr:property foaf:lastName . \
-                             <'+blanknode+'3> ldr:resource <'+resourceURI+'> ; ldr:property foaf:organization . \
-                             <'+blanknode+'4> ldr:resource <'+resourceURI+'> ; ldr:property ldr:password . \
+                             <'+blanknode+'3> ldr:resource <'+resourceURI+'> ; ldr:property vCard:ROLE . \
+                             <'+blanknode+'4> ldr:resource <'+resourceURI+'> ; ldr:property foaf:organization . \
+                             <'+blanknode+'5> ldr:resource <'+resourceURI+'> ; ldr:property ldr:password . \
                             }} \
                              ';
                          }else {
                              /*jshint multistr: true */
                              query = '\
                              PREFIX ldr: <https://github.com/ali1k/ld-reactor/blob/master/vocabulary/index.ttl#> \
+                             PREFIX vCard: <http://www.w3.org/2001/vcard-rdf/3.0#> \
                              PREFIX foaf: <http://xmlns.com/foaf/0.1/> \
                              PREFIX dcterms: <http://purl.org/dc/terms/> \
                              INSERT DATA INTO <'+ generalConfig.authGraphName[0] +'> { \
-                             <'+ resourceURI + '> a foaf:Person; foaf:firstName """'+req.body.firstname+'"""; foaf:lastName """'+req.body.lastname+'"""; foaf:organization """'+req.body.organization+'"""; foaf:mbox <mailto:'+req.body.email+'>; dcterms:created "' + currentDate + '"^^xsd:dateTime; foaf:accountName """'+req.body.username+'"""; ldr:password """'+passwordHash.generate(req.body.password)+'"""; ldr:isActive "'+isActive+'"^^xsd:Integer; ldr:isSuperUser "0"^^xsd:Integer; ldr:editorOfGraph <'+dgraphURI+'>; ldr:editorOfResource <'+dresourceURI+'>; ldr:editorOfProperty <'+blanknode+'1>;ldr:editorOfProperty <'+blanknode+'2>; ldr:editorOfProperty <'+blanknode+'3>; ldr:editorOfProperty <'+blanknode+'4> . \
+                             <'+ resourceURI + '> a foaf:Person; foaf:firstName """'+req.body.firstname+'"""; foaf:lastName """'+req.body.lastname+'"""; foaf:organization """'+req.body.organization+'"""; vCard:ROLE """'+req.body.position+'"""; foaf:mbox <mailto:'+req.body.email+'>; dcterms:created "' + currentDate + '"^^xsd:dateTime; foaf:accountName """'+req.body.username+'"""; ldr:password """'+passwordHash.generate(req.body.password)+'"""; ldr:isActive "'+isActive+'"^^xsd:Integer; ldr:isSuperUser "0"^^xsd:Integer; ldr:editorOfGraph <'+dgraphURI+'>; ldr:editorOfResource <'+dresourceURI+'>; ldr:editorOfProperty <'+blanknode+'1>;ldr:editorOfProperty <'+blanknode+'2>; ldr:editorOfProperty <'+blanknode+'3>; ldr:editorOfProperty <'+blanknode+'4> . \
                              <'+blanknode+'1> ldr:resource <'+resourceURI+'> ; ldr:property foaf:firstName . \
                              <'+blanknode+'2> ldr:resource <'+resourceURI+'> ; ldr:property foaf:lastName . \
-                             <'+blanknode+'3> ldr:resource <'+resourceURI+'> ; ldr:property foaf:organization . \
-                             <'+blanknode+'4> ldr:resource <'+resourceURI+'> ; ldr:property ldr:password . \
+                             <'+blanknode+'3> ldr:resource <'+resourceURI+'> ; ldr:property vCard:ROLE . \
+                             <'+blanknode+'4> ldr:resource <'+resourceURI+'> ; ldr:property foaf:organization . \
+                             <'+blanknode+'5> ldr:resource <'+resourceURI+'> ; ldr:property ldr:password . \
                              } \
                              ';
                          }
