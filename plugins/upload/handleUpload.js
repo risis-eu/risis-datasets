@@ -6,14 +6,14 @@ module.exports = function handleUpload(server) {
          if(!req.isAuthenticated()){
             res.render('login', {appShortTitle: appShortTitle, appFullTitle: appFullTitle, user: req.user });
          }else{
-            res.render('accessRequest', {name: req.params.name});
+            res.render('accessRequest', {appShortTitle: appShortTitle, appFullTitle: appFullTitle, name: req.params.name});
          }
      });
      server.get('/visitRequest/:name', function(req, res) {
          if(!req.isAuthenticated()){
             res.render('login', {appShortTitle: appShortTitle, appFullTitle: appFullTitle, user: req.user });
          }else{
-            res.render('visitRequest', {name: req.params.name});
+            res.render('visitRequest', {appShortTitle: appShortTitle, appFullTitle: appFullTitle, name: req.params.name});
          }
      });
 };
