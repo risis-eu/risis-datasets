@@ -5,6 +5,7 @@ import BasicDBpediaView from './viewer/individual/BasicDBpediaView';
 import BasicLinkedIndividualView from './viewer/individual/BasicLinkedIndividualView';
 import BasicOptionView from './viewer/individual/BasicOptionView';
 import PasswordView from './viewer/individual/PasswordView';
+import {FileSizeView} from 'void-components';
 import {LanguageView} from 'void-components';
 import {TwoLetterCountryView} from 'void-components';
 
@@ -53,6 +54,9 @@ class ObjectIViewer extends React.Component {
             break;
             case 'LanguageView':
                 viewer = <LanguageView spec={this.props.spec} config={this.props.config}/>;
+            break;
+            case 'FileSizeView':
+                viewer = <FileSizeView spec={this.props.spec} config={this.props.config}/>;
             break;
             case 'BasicOptionView':
                 viewer = <BasicOptionView spec={this.props.spec} config={this.props.config}/>;
