@@ -8,7 +8,7 @@ export default function loadDatasetsList(context, payload, done) {
             context.dispatch('LOAD_DATASET_SUCCESS', res);
         }
         context.dispatch('UPDATE_PAGE_TITLE', {
-            pageTitle: (appFullTitle + ' | Datasets Portal | ') || ''
+            pageTitle: (appFullTitle + ' | Home ') || ''
         });
         done();
     });
