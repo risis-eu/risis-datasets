@@ -2,14 +2,31 @@
 import React from 'react';
 import DatasetStore from '../stores/DatasetStore';
 import {connectToStores} from 'fluxible-addons-react';
+import {navigateAction} from 'fluxible-router';
 
 class Home extends React.Component {
-    constructor(props, context) {
-        super(props, context);
+    constructor(props) {
+        super(props);
         this.state = {welcomeMode: 1}
     }
     handleWelcome() {
         this.setState({welcomeMode: 0});
+    }
+    handleAccessRequest(name, resourceURI) {
+        let user = this.context.getUser();
+        if(!user){
+            $('.ui.modal').modal('show');
+        }else{
+            location.href = '/accessRequest/' + name;
+        }
+    }
+    handleVisitRequest(name, resourceURI) {
+        let user = this.context.getUser();
+        if(!user){
+            $('.ui.modal').modal('show');
+        }else{
+            location.href = '/visitRequest/' + name;
+        }
     }
     componentDidMount() {
         let currentComp = this.refs.home.getDOMNode();
@@ -29,8 +46,8 @@ class Home extends React.Component {
                 return (
                     <div className="item" key={index}>
                       <div className="right floated">
-                          <div className="ui small button hint" data-variation="inverted" data-content={'This option will guide you through the procedure to apply for accessing "' + node.title + '" data.'}><i className="ui privacy icon"></i>Access Request</div>
-                          <div className="ui small button hint" data-variation="inverted" data-content={'This option will guide you through the procedure to apply for a site visit on "' + node.title + '".'}><i className="ui travel icon"></i>Visit Request</div>
+                          <div onClick={self.handleAccessRequest.bind(self, node.name, node.v)} className="ui small button hint" data-variation="inverted" data-content={'This option will guide you through the procedure to apply for accessing "' + node.title + '" data.'}><i className="ui privacy icon"></i>Access Request</div>
+                          <div onClick={self.handleVisitRequest.bind(self, node.name, node.v)} className="ui small button hint" data-variation="inverted" data-content={'This option will guide you through the procedure to apply for a site visit on "' + node.title + '".'}><i className="ui travel icon"></i>Visit Request</div>
                       </div>
                       <i className="ui yellow large database middle aligned icon"></i>
                       <div className="content">
@@ -61,7 +78,7 @@ class Home extends React.Component {
                                       <b>Selection</b>: researchers need to develop a project based upon the mobilisation of one or more datasets. Projects are reviewed both by the relevant dataset producers and by the RISIS project review board that will give the final agreement for access.
                                   </li>
                               </ul>
-                              * Cost for travel and on site stay (when needed) will be covered by the RISIS project.
+                              * Cost for travel and on site stay (when needed) will be covered by the <a href="http://risis.eu">RISIS project</a>.
                           </p>
                         </div>
                     }
@@ -90,6 +107,7 @@ class Home extends React.Component {
     }
 }
 Home.contextTypes = {
+    executeAction: React.PropTypes.func.isRequired,
     getUser: React.PropTypes.func
 };
 Home = connectToStores(Home, [DatasetStore], function (context, props) {

@@ -8,10 +8,6 @@ class Nav extends React.Component {
         let currentComp = this.refs.defaultNavbar.getDOMNode();
         $(currentComp).find('.ui.dropdown').dropdown();
     }
-    showHelpModal() {
-        /*global $*/
-        $('.ui.modal').modal('show');
-    }
     render() {
         let user = this.context.getUser();
         // console.log(user);
