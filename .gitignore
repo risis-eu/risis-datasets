@@ -7,3 +7,4 @@ tmp.js
 configs/server.js
 configs/facets.js
 plugins/email/config.js
+uploaded/*.pdf

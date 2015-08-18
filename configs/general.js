@@ -9,6 +9,8 @@ export default {
     enableAuthentication: 1,
     //graph that stores users data, must be loaded beforehand
     authGraphName: ['http://rdf.risis.eu/sms/users.ttl#'],
+    //graph that stores applications to access RISIS datasets
+    applicationsGraphName: ['http://applications.risis.eu'],
     //the domain name under which basic dynamic resources and user resources will be defined
     baseResourceDomain: ['http://risis.eu'],
     //will allow super users to confirm and activate regiastered users

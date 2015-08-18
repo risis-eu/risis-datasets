@@ -9,20 +9,37 @@
 		<div>
 			<nav  class="ui black menu inverted navbar page grid">
 					<div class="ui item brand">
-						<a href="/login"><img class="ui image" src="/assets/img/risis_logo_full.jpg" alt="RISIS" /></a>
+						<a href="/accessRequest/{{name}}"><img class="ui image" src="/assets/img/risis_logo_full.jpg" alt="RISIS" /></a>
 					</div>
 					<a href="/" class="ui item label"> Datasets Portal</a>
                     <a class="ui item blue label" href="http://sms.risis.eu">SMS Platform</a>
                     <a class="ui item teal label" href="http://cortext.risis.eu">Cortext Platform</a>
+					<div class="right menu">
+						<div class="ui right dropdown item">
+							{{user.accountName}} <i class="dropdown icon"></i>
+							<div class="menu">
+								<a class="item" routeName="resource" href="/dataset/{{graphName}}/resource/{{resourceURI}}">Profile</a>
+								<a href="/logout" class="item">Logout</a>
+							</div>
+						</div>
+					</div>
 			</nav>
 		</div>
 		<div class="ui page grid">
 			<div class="row">
 				<div class="ui column">
+					<div class="ui segment">
 
+					</div>
 				</div>
 			</div>
 		</div>
-
+		<script src="/bower_components/jquery/dist/jquery.min.js"></script>
+		<script src="/bower_components/semantic-ui/dist/components/transition.min.js"></script>
+		<script src="/bower_components/semantic-ui/dist/components/popup.min.js"></script>
+		<script src="/bower_components/semantic-ui/dist/components/dropdown.min.js"></script>
+		<script>
+		$('.ui.dropdown').dropdown();
+		</script>
 	</body>
 </html>

@@ -75,11 +75,11 @@ module.exports = function handleAuthentication(server) {
         }
      });
      server.post('/register', function(req, res, next) {
-         let error= '';
+         var error= '';
          if(req.body.password !== req.body.cpassword){
              error = 'Error! password mismatch...';
          }else{
-             for (let prop in req.body) {
+             for (var prop in req.body) {
                  if(!req.body[prop]){
                      error = error + ' missing value for "' + prop +'"';
                  }

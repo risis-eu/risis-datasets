@@ -9,20 +9,120 @@
 		<div>
 			<nav  class="ui black menu inverted navbar page grid">
 					<div class="ui item brand">
-						<a href="/login"><img class="ui image" src="/assets/img/risis_logo_full.jpg" alt="RISIS" /></a>
+						<a href="/visitRequest/{{name}}"><img class="ui image" src="/assets/img/risis_logo_full.jpg" alt="RISIS" /></a>
 					</div>
 					<a href="/" class="ui item label"> Datasets Portal</a>
                     <a class="ui item blue label" href="http://sms.risis.eu">SMS Platform</a>
                     <a class="ui item teal label" href="http://cortext.risis.eu">Cortext Platform</a>
+					<div class="right menu">
+						<div class="ui right dropdown item">
+		                    {{user.accountName}} <i class="dropdown icon"></i>
+		                    <div class="menu">
+		                        <a class="item" routeName="resource" href="/dataset/{{graphName}}/resource/{{resourceURI}}">Profile</a>
+		                        <a href="/logout" class="item">Logout</a>
+		                    </div>
+		                </div>
+					</div>
 			</nav>
 		</div>
 		<div class="ui page grid">
 			<div class="row">
-				<div class="ui column">
+				<div class="ui wide column">
+					{{#errorMsg}}<br/><div class="ui warning message"><div class="header"> {{errorMsg}} </div></div>{{/errorMsg}}
+					<form action="/visitRequest/{{name}}" method="post"
+						 enctype="multipart/form-data">
+						<div class="ui form">
+						<div class="">
+							<br/>
+							<div class="twelve wide field ui header center aligned">Request to visit "{{name}}"</div>
+							<div class="twelve wide field required">
 
+							</div>
+							<h3 class="ui dividing header orange">Project</h3>
+							<div class="twelve wide field required">
+								<label>Title of the Project</label>
+								<div class="ui icon input">
+									<input type="text" placeholder="Project Title" name="projectTitle" value="{{data.projectTitle}}"/>
+								</div>
+							</div>
+							<div class="twelve wide field required">
+								<label>Project Summary (200 words)</label>
+								<div class="ui icon input">
+									<textarea type="text" placeholder="Project Summary" name="projectSummary">{{data.projectSummary}}</textarea>
+								</div>
+							</div>
+							<h3 class="ui dividing orange header">Visit Data</h3>
+							<div class="twelve wide field required">
+								<label>Hosting Location</label>
+								<div class="ui icon input">
+									<input type="text" placeholder="Hosting Location" name="hostingLocation" value="{{data.hostingLocation}}"/>
+								</div>
+							</div>
+							<div class="twelve wide field required">
+								<label>Preferred Dates for Visit</label>
+								<div class="ui icon input">
+									<input type="text" placeholder="Preferred Dates for Visit" name="prefferedVisitDates" value="{{data.prefferedVisitDates}}"/>
+								</div>
+							</div>
+							<div class="twelve wide field required">
+								<label>Duration (days)</label>
+								<div class="ui icon input">
+									<input type="text" placeholder="Duration" name="visitDuration" value="{{data.visitDuration}}"/>
+								</div>
+							</div>
+							<h3 class="ui dividing orange header">Requested Budget (euros)</h3>
+							<div class="twelve wide field required">
+								<label>Travel Budget</label>
+								<div class="ui icon input">
+									<input type="text" placeholder="Travel Budget" name="travelBudget" value="{{data.travelBudget}}"/>
+								</div>
+							</div>
+							<div class="twelve wide field required">
+								<label>Accommodation Budget</label>
+								<div class="ui icon input">
+									<input type="text" placeholder="Accommodation Budget" name="accommodationBudget" value="{{data.accommodationBudget}}"/>
+								</div>
+							</div>
+							<div class="twelve wide field required">
+								<label>Total Budget</label>
+								<div class="ui icon input">
+									<input type="text" placeholder="Total Budget" name="totalBudget" value="{{data.totalBudget}}"/>
+								</div>
+							</div>
+							<div class="twelve wide field">
+								<label>Remarks to the Budget</label>
+								<div class="ui icon input">
+									<textarea type="text" placeholder="Budget Remarks" name="budgetRemarks">{{data.budgetRemarks}}</textarea>
+								</div>
+							</div>
+							<div class="ui twelve wide field required form">
+								<label>Project Description (in <b>PDF</b> format, Max. 500KB)</label>
+								<div class="ui icon input">
+									<input type="file" name="projectDescAnnex" id="projectDescAnnex">
+								</div>
+							</div>
+							<div class="ui twelve wide field required form">
+								<label>CV (in <b>PDF</b> format, Max. 500KB)</label>
+								<div class="ui icon input">
+									<input type="file" name="cvAnnex" id="cvAnnex">
+								</div>
+							</div>
+							<div class="field">
+								<input class="ui submit orange button" type="submit" value="Submit Request"/>
+							</div>
+						</div>
+					</div>
+					</form>
 				</div>
+
 			</div>
 		</div>
-
+		<script src="/bower_components/jquery/dist/jquery.min.js"></script>
+		<script src="/bower_components/semantic-ui/dist/components/transition.min.js"></script>
+		<script src="/bower_components/semantic-ui/dist/components/popup.min.js"></script>
+		<script src="/bower_components/semantic-ui/dist/components/dropdown.min.js"></script>
+		<script>
+		$('.ui.dropdown').dropdown();
+		</script>
 	</body>
 </html>
