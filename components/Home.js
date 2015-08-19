@@ -59,12 +59,21 @@ class Home extends React.Component {
     }
     render() {
         let applications = this.prepareDatasetApplication();
+        let user = this.context.getUser();
         let list;
         let self = this;
         let accessRequestDIV = '';
         let visitRequestDIV = '';
         if(this.props.DatasetStore.dataset.resources){
             list = this.props.DatasetStore.dataset.resources.map(function(node, index) {
+                //hide example dataset
+                if(node.g === 'http://rdf.risis.eu/dataset/example/1.0/void.ttl#'){
+                    if(user && user.accountName === 'demo'){
+                        //show the example one
+                    }else{
+                        return;
+                    }
+                }
                 accessRequestDIV = <div onClick={self.handleAccessRequest.bind(self, node.name, node.v)} className="ui small button hint" data-variation="inverted" data-content={'This option will guide you through the procedure to apply for accessing "' + node.title + '" data.'}><i className="ui privacy icon"></i>Access Request</div>;
                 visitRequestDIV = <div onClick={self.handleVisitRequest.bind(self, node.name, node.v)} className="ui small button hint" data-variation="inverted" data-content={'This option will guide you through the procedure to apply for a site visit on "' + node.title + '".'}><i className="ui travel icon"></i>Visit Request</div>;
                 switch (node.accessType) {
