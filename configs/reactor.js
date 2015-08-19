@@ -705,7 +705,7 @@ export default {
                 },
                 'http://rdf.risis.eu/application/applicant': {
                     label: ['Applicant'],
-                    hint: ['Click on link to see applicant details.',]
+                    hint: ['Click on link to see applicant details.'],
                     objectIViewer: ['BasicLinkedIndividualView'],
                     linkedGraph: ['http://rdf.risis.eu/sms/users.ttl#']
                 },
