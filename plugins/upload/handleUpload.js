@@ -35,7 +35,35 @@ module.exports = function handleUpload(server) {
         if(!req.isAuthenticated()){
             res.render('login', {appShortTitle: appShortTitle, appFullTitle: appFullTitle, user: req.user });
         }else{
-            res.render('visitRequest', {appShortTitle: appShortTitle, appFullTitle: appFullTitle, name: req.params.name, user: req.user, graphName: encodeURIComponent(req.user.graphName), resourceURI: encodeURIComponent(req.user.id)});
+            var endpoint = helper.getEndpointParameters([generalConfig.applicationsGraphName[0]]);
+            var datasetURI = 'http://rdf.risis.eu/dataset/'+req.params.name+'/1.0/void.ttl#';
+            var resourceURI = 'http://rdf.risis.eu/dataset/'+req.params.name+'/1.0/void.ttl#' + req.params.name+ '_rdf_dataset';
+            //get details of the dataset
+            var query = '\
+            PREFIX risisV: <http://rdf.risis.eu/metadata/> \
+            PREFIX risisVoid: <http://rdf.risis.eu/dataset/risis/1.0/void.ttl#> \
+            PREFIX void: <http://rdfs.org/ns/void#> \
+            PREFIX dcterms: <http://purl.org/dc/terms/> \
+            SELECT ?s ?title ?visitRequestForm FROM <'+datasetURI+'> WHERE { \
+                ?s a void:Dataset . \
+                ?s dcterms:title ?title . \
+                OPTIONAL {?s risisV:visitRequestForm ?visitRequestForm .} \
+            }';
+           var rpPath = helper.getHTTPQuery('read', query, endpoint, outputFormat);
+           rp.get({uri: rpPath}).then(function(resq){
+               var parsed = JSON.parse(resq);
+               var dataset = {};
+               var output=[];
+               if(parsed.results.bindings.length){
+                 parsed.results.bindings.forEach(function(el) {
+                     dataset = {title: el.title.value, vForm: el.visitRequestForm ? el.visitRequestForm.value : ''}
+                 });
+               }
+                res.render('visitRequest', {appShortTitle: appShortTitle, appFullTitle: appFullTitle, name: req.params.name, user: req.user, graphName: encodeURIComponent(req.user.graphName), resourceURI: encodeURIComponent(req.user.id), dataset: dataset} );
+           }).catch(function (err2) {
+               console.log(err2);
+                res.render('visitRequest', {appShortTitle: appShortTitle, appFullTitle: appFullTitle, name: req.params.name, user: req.user, graphName: encodeURIComponent(req.user.graphName), resourceURI: encodeURIComponent(req.user.id), dataset: {}});
+           });
         }
      });
      server.post('/visitRequest/:name', function (req, res) {
