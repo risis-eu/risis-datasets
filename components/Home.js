@@ -124,13 +124,22 @@ class Home extends React.Component {
                         accessRequestDIV = <div className={cssA}> Access Request {applications[node.g].AccessRequestApplication.status}</div>;
                     }
                 }
+                let iconClass = 'ui large database middle aligned icon';
+                if(user && user.editorOfGraph.indexOf(node.g) !== -1){
+                    //the user is the owner of Datasets
+                    accessRequestDIV = '';
+                    visitRequestDIV = '';
+                    iconClass = iconClass +' green animated flash'
+                }else{
+                    iconClass = iconClass +' yellow'
+                }
                 return (
                     <div className="item" key={index}>
                       <div className="right floated">
                           {accessRequestDIV}
                           {visitRequestDIV}
                       </div>
-                      <i className="ui yellow large database middle aligned icon"></i>
+                      <i className={iconClass}></i>
                       <div className="content">
                         <a className="header" routeName="resource" href={'/metadata/' + encodeURIComponent(node.name)}>{node.title}</a>
                         <div className="description">{node.desc}</div>
