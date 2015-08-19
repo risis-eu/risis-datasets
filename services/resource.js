@@ -1,6 +1,6 @@
 'use strict';
 import {getEndpointParameters, getHTTPQuery} from './utils/helpers';
-import {defaultGraphName, enableLogs, enableAuthentication, authGraphName} from '../configs/general';
+import {defaultGraphName, enableLogs, enableAuthentication, authGraphName, applicationsGraphName} from '../configs/general';
 import ResourceQuery from './sparql/ResourceQuery';
 import ResourceUtil from './utils/ResourceUtil';
 import rp from 'request-promise';
@@ -123,6 +123,39 @@ export default {
                     log.error('\n User: ' + user.accountName + '\n Status Code: \n' + err.statusCode + '\n Error Msg: \n' + err.message);
                 }
                 callback(null, {objectURI: objectURI, objectType: '', properties: []});
+            });
+        } else if (resource === 'resource.userApplications') {
+            //control access on authentication
+            if(enableAuthentication){
+                if(!req.user){
+                    callback(null, {user: '', applications: []});
+                    return 0;
+                }else{
+                    user = req.user;
+                }
+            }else{
+                callback(null, {user: '', applications: []});
+                return 0;
+            }
+            endpointParameters = getEndpointParameters(applicationsGraphName);
+            query = queryObject.getPrefixes() + queryObject.getUserApplications(applicationsGraphName, user.id);
+            // console.log(query);
+            //build http uri
+            //send request
+            rp.get({uri: getHTTPQuery('read', query, endpointParameters, outputFormat)}).then(function(res){
+                //exceptional case for user properties: we hide some admin props from normal users
+                let applications = utilObject.parseUserApplications(res);
+                //------------------------------------
+                callback(null, {
+                    user: user.id,
+                    applications: applications,
+                });
+            }).catch(function (err) {
+                console.log(err);
+                if(enableLogs){
+                    log.error('\n User: ' + user.accountName + '\n Status Code: \n' + err.statusCode + '\n Error Msg: \n' + err.message);
+                }
+                callback(null, {user: '', applications: []});
             });
         }
 

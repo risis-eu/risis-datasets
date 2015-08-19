@@ -9,6 +9,7 @@ class ResourceQuery{
         PREFIX void: <http://rdfs.org/ns/void#> \
         PREFIX foaf: <http://xmlns.com/foaf/0.1/> \
         PREFIX skos: <http://www.w3.org/2004/02/skos/core#> \
+        PREFIX risisV: <http://rdf.risis.eu/application/> \
          ';
         this.query='';
     }
@@ -82,6 +83,18 @@ class ResourceQuery{
         OPTIONAL {?o ?uri ?extendedVal .} \
     } GROUP BY ?p ?o ORDER BY ?p ?o';
       return this.query;
+    }
+    getUserApplications(graphName, userURI) {
+        /*jshint multistr: true */
+        this.query = '\
+        SELECT ?a ?type ?status ?dataset ?created from <' + graphName + '> WHERE { \
+        ?a a ?type . \
+        ?a risisV:applicant <' + userURI + '> . \
+        ?a risisV:status ?status . \
+        ?a risisV:dataset ?dataset . \
+        ?a dcterms:created ?created . \
+        } ORDER BY DESC(?created)';
+        return this.query;
     }
     addTripleForSesame (graphName, resourceURI, propertyURI, objectValue, valueType, dataType) {
         //todo: consider different value types

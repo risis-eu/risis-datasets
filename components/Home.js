@@ -1,8 +1,10 @@
 'use strict';
 import React from 'react';
 import DatasetStore from '../stores/DatasetStore';
+import UserApplicationStore from '../stores/UserApplicationStore';
 import {connectToStores} from 'fluxible-addons-react';
 import {navigateAction} from 'fluxible-router';
+import loadUserApplications from '../actions/loadUserApplications';
 
 class Home extends React.Component {
     constructor(props) {
@@ -37,17 +39,55 @@ class Home extends React.Component {
             hoverable: true,
             position : 'bottom left',
         });
+        //check applications of the current user if logged in
+        let user = this.context.getUser();
+        if(user){
+            this.context.executeAction(loadUserApplications, {});
+        }
+    }
+    prepareDatasetApplication(){
+        let out = {};
+        this.props.UserApplicationStore.applications.forEach(function(el) {
+            if(out[el.dataset]){
+                out[el.dataset][el.type] = {status: el.status, created: el.created};
+            }else{
+                out[el.dataset] = {};
+                out[el.dataset][el.type] = {status: el.status, created: el.created};
+            }
+        });
+        return out;
     }
     render() {
+        let applications = this.prepareDatasetApplication();
         let list;
         let self = this;
+        let accessRequestDIV = '';
+        let visitRequestDIV = '';
         if(this.props.DatasetStore.dataset.resources){
             list = this.props.DatasetStore.dataset.resources.map(function(node, index) {
+                accessRequestDIV = <div onClick={self.handleAccessRequest.bind(self, node.name, node.v)} className="ui small button hint" data-variation="inverted" data-content={'This option will guide you through the procedure to apply for accessing "' + node.title + '" data.'}><i className="ui privacy icon"></i>Access Request</div>;
+                visitRequestDIV = <div onClick={self.handleVisitRequest.bind(self, node.name, node.v)} className="ui small button hint" data-variation="inverted" data-content={'This option will guide you through the procedure to apply for a site visit on "' + node.title + '".'}><i className="ui travel icon"></i>Visit Request</div>;
+                if(applications[node.g]){
+                    let cssV = 'ui small button';
+                    if(applications[node.g].VisitRequestApplication){
+                        if(applications[node.g].VisitRequestApplication.status === 'submitted'){
+                            cssV = cssV + ' orange';
+                        }
+                        visitRequestDIV = <div className={cssV}>Visit Request {applications[node.g].VisitRequestApplication.status}</div>;
+                    }
+                    let cssA = 'ui small button';
+                    if(applications[node.g].AccessRequestApplication){
+                        if(applications[node.g].AccessRequestApplication.status === 'submitted'){
+                            cssA = cssA + ' orange';
+                        }
+                        accessRequestDIV = <div className={cssA}> Access Request {applications[node.g].AccessRequestApplication.status}</div>;
+                    }
+                }
                 return (
                     <div className="item" key={index}>
                       <div className="right floated">
-                          <div onClick={self.handleAccessRequest.bind(self, node.name, node.v)} className="ui small button hint" data-variation="inverted" data-content={'This option will guide you through the procedure to apply for accessing "' + node.title + '" data.'}><i className="ui privacy icon"></i>Access Request</div>
-                          <div onClick={self.handleVisitRequest.bind(self, node.name, node.v)} className="ui small button hint" data-variation="inverted" data-content={'This option will guide you through the procedure to apply for a site visit on "' + node.title + '".'}><i className="ui travel icon"></i>Visit Request</div>
+                          {accessRequestDIV}
+                          {visitRequestDIV}
                       </div>
                       <i className="ui yellow large database middle aligned icon"></i>
                       <div className="content">
@@ -113,6 +153,11 @@ Home.contextTypes = {
 Home = connectToStores(Home, [DatasetStore], function (context, props) {
     return {
         DatasetStore: context.getStore(DatasetStore).getState()
+    };
+});
+Home = connectToStores(Home, [UserApplicationStore], function (context, props) {
+    return {
+        UserApplicationStore: context.getStore(UserApplicationStore).getState()
     };
 });
 module.exports = Home;
