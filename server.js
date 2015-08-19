@@ -60,6 +60,7 @@ server.engine('html', hogan);
 server.use('/public', express.static(path.join(__dirname, '/build')));
 server.use('/bower_components', express.static(path.join(__dirname, '/bower_components')));
 server.use('/assets', express.static(path.join(__dirname, '/assets')));
+server.use('/uploaded', express.static(path.join(__dirname, '/uploaded')));
 // Get access to the fetchr plugin instance
 let fetchrPlugin = app.getPlugin('FetchrPlugin');
 // Register our services

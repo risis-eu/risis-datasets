@@ -12,7 +12,13 @@ export default {
             },
             'http://rdf.risis.eu/sms/users.ttl#': {
                 readOnly: 0,
-                usePropertyCategories: 0
+                usePropertyCategories: 0,
+                resourceReactor: ['ResourceApp']
+            },
+            'http://applications.risis.eu': {
+                readOnly:1,
+                usePropertyCategories: 0,
+                resourceReactor: ['ResourceApp']
             }
         },
         resource: {
@@ -693,6 +699,20 @@ export default {
 
         },
         dataset_property: {
+            'http://applications.risis.eu': {
+                'http://rdf.risis.eu/application/applicant': {
+                    objectIViewer: ['BasicLinkedIndividualView'],
+                    linkedGraph: ['http://rdf.risis.eu/sms/users.ttl#']
+                },
+                'http://rdf.risis.eu/application/cvAnnex': {
+                    label: ['Applicant CV'],
+                    objectIViewer: ['UploadedView']
+                },
+                'http://rdf.risis.eu/application/projectDescAnnex': {
+                    label: ['Project Description Annex'],
+                    objectIViewer: ['UploadedView']
+                }
+            },
             'http://rdf.risis.eu/sms/users.ttl#': {
                 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type': {
                     isHidden: 1

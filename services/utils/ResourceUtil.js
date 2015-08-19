@@ -15,6 +15,20 @@ class ResourceUtil{
         }
         return output;
     }
+    parseDatasetApplications(body){
+        let output = [];
+        let parsed = JSON.parse(body);
+        if(parsed.head.vars[0]=== 'callret-0'){
+          //no results!
+          return [];
+        }else{
+            parsed.results.bindings.forEach(function(el) {
+                output.push({uri: el.a.value, type: el.type.value.split('http://rdf.risis.eu/application/')[1], status: el.status.value, created: el.created.value});
+            });
+            return output;
+        }
+        return output;
+    }
     getPropertyLabel(uri) {
         var property='';
         var tmp=uri;

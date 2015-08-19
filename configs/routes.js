@@ -3,6 +3,7 @@ import loadDataset from '../actions/loadDataset';
 import loadResource from '../actions/loadResource';
 import loadUsersList from '../actions/loadUsersList';
 import loadFacets from '../actions/loadFacets';
+import loadDatasetApplications from '../actions/loadDatasetApplications';
 import {appFullTitle, appShortTitle, authGraphName, baseResourceDomain} from '../configs/general';
 
 export default {
@@ -66,6 +67,16 @@ export default {
                 page = 1;
             }
             context.executeAction(loadDataset, { id: graphName, page: page}, done);
+        }
+    },
+    datasetApplications: {
+        //if no id is provided -> will start by defaultGraphName in reactor.config
+        path: '/datasetApplications/:id?',
+        method: 'get',
+        handler: require('../components/DatasetApplications'),
+        label: 'DatasetApplications',
+        action: (context, payload, done) => {
+            context.executeAction(loadDatasetApplications, { dataset: payload.get('params').get('id')}, done);
         }
     },
     resource: {

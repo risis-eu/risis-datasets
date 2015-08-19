@@ -96,6 +96,17 @@ class ResourceQuery{
         } ORDER BY DESC(?created)';
         return this.query;
     }
+    getDatasetApplications(graphName, datasetURI) {
+        /*jshint multistr: true */
+        this.query = '\
+        SELECT ?a ?type ?status ?created from <' + graphName + '> WHERE { \
+        ?a a ?type . \
+        ?a risisV:dataset <' + datasetURI + '> . \
+        ?a risisV:status ?status . \
+        ?a dcterms:created ?created . \
+        } ORDER BY DESC(?created)';
+        return this.query;
+    }
     addTripleForSesame (graphName, resourceURI, propertyURI, objectValue, valueType, dataType) {
         //todo: consider different value types
       let newValue, tmp = {};

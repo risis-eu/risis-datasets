@@ -3,6 +3,7 @@ import {enableAuthentication} from '../../configs/general';
 import ResourceStore from '../../stores/ResourceStore';
 import {connectToStores} from 'fluxible-addons-react';
 import Resource from '../resource/Resource';
+import ResourceApp from '../resource/ResourceApp';
 class ResourceReactor extends React.Component {
     constructor(props) {
         super(props);
@@ -32,6 +33,9 @@ class ResourceReactor extends React.Component {
             switch(config.resourceReactor[0]){
                 case 'Resource':
                     resourceReactor = <Resource enableAuthentication={enableAuthentication} graphName={graphName} properties={properties} resource={resourceURI} resourceType={resourceType} title={title} currentCategory={currentCategory} propertyPath={propertyPath} isComplete={isComplete} config={this.configMinus(config, ['resourceReactor'])}/>;
+                break;
+                case 'ResourceApp':
+                    resourceReactor = <ResourceApp enableAuthentication={enableAuthentication} graphName={graphName} properties={properties} resource={resourceURI} resourceType={resourceType} title={title} currentCategory={currentCategory} propertyPath={propertyPath} isComplete={isComplete} config={this.configMinus(config, ['resourceReactor'])}/>;
                 break;
                 default:
                     resourceReactor = <Resource enableAuthentication={enableAuthentication} graphName={graphName} properties={properties} resource={resourceURI} resourceType={resourceType} title={title} currentCategory={currentCategory} propertyPath={propertyPath} isComplete={isComplete} config={this.configMinus(config, ['resourceReactor'])}/>;

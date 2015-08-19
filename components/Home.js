@@ -3,7 +3,7 @@ import React from 'react';
 import DatasetStore from '../stores/DatasetStore';
 import UserApplicationStore from '../stores/UserApplicationStore';
 import {connectToStores} from 'fluxible-addons-react';
-import {navigateAction} from 'fluxible-router';
+import {navigateAction, NavLink} from 'fluxible-router';
 import loadUserApplications from '../actions/loadUserApplications';
 
 class Home extends React.Component {
@@ -127,7 +127,7 @@ class Home extends React.Component {
                 let iconClass = 'ui large database middle aligned icon';
                 if(user && user.editorOfGraph.indexOf(node.g) !== -1){
                     //the user is the owner of Datasets
-                    accessRequestDIV = '';
+                    accessRequestDIV = <NavLink routeName="datasetApplications" href={'/datasetApplications/' + encodeURIComponent(node.g)} className="ui basic orange button"> <i className="ui green browser icon"></i> Check Applications</NavLink>;
                     visitRequestDIV = '';
                     iconClass = iconClass +' green animated flash'
                 }else{
