@@ -71,6 +71,7 @@ class Home extends React.Component {
                 case 'Access and Visit':
                     if(node.openingStatus === 'Opening Soon'){
                         accessRequestDIV = <div className="ui small button basic">Opening Soon...</div>;
+                        visitRequestDIV = '';
                     }
                     break;
                 case 'Access Only':
