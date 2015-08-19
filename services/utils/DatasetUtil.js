@@ -25,7 +25,7 @@ class DatasetUtil{
           tmp=tmp2[1];
           tmp2=tmp.split('_rdf_dataset');
           let name=tmp2[0];
-          output.push({title: el.title.value, desc: el.desc.value, name: name, v: el.subject.value, g: el.dataset.value});
+          output.push({title: el.title.value, desc: el.desc.value, name: name, v: el.subject.value, g: el.dataset.value, openingStatus: el.openingStatus.value, accessType: el.accessType.value});
         });
         return output;
       }

@@ -12,6 +12,7 @@ class DatasetQuery{
         PREFIX foaf: <http://xmlns.com/foaf/0.1/> \
         PREFIX skos: <http://www.w3.org/2004/02/skos/core#> \
         PREFIX risisVoid: <http://rdf.risis.eu/dataset/risis/1.0/void.ttl#> \
+        PREFIX risisV: <http://rdf.risis.eu/metadata/> \
          ';
         this.query='';
     }
@@ -19,12 +20,12 @@ class DatasetQuery{
     getDatasetsList() {
       /*jshint multistr: true */
       this.query = '\
-      SELECT DISTINCT ?dataset ?subject ?title ?desc WHERE { \
+      SELECT DISTINCT ?dataset ?subject ?title ?desc ?accessType ?openingStatus WHERE { \
         { \
           GRAPH risisVoid:  { \
             risisVoid:risis_rdf_dataset void:subset ?dataset . \
           } \
-          GRAPH ?dataset {?subject a void:Dataset. ?subject dcterms:title ?title . ?subject dcterms:description ?desc .} \
+          GRAPH ?dataset {?subject a void:Dataset. ?subject dcterms:title ?title . ?subject dcterms:description ?desc . ?subject risisV:accessType ?accessType . ?subject risisV:openingStatus ?openingStatus .} \
         } \
       } ORDER BY ASC(?title) \
       ';

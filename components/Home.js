@@ -67,6 +67,22 @@ class Home extends React.Component {
             list = this.props.DatasetStore.dataset.resources.map(function(node, index) {
                 accessRequestDIV = <div onClick={self.handleAccessRequest.bind(self, node.name, node.v)} className="ui small button hint" data-variation="inverted" data-content={'This option will guide you through the procedure to apply for accessing "' + node.title + '" data.'}><i className="ui privacy icon"></i>Access Request</div>;
                 visitRequestDIV = <div onClick={self.handleVisitRequest.bind(self, node.name, node.v)} className="ui small button hint" data-variation="inverted" data-content={'This option will guide you through the procedure to apply for a site visit on "' + node.title + '".'}><i className="ui travel icon"></i>Visit Request</div>;
+                switch (node.accessType) {
+                case 'Access and Visit':
+                    if(node.openingStatus === 'Opening Soon'){
+                        accessRequestDIV = <div className="ui small button basic">Opening Soon...</div>;
+                    }
+                    break;
+                case 'Access Only':
+                    visitRequestDIV = '';
+                    if(node.openingStatus === 'Opening Soon'){
+                        accessRequestDIV = <div className="ui small button basic">Opening Soon...</div>;
+                    }
+                    break;
+                case 'Visit Only':
+                    accessRequestDIV = '';
+                    break;
+                }
                 if(applications[node.g]){
                     let cssV = 'ui small button';
                     if(applications[node.g].VisitRequestApplication){
