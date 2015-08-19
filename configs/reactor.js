@@ -700,7 +700,12 @@ export default {
         },
         dataset_property: {
             'http://applications.risis.eu': {
+                'http://rdf.risis.eu/application/dataset': {
+                    isHidden: 1
+                },
                 'http://rdf.risis.eu/application/applicant': {
+                    label: ['Applicant'],
+                    hint: ['Click on link to see applicant details.',]
                     objectIViewer: ['BasicLinkedIndividualView'],
                     linkedGraph: ['http://rdf.risis.eu/sms/users.ttl#']
                 },
@@ -711,6 +716,12 @@ export default {
                 'http://rdf.risis.eu/application/projectDescAnnex': {
                     label: ['Project Description Annex'],
                     objectIViewer: ['UploadedView']
+                },
+                'http://rdf.risis.eu/application/projectTitle': {
+                    label: ['Project Title']
+                },
+                'http://rdf.risis.eu/application/projectSummary': {
+                    label: ['Project Summary']
                 }
             },
             'http://rdf.risis.eu/sms/users.ttl#': {
