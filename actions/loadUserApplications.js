@@ -3,7 +3,6 @@ export default function loadUserApplications(context, payload, done) {
         if (err) {
             context.dispatch('LOAD_USER_APPS_FAILURE', err);
         } else {
-            console.log(res);
             context.dispatch('LOAD_USER_APPS_SUCCESS', res);
         }
         done();

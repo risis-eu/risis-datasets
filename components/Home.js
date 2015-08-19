@@ -73,12 +73,24 @@ class Home extends React.Component {
                         if(applications[node.g].VisitRequestApplication.status === 'submitted'){
                             cssV = cssV + ' orange';
                         }
+                        if(applications[node.g].VisitRequestApplication.status === 'approved'){
+                            cssV = cssV + ' green';
+                        }
+                        if(applications[node.g].VisitRequestApplication.status === 'rejected'){
+                            cssV = cssV + ' red';
+                        }
                         visitRequestDIV = <div className={cssV}>Visit Request {applications[node.g].VisitRequestApplication.status}</div>;
                     }
                     let cssA = 'ui small button';
                     if(applications[node.g].AccessRequestApplication){
                         if(applications[node.g].AccessRequestApplication.status === 'submitted'){
                             cssA = cssA + ' orange';
+                        }
+                        if(applications[node.g].AccessRequestApplication.status === 'approved'){
+                            cssA = cssA + ' green';
+                        }
+                        if(applications[node.g].AccessRequestApplication.status === 'rejected'){
+                            cssA = cssA + ' red';
                         }
                         accessRequestDIV = <div className={cssA}> Access Request {applications[node.g].AccessRequestApplication.status}</div>;
                     }
