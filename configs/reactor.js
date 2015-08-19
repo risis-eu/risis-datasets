@@ -56,6 +56,37 @@ export default {
                  label: ['Type'],
                  hint: ['Type of the entity.']
              },
+             'http://rdf.risis.eu/metadata/accessType': {
+                  category: ['overview'],
+                  label: ['Access Type'],
+                  hint: ['It can be visit only, request only or both request and visit.'],
+                  objectIEditor: ['BasicOptionInput'],
+                  options: [
+                      {label: 'Access and Visit', value: 'Access and Visit'},
+                      {label: 'Access Only', value: 'Access Only'},
+                      {label: 'Visit Only', value: 'Visit Only'}
+                  ]
+              },
+             'http://rdf.risis.eu/metadata/openingStatus': {
+                  category: ['overview'],
+                  label: ['Opening Status'],
+                  hint: ['Wheter the dataset is already open or will be open soon.'],
+                  objectIEditor: ['BasicOptionInput'],
+                  options: [
+                      {label: 'Opening Soon', value: 'Opening Soon'},
+                      {label: 'Open', value: 'Open'}
+                  ]
+              },
+             'http://rdf.risis.eu/metadata/accessRequestForm': {
+                  category: ['overview'],
+                  label: ['Access Request Form'],
+                  hint: ['Link to the form that provides information for end users to access the dataset.']
+              },
+             'http://rdf.risis.eu/metadata/visitRequestForm': {
+                  category: ['overview'],
+                  label: ['Visit Request Form'],
+                  hint: ['Link to the form that provides information for end users to visit the dataset.']
+              },
              'http://rdf.risis.eu/metadata/dataModel': {
                  category: ['structuralAspects'],
                  label: ['Data Model'],
