@@ -752,6 +752,9 @@ export default {
                 },
                 'http://rdf.risis.eu/application/budgetRemarks': {
                     label: ['Remarks to Budget']
+                },
+                'http://rdf.risis.eu/application/commentOnDecision': {
+                    label: ['Comments on Decision']
                 }
             },
             'http://rdf.risis.eu/sms/users.ttl#': {
