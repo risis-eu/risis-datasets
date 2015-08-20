@@ -20,6 +20,7 @@ export default {
     read: (req, resource, params, config, callback) => {
         if(resource === 'dataset.list'){
             graphName = (params.id ? decodeURIComponent(params.id) : 0);
+            let keyword = (params.keyword ? decodeURIComponent(params.keyword) : 0);
             endpointParameters = getEndpointParameters(graphName);
             //graph name used for server settings and configs
             cGraphName = graphName;
@@ -46,7 +47,7 @@ export default {
                 user = {accountName: 'open'};
             }
             //SPARQL QUERY
-            query = queryObject.getDatasetsList();
+            query = queryObject.getDatasetsList(keyword);
             //send request
             rp.get({uri: getHTTPQuery('read', query, endpointParameters, outputFormat)}).then(function(res){
                 callback(null, {

@@ -6,14 +6,30 @@ import {applicationsGraphName} from '../configs/general';
 import {connectToStores} from 'fluxible-addons-react';
 import {navigateAction, NavLink} from 'fluxible-router';
 import loadUserApplications from '../actions/loadUserApplications';
+import loadDatasetsList from '../actions/loadDatasetsList';
 
 class Home extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {welcomeMode: 1}
+        this.state = {welcomeMode: 1};
+        this.initialDatasetsList = [];
     }
     handleWelcome() {
-        this.setState({welcomeMode: 0});
+        this.setState({welcomeMode: 0, searchMode: 0});
+    }
+    handleSearch(event) {
+        if(!this.initialDatasetsList.length){
+            this.initialDatasetsList = this.props.DatasetStore.dataset.resources;
+        }
+        let term = event.target.value;
+        if(term.length > 2){
+            this.context.executeAction(loadDatasetsList, {
+                keyword: term
+            });
+        }else{
+            this.props.DatasetStore.dataset.resources = this.initialDatasetsList;
+            this.setState({searchMode: 0});
+        }
     }
     handleAccessRequest(name, resourceURI) {
         let user = this.context.getUser();
@@ -176,7 +192,7 @@ class Home extends React.Component {
                     <div className="ui">
                         <div className="ui fluid category search">
                           <div className="ui large icon input">
-                            <input className="prompt" type="text" placeholder="Search within RISIS datasets..." style={{width: '500'}}/>
+                            <input className="prompt" type="text" onChange={this.handleSearch.bind(this)} placeholder="Search within RISIS datasets..." style={{width: '500'}}/>
                             <i className="search icon"></i>
                           </div>
                           &nbsp;<button className="ui grey circular button">Advanced Search</button>

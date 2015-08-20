@@ -17,7 +17,11 @@ class DatasetQuery{
         this.query='';
     }
     //-----------RISIS------------
-    getDatasetsList() {
+    getDatasetsList(keyword) {
+        let ext = '';
+        if(keyword){
+            ext = 'FILTER (regex(?title, "' + keyword + '.*", "i") || regex(?desc, "' + keyword + '.*", "i"))';
+        }
       /*jshint multistr: true */
       this.query = '\
       SELECT DISTINCT ?dataset ?subject ?title ?desc ?accessType ?openingStatus WHERE { \
@@ -26,7 +30,7 @@ class DatasetQuery{
             risisVoid:risis_rdf_dataset void:subset ?dataset . \
           } \
           GRAPH ?dataset {?subject a void:Dataset. ?subject dcterms:title ?title . ?subject dcterms:description ?desc . ?subject risisV:accessType ?accessType . ?subject risisV:openingStatus ?openingStatus .} \
-        } \
+        } ' + ext + ' \
       } ORDER BY ASC(?title) \
       ';
       return this.prefixes + this.query;
