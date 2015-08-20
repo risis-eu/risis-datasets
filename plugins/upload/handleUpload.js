@@ -103,6 +103,7 @@ module.exports = function handleUpload(server) {
                      var date = new Date();
                      var currentDate = date.toISOString(); //"2011-12-19T15:28:46.493Z"
                      var query = '';
+                     var query2 = '';
                      if(endpoint.type === 'sesame'){
                          /*jshint multistr: true */
                          query = '\
@@ -117,6 +118,7 @@ module.exports = function handleUpload(server) {
                              <'+ applicationURI + '> a risisV:VisitRequestApplication; risisV:status "submitted" ;risisV:projectTitle """'+fields.projectTitle+'"""; risisV:projectSummary """'+fields.projectSummary+'"""; risisV:hostingLocation """'+fields.hostingLocation+'"""; risisV:prefferedVisitDates """'+fields.prefferedVisitDates+'"""; risisV:visitDuration """'+fields.visitDuration+'"""; dcterms:created "' + currentDate + '"^^xsd:dateTime; risisV:travelBudget """'+fields.travelBudget+'"""; risisV:accommodationBudget """'+fields.accommodationBudget+'"""; risisV:totalBudget """'+fields.totalBudget+'""";  risisV:budgetRemarks """'+fields.budgetRemarks+'"""; risisV:projectDescAnnex """'+fields.projectDescAnnex+'"""; risisV:cvAnnex """'+fields.cvAnnex+'"""; risisV:applicant <'+req.user.id+'>;risisV:dataset <'+datasetURI+'>. \
                          }} \
                              ';
+                             //todo: write query2 for sesame!
                      }else{
                          /*jshint multistr: true */
                          query = '\
@@ -131,15 +133,31 @@ module.exports = function handleUpload(server) {
                          <'+ applicationURI + '> a risisV:VisitRequestApplication; risisV:status "submitted" ;risisV:projectTitle """'+fields.projectTitle+'"""; risisV:projectSummary """'+fields.projectSummary+'"""; risisV:hostingLocation """'+fields.hostingLocation+'"""; risisV:prefferedVisitDates """'+fields.prefferedVisitDates+'"""; risisV:visitDuration """'+fields.visitDuration+'"""; dcterms:created "' + currentDate + '"^^xsd:dateTime; risisV:travelBudget """'+fields.travelBudget+'"""; risisV:accommodationBudget """'+fields.accommodationBudget+'"""; risisV:totalBudget """'+fields.totalBudget+'""";  risisV:budgetRemarks """'+fields.budgetRemarks+'"""; risisV:projectDescAnnex """'+fields.projectDescAnnex+'"""; risisV:cvAnnex """'+fields.cvAnnex+'"""; risisV:applicant <'+req.user.id+'>;risisV:dataset <'+datasetURI+'>. \
                          } \
                          ';
+
+                         //we need to  give permission to dataset owner to edit the application
+                         /*jshint multistr: true */
+                         query2 = '\
+                         PREFIX ldr: <https://github.com/ali1k/ld-reactor/blob/master/vocabulary/index.ttl#> \
+                         INSERT INTO <' + generalConfig.authGraphName[0] + '> { \
+                            ?user ldr:editorOfResource <' + applicationURI + '> . \
+                          } \
+                         WHERE { \
+                            ?user ldr:editorOfGraph <'+datasetURI+'> . \
+                          } \
+                         ';
                      }
                      var rpPath = helper.getHTTPQuery('update', query, endpoint, outputFormat);
                      rp.post({uri: rpPath}).then(function(){
                          console.log('Application is created!');
-                         //send email notifications
-                         if(generalConfig.enableEmailNotifications){
-                             //handleEmail.sendMail('userRegistration', req.body.email, '', '', '', '');
-                         }
-                         return res.redirect('/');
+                         rp.post({uri: helper.getHTTPQuery('update', query2, endpoint, outputFormat)}).then(function(){
+                             //send email notifications
+                             if(generalConfig.enableEmailNotifications){
+                                 //handleEmail.sendMail('userRegistration', req.body.email, '', '', '', '');
+                             }
+                             return res.redirect('/');
+                         }).catch(function (err22) {
+                             console.log(err22);
+                         });
                      }).catch(function (err2) {
                          console.log(err2);
                      });
