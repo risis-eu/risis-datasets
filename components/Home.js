@@ -85,7 +85,7 @@ class Home extends React.Component {
             list = this.props.DatasetStore.dataset.resources.map(function(node, index) {
                 //hide example dataset
                 if(node.g === 'http://rdf.risis.eu/dataset/example/1.0/void.ttl#'){
-                    if(user && (user.editorOfGraph.indexOf('http://rdf.risis.eu/dataset/example/1.0/void.ttl#') !== -1 || parseInt(user.isSuperUser))){
+                    if(user && (user.accountName === 'demo' || user.editorOfGraph.indexOf('http://rdf.risis.eu/dataset/example/1.0/void.ttl#') !== -1 || parseInt(user.isSuperUser))){
                         //show the example one
                     }else{
                         return;
