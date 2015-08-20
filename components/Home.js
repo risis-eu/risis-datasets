@@ -21,7 +21,7 @@ class Home extends React.Component {
         if(!this.initialDatasetsList.length){
             this.initialDatasetsList = this.props.DatasetStore.dataset.resources;
         }
-        let term = event.target.value;
+        let term = jQuery.trim(event.target.value);
         if(term.length > 2){
             this.context.executeAction(loadDatasetsList, {
                 keyword: term
