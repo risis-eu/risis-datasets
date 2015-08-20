@@ -16,7 +16,7 @@ export default {
                 resourceReactor: ['ResourceUser']
             },
             'http://applications.risis.eu': {
-                readOnly:1,
+                readOnly: 0,
                 usePropertyCategories: 0,
                 resourceReactor: ['ResourceApp']
             }
@@ -704,7 +704,13 @@ export default {
                     label: ['Dataset']
                 },
                 'http://rdf.risis.eu/application/status': {
-                    label: ['Status']
+                    label: ['Status'],
+                    objectIEditor: ['BasicOptionInput'],
+                    options: [
+                        {label: 'submitted', value: 'submitted'},
+                        {label: 'approved', value: 'approved'},
+                        {label: 'rejected', value: 'rejected'}
+                    ]
                 },
                 'http://rdf.risis.eu/application/applicant': {
                     label: ['Applicant'],

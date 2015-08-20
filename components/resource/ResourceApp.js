@@ -103,10 +103,6 @@ class ResourceApp extends React.Component {
                                 }else{
                                     configReadOnly = true;
                                 }
-                                //make it read only in all cases
-                                if(self.props.graphName !== authGraphName){
-                                    configReadOnly = false;
-                                }
                             }
                         }else{
                             //check access levels
@@ -115,10 +111,6 @@ class ResourceApp extends React.Component {
                                 configReadOnly = false;
                             }else{
                                 configReadOnly = true;
-                            }
-                            //make it read only in all cases
-                            if(self.props.graphName !== authGraphName){
-                                configReadOnly = false;
                             }
                         }
                     }
