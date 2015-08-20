@@ -56,7 +56,7 @@ class ResourceApp extends React.Component {
         let readOnly = 1;
         let user = this.context.getUser();
         let self = this;
-        let titleDIV, descDIV, keywordDIV, accessLevel, isWriteable, configReadOnly;
+        let usertURI, datasetURI, applicantDIV, projectTitleDIV, projectSummaryDIV, hostingLocationDIV, prefferedVisitDatesDIV, visitDurationDIV, travelBudgetDIV, accommodationBudgetDIV, totalBudgetDIV, budgetRemarksDIV, projectDescAnnexsDIV, cvAnnexDIV, datasetDIV, accessLevel, isWriteable, configReadOnly;
         if(self.props.readOnly !== 'undefined'){
             readOnly = self.props.readOnly;
         }else{
@@ -122,12 +122,34 @@ class ResourceApp extends React.Component {
                             }
                         }
                     }
-                    if(node.propertyURI === 'http://purl.org/dc/terms/title'){
-                        titleDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
-                    }else if (node.propertyURI === 'http://purl.org/dc/terms/description'){
-                        descDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
-                    } else if(node.propertyURI === 'http://purl.org/dc/terms/subject'){
-                        keywordDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
+                    if(node.propertyURI === 'http://rdf.risis.eu/application/projectTitle'){
+                        projectTitleDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
+                    }else if (node.propertyURI === 'http://rdf.risis.eu/application/projectSummary'){
+                        projectSummaryDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
+                    }else if (node.propertyURI === 'http://rdf.risis.eu/application/prefferedVisitDates'){
+                        prefferedVisitDatesDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
+                    }else if (node.propertyURI === 'http://rdf.risis.eu/application/visitDuration'){
+                        visitDurationDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
+                    }else if (node.propertyURI === 'http://rdf.risis.eu/application/travelBudget'){
+                        travelBudgetDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
+                    }else if (node.propertyURI === 'http://rdf.risis.eu/application/accommodationBudget'){
+                        accommodationBudgetDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
+                    }else if (node.propertyURI === 'http://rdf.risis.eu/application/totalBudget'){
+                        totalBudgetDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
+                    }else if (node.propertyURI === 'http://rdf.risis.eu/application/budgetRemarks'){
+                        budgetRemarksDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
+                    }else if (node.propertyURI === 'http://rdf.risis.eu/application/projectDescAnnex'){
+                        projectDescAnnexsDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
+                    }else if (node.propertyURI === 'http://rdf.risis.eu/application/dataset'){
+                        datasetURI= node.instances[0].value;
+                        datasetDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
+                    }else if (node.propertyURI === 'http://rdf.risis.eu/application/applicant'){
+                        usertURI= node.instances[0].value;
+                        applicantDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
+                    }else if (node.propertyURI === 'http://rdf.risis.eu/application/cvAnnex'){
+                        cvAnnexDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
+                    } else if(node.propertyURI === 'http://rdf.risis.eu/application/hostingLocation'){
+                        hostingLocationDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
                     }else{
                         return (
                             <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
@@ -135,6 +157,24 @@ class ResourceApp extends React.Component {
                     }
                 }
             });
+            //another check
+            if((user.editorOfGraph.indexOf(datasetURI) === -1) && !parseInt(user.isSuperUser) && (user.id !== usertURI)){
+                return (
+                    <div className="ui page grid" ref="resource" itemScope itemType={this.props.resourceType} itemID={this.props.resource}>
+                        <div className="ui row">
+                          <div className="column">
+                              <div className="ui segment content">
+                                  <div className="ui warning message">
+                                      <h3>
+                                        Authentication is required for this action!
+                                      </h3>
+                                      <div className="header"> Please <a href="/register">Register</a> or <a href="/login">Login</a> to be able to perform the action.</div></div>
+                              </div>
+                          </div>
+                      </div>
+                    </div>
+                )
+            }
             let currentCategory, mainDIV, tabsDIV, tabsContentDIV;
             //categorize properties in different tabs
             if(this.props.config.usePropertyCategories){
@@ -155,9 +195,19 @@ class ResourceApp extends React.Component {
                         <div key={index} className={(node === currentCategory ? 'ui bottom attached tab segment active' : 'ui bottom attached tab segment')}>
                             <div className="ui grid">
                                 <div className="column ui list">
-                                    {titleDIV}
-                                    {descDIV}
-                                    {keywordDIV}
+                                    {applicantDIV}
+                                    {projectTitleDIV}
+                                    {projectSummaryDIV}
+                                    {hostingLocationDIV}
+                                    {prefferedVisitDatesDIV}
+                                    {visitDurationDIV}
+                                    {travelBudgetDIV}
+                                    {accommodationBudgetDIV}
+                                    {totalBudgetDIV}
+                                    {budgetRemarksDIV}
+                                    {projectDescAnnexsDIV}
+                                    {cvAnnexDIV}
+                                    {datasetDIV}
                                     {(node === currentCategory ? list : '')}
                                 </div>
                             </div>
@@ -174,9 +224,24 @@ class ResourceApp extends React.Component {
                 mainDIV = <div className="ui segment">
                                 <div className="ui grid">
                                     <div className="column ui list">
-                                        {titleDIV}
-                                        {descDIV}
-                                        {keywordDIV}
+                                        {applicantDIV}
+                                        <h2 className="ui dividing header orange">Project</h2>
+                                        {projectTitleDIV}
+                                        {projectSummaryDIV}
+            							<h2 className="ui dividing orange header">Visit Data</h2>
+                                        {hostingLocationDIV}
+                                        {prefferedVisitDatesDIV}
+                                        {visitDurationDIV}
+                                        <h2 className="ui dividing orange header">Requested Budget (euros)</h2>
+                                        {travelBudgetDIV}
+                                        {accommodationBudgetDIV}
+                                        {totalBudgetDIV}
+                                        {budgetRemarksDIV}
+                                        <h2 className="ui dividing orange header">Annex</h2>
+                                        {projectDescAnnexsDIV}
+                                        {cvAnnexDIV}
+                                        <h2 className="ui dividing orange header">Misc.</h2>
+                                        {datasetDIV}
                                         {list}
                                     </div>
                                 </div>
@@ -196,7 +261,7 @@ class ResourceApp extends React.Component {
                         {breadcrumb}
                         <h2>
                             {this.props.isComplete ? '' : <img src="/assets/img/loader.gif" alt="loading..."/>}
-                            <a target="_blank" href={'/export/NTriples/' + encodeURIComponent(this.props.graphName) + '/' + encodeURIComponent(this.props.resource)}><i className="blue icon cube"></i></a> <a href={this.props.resource} target="_blank">{this.props.title}</a>
+                            <a target="_blank" href={'/export/NTriples/' + encodeURIComponent(this.props.graphName) + '/' + encodeURIComponent(this.props.resource)}><i className="blue icon cube"></i></a>Application {URIUtil.getURILabel(this.props.resource)}
                         </h2>
                         {mainDIV}
                     </div>

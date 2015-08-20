@@ -2,6 +2,7 @@
 import React from 'react';
 import DatasetStore from '../stores/DatasetStore';
 import UserApplicationStore from '../stores/UserApplicationStore';
+import {applicationsGraphName} from '../configs/general';
 import {connectToStores} from 'fluxible-addons-react';
 import {navigateAction, NavLink} from 'fluxible-router';
 import loadUserApplications from '../actions/loadUserApplications';
@@ -49,10 +50,10 @@ class Home extends React.Component {
         let out = {};
         this.props.UserApplicationStore.applications.forEach(function(el) {
             if(out[el.dataset]){
-                out[el.dataset][el.type] = {status: el.status, created: el.created};
+                out[el.dataset][el.type] = {status: el.status, created: el.created, uri: el.uri};
             }else{
                 out[el.dataset] = {};
-                out[el.dataset][el.type] = {status: el.status, created: el.created};
+                out[el.dataset][el.type] = {status: el.status, created: el.created, uri: el.uri};
             }
         });
         return out;
@@ -108,7 +109,7 @@ class Home extends React.Component {
                         if(applications[node.g].VisitRequestApplication.status === 'rejected'){
                             cssV = cssV + ' red';
                         }
-                        visitRequestDIV = <div className={cssV}>Visit Request {applications[node.g].VisitRequestApplication.status}</div>;
+                        visitRequestDIV = <div className={cssV}><NavLink style={{color: '#fff'}} routeName="resource" href={'/dataset/' + encodeURIComponent(applicationsGraphName) + '/resource/' + encodeURIComponent(applications[node.g].VisitRequestApplication.uri)}>Visit Request {applications[node.g].VisitRequestApplication.status}</NavLink></div>;
                     }
                     let cssA = 'ui small button';
                     if(applications[node.g].AccessRequestApplication){

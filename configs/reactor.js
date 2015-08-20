@@ -13,7 +13,7 @@ export default {
             'http://rdf.risis.eu/sms/users.ttl#': {
                 readOnly: 0,
                 usePropertyCategories: 0,
-                resourceReactor: ['ResourceApp']
+                resourceReactor: ['ResourceUser']
             },
             'http://applications.risis.eu': {
                 readOnly:1,
@@ -701,7 +701,10 @@ export default {
         dataset_property: {
             'http://applications.risis.eu': {
                 'http://rdf.risis.eu/application/dataset': {
-                    isHidden: 1
+                    label: ['Dataset']
+                },
+                'http://rdf.risis.eu/application/status': {
+                    label: ['Status']
                 },
                 'http://rdf.risis.eu/application/applicant': {
                     label: ['Applicant'],
@@ -722,6 +725,27 @@ export default {
                 },
                 'http://rdf.risis.eu/application/projectSummary': {
                     label: ['Project Summary']
+                },
+                'http://rdf.risis.eu/application/hostingLocation': {
+                    label: ['Hosting Location']
+                },
+                'http://rdf.risis.eu/application/prefferedVisitDates': {
+                    label: ['Preferred Dates for Visit']
+                },
+                'http://rdf.risis.eu/application/visitDuration': {
+                    label: ['Duration (days)']
+                },
+                'http://rdf.risis.eu/application/travelBudget': {
+                    label: ['Travel Budget']
+                },
+                'http://rdf.risis.eu/application/accommodationBudget': {
+                    label: ['Accommodation Budget']
+                },
+                'http://rdf.risis.eu/application/totalBudget': {
+                    label: ['Total Budget']
+                },
+                'http://rdf.risis.eu/application/budgetRemarks': {
+                    label: ['Remarks to Budget']
                 }
             },
             'http://rdf.risis.eu/sms/users.ttl#': {

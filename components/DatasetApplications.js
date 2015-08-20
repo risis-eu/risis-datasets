@@ -27,7 +27,11 @@ class DatasetApplications extends React.Component {
                           {index+1}
                       </NavLink>
                   </td>
-                  <td>{node.type}</td>
+                  <td>
+                    <NavLink routeName="datasetApplications" href={'/dataset/' + encodeURIComponent(applicationsGraphName) + '/resource/' + encodeURIComponent(node.uri)}>
+                      {node.type}
+                    </NavLink>
+                  </td>
                   <td>{node.created}</td>
                   <td>{node.status}</td>
                 </tr>

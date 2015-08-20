@@ -25,14 +25,37 @@ class Resource extends React.Component {
         return out;
     }
     checkAccess(user, graph, resource, property) {
-        //disable write access overall
-        return {access: false};
+        if(this.props.enableAuthentication) {
+            if(user){
+                if(parseInt(user.isSuperUser)){
+                    return {access: true, type: 'full'};
+                }else{
+                    if(graph && user.editorOfGraph.indexOf(graph) !== -1){
+                        return {access: true, type: 'full'};
+                    }else{
+                        if(resource && user.editorOfResource.indexOf(resource) !== -1){
+                            return {access: true, type: 'full'};
+                        }else{
+                            if(property && this.includesProperty(user.editorOfProperty, resource, property)){
+                                return {access: true, type: 'partial'};
+                            }else{
+                                return {access: false};
+                            }
+                        }
+                    }
+                }
+            }else{
+                return {access: false};
+            }
+        }else{
+            return {access: true, type: 'full'};
+        }
     }
     render() {
         let readOnly = 1;
         let user = this.context.getUser();
         let self = this;
-        let titleDIV, descDIV, keywordDIV, accessLevel, isWriteable, configReadOnly;
+        let accessLevel, isWriteable, configReadOnly;
         if(self.props.readOnly !== 'undefined'){
             readOnly = self.props.readOnly;
         }else{
@@ -50,10 +73,23 @@ class Resource extends React.Component {
                 if(readOnly){
                     configReadOnly = true;
                 }else{
-                    //it property is readOnly from config
-                    if(node.config){
-                        if(node.config.readOnly){
-                            configReadOnly = true;
+                    //the super user can edit all visible properties even readOnly ones!
+                    if(user && parseInt(user.isSuperUser)){
+                        configReadOnly = false;
+                    }else{
+                        //it property is readOnly from config
+                        if(node.config){
+                            if(node.config.readOnly){
+                                configReadOnly = true;
+                            }else{
+                                //check access levels
+                                accessLevel = self.checkAccess(user, self.props.graphName, self.props.resource, node.propertyURI);
+                                if(accessLevel.access){
+                                    configReadOnly = false;
+                                }else{
+                                    configReadOnly = true;
+                                }
+                            }
                         }else{
                             //check access levels
                             accessLevel = self.checkAccess(user, self.props.graphName, self.props.resource, node.propertyURI);
@@ -63,27 +99,11 @@ class Resource extends React.Component {
                                 configReadOnly = true;
                             }
                         }
-                    }else{
-                        //check access levels
-                        accessLevel = self.checkAccess(user, self.props.graphName, self.props.resource, node.propertyURI);
-                        if(accessLevel.access){
-                            configReadOnly = false;
-                        }else{
-                            configReadOnly = true;
-                        }
                     }
                 }
-                if(node.propertyURI === 'http://purl.org/dc/terms/title'){
-                    titleDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
-                }else if (node.propertyURI === 'http://purl.org/dc/terms/description'){
-                    descDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
-                } else if(node.propertyURI === 'http://purl.org/dc/terms/subject'){
-                    keywordDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
-                }else{
-                    return (
-                        <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
-                    );
-                }
+                return (
+                    <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
+                );
             }
         });
         let currentCategory, mainDIV, tabsDIV, tabsContentDIV;
@@ -93,11 +113,10 @@ class Resource extends React.Component {
             if(!currentCategory){
                 currentCategory = this.props.config.propertyCategories[0];
             }
-            const changeTab = {'overview': 'Overview', 'people': 'People', 'date': 'Date', 'legalAspects': 'Legal Aspects', 'technicalAspects': 'Technical Aspects', 'structuralAspects': 'Content/Structural Aspects'};
             tabsDIV = this.props.config.propertyCategories.map(function(node, index) {
                 return (
                     <NavLink className={(node === currentCategory ? 'item link active' : 'item link')} key={index} routeName="resource" href={'/dataset/' + encodeURIComponent(self.props.graphName) + '/resource/' + encodeURIComponent(self.props.resource) + '/' + node + '/' + encodeURIComponent(self.props.propertyPath)}>
-                      {(changeTab[node] ? changeTab[node] : node) }
+                      {node}
                     </NavLink>
                 );
             });
@@ -106,9 +125,6 @@ class Resource extends React.Component {
                     <div key={index} className={(node === currentCategory ? 'ui bottom attached tab segment active' : 'ui bottom attached tab segment')}>
                         <div className="ui grid">
                             <div className="column ui list">
-                                {titleDIV}
-                                {descDIV}
-                                {keywordDIV}
                                 {(node === currentCategory ? list : '')}
                             </div>
                         </div>
@@ -125,9 +141,6 @@ class Resource extends React.Component {
             mainDIV = <div className="ui segment">
                             <div className="ui grid">
                                 <div className="column ui list">
-                                    {titleDIV}
-                                    {descDIV}
-                                    {keywordDIV}
                                     {list}
                                 </div>
                             </div>
