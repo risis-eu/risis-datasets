@@ -754,7 +754,8 @@ export default {
                     label: ['Remarks to Budget']
                 },
                 'http://rdf.risis.eu/application/commentOnDecision': {
-                    label: ['Comments on Decision']
+                    label: ['Comments on Decision'],
+                    objectIEditor: ['BasicTextareaInput']
                 }
             },
             'http://rdf.risis.eu/sms/users.ttl#': {
