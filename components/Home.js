@@ -195,7 +195,7 @@ class Home extends React.Component {
                             <input className="prompt" type="text" onChange={this.handleSearch.bind(this)} placeholder="Search within RISIS datasets..." style={{width: '500'}}/>
                             <i className="search icon"></i>
                           </div>
-                          &nbsp;<button className="ui grey circular button">Advanced Search</button>
+                          &nbsp;<button className="ui grey circular button hint" data-variation="inverted" data-content="This feature is still under construction!">Advanced Search</button>
                           <div className="results"></div>
                         </div>
                     </div>
