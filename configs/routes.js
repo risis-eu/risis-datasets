@@ -4,6 +4,7 @@ import loadResource from '../actions/loadResource';
 import loadUsersList from '../actions/loadUsersList';
 import loadFacets from '../actions/loadFacets';
 import loadDatasetApplications from '../actions/loadDatasetApplications';
+import loadAllApplications from '../actions/loadAllApplications';
 import {appFullTitle, appShortTitle, authGraphName, baseResourceDomain} from '../configs/general';
 
 export default {
@@ -77,6 +78,16 @@ export default {
         label: 'DatasetApplications',
         action: (context, payload, done) => {
             context.executeAction(loadDatasetApplications, { dataset: payload.get('params').get('id')}, done);
+        }
+    },
+    applications: {
+        //if no id is provided -> will start by defaultGraphName in reactor.config
+        path: '/applications',
+        method: 'get',
+        handler: require('../components/DatasetApplications'),
+        label: 'DatasetApplications',
+        action: (context, payload, done) => {
+            context.executeAction(loadAllApplications, {}, done);
         }
     },
     resource: {

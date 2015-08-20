@@ -191,6 +191,39 @@ export default {
                 }
                 callback(null, {dataset: graphName, applications: []});
             });
+        }else if (resource === 'resource.allApplications') {
+            //control access on authentication
+            if(enableAuthentication){
+                if(!req.user || !parseInt(req.user.isSuperUser)){
+                    callback(null, {dataset: '', applications: []});
+                    return 0;
+                }else{
+                    user = req.user;
+                }
+            }else{
+                callback(null, {dataset: '', applications: []});
+                return 0;
+            }
+            endpointParameters = getEndpointParameters(applicationsGraphName);
+            query = queryObject.getPrefixes() + queryObject.getAllApplications(applicationsGraphName);
+            // console.log(query);
+            //build http uri
+            //send request
+            rp.get({uri: getHTTPQuery('read', query, endpointParameters, outputFormat)}).then(function(res){
+                //exceptional case for user properties: we hide some admin props from normal users
+                let applications = utilObject.parseDatasetApplications(res);
+                //------------------------------------
+                callback(null, {
+                    dataset: '',
+                    applications: applications,
+                });
+            }).catch(function (err) {
+                console.log(err);
+                if(enableLogs){
+                    log.error('\n User: ' + user.accountName + '\n Status Code: \n' + err.statusCode + '\n Error Msg: \n' + err.message);
+                }
+                callback(null, {dataset: '', applications: []});
+            });
         }
 
     },
