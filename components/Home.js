@@ -142,7 +142,7 @@ class Home extends React.Component {
                     }
                 }
                 let iconClass = 'ui large database middle aligned icon';
-                if(user && user.editorOfGraph.indexOf(node.g) !== -1){
+                if(user && user.editorOfGraph.indexOf(node.g) !== -1 && node.openingStatus !== 'Opening Soon'){
                     //the user is the owner of Datasets
                     accessRequestDIV = <NavLink routeName="datasetApplications" href={'/datasetApplications/' + encodeURIComponent(node.g)} className="ui basic orange button"> <i className="ui green browser icon"></i> Check Applications</NavLink>;
                     visitRequestDIV = '';
