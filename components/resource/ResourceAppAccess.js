@@ -164,7 +164,7 @@ class ResourceAppAccess extends React.Component {
                 if(!currentCategory){
                     currentCategory = this.props.config.propertyCategories[0];
                 }
-                const changeTab = {'overview': 'Overview', 'people': 'People', 'date': 'Date', 'legalAspects': 'Legal Aspects', 'technicalAspects': 'Technical Aspects', 'structuralAspects': 'Content/Structural Aspects'};
+            const changeTab = {'overview': 'Overview', 'people': 'People', 'date': 'Date', 'legalAspects': 'Legal Aspects', 'access': 'Access/Visit', 'technicalAspects': 'Technical Aspects', 'structuralAspects': 'Content/Structural Aspects'};
                 tabsDIV = this.props.config.propertyCategories.map(function(node, index) {
                     return (
                         <NavLink className={(node === currentCategory ? 'item link active' : 'item link')} key={index} routeName="resource" href={'/dataset/' + encodeURIComponent(self.props.graphName) + '/resource/' + encodeURIComponent(self.props.resource) + '/' + node + '/' + encodeURIComponent(self.props.propertyPath)}>
