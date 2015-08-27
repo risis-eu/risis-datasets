@@ -850,7 +850,7 @@ export default {
                     asWikipedia: 1,
                     objectIEditor: ['DBpediaInput']
                 },
-                'http://www.w3.org/2001/vcard-rdf/3.0#role': {
+                'http://www.w3.org/2001/vcard-rdf/3.0#ROLE': {
                     label: ['Position'],
                     hint: ['Position/Role in the organization. E.g. professor, lecturer, phd student, post doc, researcher, other...']
                 },
