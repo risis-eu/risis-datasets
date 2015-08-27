@@ -29,6 +29,22 @@ class ResourceUtil{
         }
         return output;
     }
+    parseAllApplications(body){
+        let tmp, output = [];
+        let parsed = JSON.parse(body);
+        if(parsed.head.vars[0]=== 'callret-0'){
+          //no results!
+          return [];
+        }else{
+            parsed.results.bindings.forEach(function(el) {
+                tmp = el.dataset.value.replace('http://rdf.risis.eu/dataset/', '');
+                tmp = tmp.replace('/1.0/void.ttl#', '');
+                output.push({uri: el.a.value, type: el.type.value.split('http://rdf.risis.eu/application/')[1], status: el.status.value, dataset: tmp, created: el.created.value});
+            });
+            return output;
+        }
+        return output;
+    }
     getPropertyLabel(uri) {
         var property='';
         var tmp=uri;

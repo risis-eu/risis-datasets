@@ -110,8 +110,9 @@ class ResourceQuery{
     getAllApplications(graphName) {
         /*jshint multistr: true */
         this.query = '\
-        SELECT ?a ?type ?status ?created from <' + graphName + '> WHERE { \
+        SELECT ?a ?type ?dataset ?status ?created from <' + graphName + '> WHERE { \
         ?a a ?type . \
+        ?a risisV:dataset ?dataset . \
         ?a risisV:status ?status . \
         ?a dcterms:created ?created . \
         } ORDER BY DESC(?created)';

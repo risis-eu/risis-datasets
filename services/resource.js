@@ -211,7 +211,7 @@ export default {
             //send request
             rp.get({uri: getHTTPQuery('read', query, endpointParameters, outputFormat)}).then(function(res){
                 //exceptional case for user properties: we hide some admin props from normal users
-                let applications = utilObject.parseDatasetApplications(res);
+                let applications = utilObject.parseAllApplications(res);
                 //------------------------------------
                 callback(null, {
                     dataset: '',

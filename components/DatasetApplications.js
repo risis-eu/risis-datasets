@@ -31,6 +31,7 @@ class DatasetApplications extends React.Component {
                       {node.type}
                     </NavLink>
                   </td>
+                  <td>{node.dataset}</td>
                   <td>{node.created}</td>
                   <td>{node.status}</td>
                 </tr>
@@ -47,6 +48,7 @@ class DatasetApplications extends React.Component {
                               <tr>
                                 <th>#</th>
                                 <th>Type</th>
+                                <th>Dataset</th>
                                 <th>Submission Date</th>
                                 <th>Status</th>
                               </tr>
