@@ -17,8 +17,7 @@ export default {
             },
             'http://applications.risis.eu': {
                 readOnly: 0,
-                usePropertyCategories: 0,
-                resourceReactor: ['ResourceApp']
+                usePropertyCategories: 0
             }
         },
         resource: {
@@ -29,6 +28,14 @@ export default {
                 //used when creating random resources
                 dynamicResourceDomain: ['http://risis.eu'],
                 resourceReactor: ['Resource']
+            },
+            'http://rdf.risis.eu/application/VisitRequestApplication': {
+                treatAsResourceType: 1,
+                resourceReactor: ['ResourceAppVisit']
+            },
+            'http://rdf.risis.eu/application/AccessRequestApplication': {
+                treatAsResourceType: 1,
+                resourceReactor: ['ResourceAppAccess']
             },
             'http://xmlns.com/foaf/0.1/Organization': {
                 treatAsResourceType: 1,
@@ -85,13 +92,18 @@ export default {
               },
              'http://rdf.risis.eu/metadata/accessRequestForm': {
                   category: ['overview'],
-                  label: ['Access Request Form'],
+                  label: ['Access Request Conditions and Details'],
                   hint: ['Link to the form that provides information for end users to access the dataset.']
               },
              'http://rdf.risis.eu/metadata/visitRequestForm': {
                   category: ['overview'],
-                  label: ['Visit Request Form'],
+                  label: ['Visit Request Conditions and Details'],
                   hint: ['Link to the form that provides information for end users to visit the dataset.']
+              },
+             'http://rdf.risis.eu/metadata/nonDisclosureAgreement': {
+                  category: ['overview'],
+                  label: ['Non-disclosure Agreement Form'],
+                  hint: ['In order to access confidential data, users have to sign a non-disclosure agreement with the holders of the dataset. The link to this form should be set here.']
               },
              'http://rdf.risis.eu/metadata/dataModel': {
                  category: ['structuralAspects'],
@@ -725,6 +737,19 @@ export default {
                 'http://rdf.risis.eu/application/projectDescAnnex': {
                     label: ['Project Description Annex'],
                     objectIViewer: ['UploadedView']
+                },
+                'http://rdf.risis.eu/application/ndaForm': {
+                    label: ['Signed Non-disclosure Agreement'],
+                    objectIViewer: ['UploadedView']
+                },
+                'http://rdf.risis.eu/application/technicalSpecification': {
+                    label: ['Technical specifications (format, etc.)']
+                },
+                'http://rdf.risis.eu/application/purposeOfUse': {
+                    label: ['Specification of purpose of use']
+                },
+                'http://rdf.risis.eu/application/dataRequested': {
+                    label: ['Data requested (type of data, year, etc.)']
                 },
                 'http://rdf.risis.eu/application/projectTitle': {
                     label: ['Project Title']
