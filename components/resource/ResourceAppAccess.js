@@ -3,7 +3,7 @@ import PropertyReactor from '../reactors/PropertyReactor';
 import {authGraphName} from '../../configs/general';
 import {NavLink} from 'fluxible-router';
 import URIUtil from '../utils/URIUtil';
-class ResourceApp extends React.Component {
+class ResourceAppAccess extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -56,7 +56,7 @@ class ResourceApp extends React.Component {
         let readOnly = 1;
         let user = this.context.getUser();
         let self = this;
-        let usertURI, datasetURI, applicantDIV, projectTitleDIV, projectSummaryDIV, hostingLocationDIV, prefferedVisitDatesDIV, visitDurationDIV, travelBudgetDIV, accommodationBudgetDIV, totalBudgetDIV, budgetRemarksDIV, projectDescAnnexsDIV, cvAnnexDIV, datasetDIV, statusDIV, commentOnDecisionDIV, accessLevel, isWriteable, configReadOnly;
+        let usertURI, datasetURI, applicantDIV, dataRequestedDIV, purposeOfUseDIV, technicalSpecificationDIV, ndaFormDIV, datasetDIV, statusDIV, commentOnDecisionDIV, accessLevel, isWriteable, configReadOnly;
         if(self.props.readOnly !== 'undefined'){
             readOnly = self.props.readOnly;
         }else{
@@ -114,38 +114,24 @@ class ResourceApp extends React.Component {
                             }
                         }
                     }
-                    if(node.propertyURI === 'http://rdf.risis.eu/application/projectTitle'){
-                        projectTitleDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
-                    }else if (node.propertyURI === 'http://rdf.risis.eu/application/projectSummary'){
-                        projectSummaryDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
-                    }else if (node.propertyURI === 'http://rdf.risis.eu/application/prefferedVisitDates'){
-                        prefferedVisitDatesDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
-                    }else if (node.propertyURI === 'http://rdf.risis.eu/application/visitDuration'){
-                        visitDurationDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
-                    }else if (node.propertyURI === 'http://rdf.risis.eu/application/travelBudget'){
-                        travelBudgetDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
-                    }else if (node.propertyURI === 'http://rdf.risis.eu/application/accommodationBudget'){
-                        accommodationBudgetDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
-                    }else if (node.propertyURI === 'http://rdf.risis.eu/application/totalBudget'){
-                        totalBudgetDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
-                    }else if (node.propertyURI === 'http://rdf.risis.eu/application/budgetRemarks'){
-                        budgetRemarksDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
-                    }else if (node.propertyURI === 'http://rdf.risis.eu/application/projectDescAnnex'){
-                        projectDescAnnexsDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
+                    if(node.propertyURI === 'http://rdf.risis.eu/application/dataRequested'){
+                        dataRequestedDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
+                    }else if (node.propertyURI === 'http://rdf.risis.eu/application/purposeOfUse'){
+                        purposeOfUseDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
+                    }else if (node.propertyURI === 'http://rdf.risis.eu/application/technicalSpecification'){
+                        technicalSpecificationDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
                     }else if (node.propertyURI === 'http://rdf.risis.eu/application/dataset'){
                         datasetURI= node.instances[0].value;
                         datasetDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
-                    }else if (node.propertyURI === 'http://rdf.risis.eu/application/applicant'){
-                        usertURI= node.instances[0].value;
-                        applicantDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
-                    }else if (node.propertyURI === 'http://rdf.risis.eu/application/cvAnnex'){
-                        cvAnnexDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
                     }else if (node.propertyURI === 'http://rdf.risis.eu/application/status'){
                         statusDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
                     }else if (node.propertyURI === 'http://rdf.risis.eu/application/commentOnDecision'){
                         commentOnDecisionDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
-                    } else if(node.propertyURI === 'http://rdf.risis.eu/application/hostingLocation'){
-                        hostingLocationDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
+                    }else if (node.propertyURI === 'http://rdf.risis.eu/application/applicant'){
+                        usertURI= node.instances[0].value;
+                        applicantDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
+                    } else if(node.propertyURI === 'http://rdf.risis.eu/application/ndaForm'){
+                        ndaFormDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
                     }else{
                         return (
                             <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
@@ -192,17 +178,12 @@ class ResourceApp extends React.Component {
                             <div className="ui grid">
                                 <div className="column ui list">
                                     {applicantDIV}
-                                    {projectTitleDIV}
-                                    {projectSummaryDIV}
-                                    {hostingLocationDIV}
-                                    {prefferedVisitDatesDIV}
-                                    {visitDurationDIV}
-                                    {travelBudgetDIV}
-                                    {accommodationBudgetDIV}
-                                    {totalBudgetDIV}
-                                    {budgetRemarksDIV}
-                                    {projectDescAnnexsDIV}
-                                    {cvAnnexDIV}
+                                    {dataRequestedDIV}
+                                    {purposeOfUseDIV}
+                                    {technicalSpecificationDIV}
+                                    {ndaFormDIV}
+                                    {statusDIV}
+                                    {commentOnDecisionDIV}
                                     {datasetDIV}
                                     {(node === currentCategory ? list : '')}
                                 </div>
@@ -221,21 +202,12 @@ class ResourceApp extends React.Component {
                                 <div className="ui grid">
                                     <div className="column ui list">
                                         {applicantDIV}
-                                        <h2 className="ui dividing header orange">Project</h2>
-                                        {projectTitleDIV}
-                                        {projectSummaryDIV}
-            							<h2 className="ui dividing orange header">Visit Data</h2>
-                                        {hostingLocationDIV}
-                                        {prefferedVisitDatesDIV}
-                                        {visitDurationDIV}
-                                        <h2 className="ui dividing orange header">Requested Budget (euros)</h2>
-                                        {travelBudgetDIV}
-                                        {accommodationBudgetDIV}
-                                        {totalBudgetDIV}
-                                        {budgetRemarksDIV}
-                                        <h2 className="ui dividing orange header">Annex</h2>
-                                        {projectDescAnnexsDIV}
-                                        {cvAnnexDIV}
+                                        <h2 className="ui dividing header orange">Data requested and purpose</h2>
+                                        {dataRequestedDIV}
+                                        {purposeOfUseDIV}
+                                        {technicalSpecificationDIV}
+            							<h2 className="ui dividing orange header">Non-disclosure Agreement</h2>
+                                        {ndaFormDIV}
                                         <h2 className="ui dividing orange header">Decision</h2>
                                         {statusDIV}
                                         {commentOnDecisionDIV}
@@ -270,7 +242,7 @@ class ResourceApp extends React.Component {
 
     }
 }
-ResourceApp.contextTypes = {
+ResourceAppAccess.contextTypes = {
     getUser: React.PropTypes.func
 };
-export default ResourceApp;
+export default ResourceAppAccess;

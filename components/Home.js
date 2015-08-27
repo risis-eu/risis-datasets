@@ -138,7 +138,7 @@ class Home extends React.Component {
                         if(applications[node.g].AccessRequestApplication.status === 'rejected'){
                             cssA = cssA + ' red';
                         }
-                        accessRequestDIV = <div className={cssA}> Access Request {applications[node.g].AccessRequestApplication.status}</div>;
+                        accessRequestDIV = <div className={cssA}><NavLink style={{color: '#fff'}} routeName="resource" href={'/dataset/' + encodeURIComponent(applicationsGraphName) + '/resource/' + encodeURIComponent(applications[node.g].AccessRequestApplication.uri)}> Access Request {applications[node.g].AccessRequestApplication.status}</NavLink></div>;
                     }
                 }
                 let iconClass = 'ui large database middle aligned icon';

@@ -3,7 +3,8 @@ import {enableAuthentication} from '../../configs/general';
 import ResourceStore from '../../stores/ResourceStore';
 import {connectToStores} from 'fluxible-addons-react';
 import Resource from '../resource/Resource';
-import ResourceApp from '../resource/ResourceApp';
+import ResourceAppVisit from '../resource/ResourceAppVisit';
+import ResourceAppAccess from '../resource/ResourceAppAccess';
 import ResourceUser from '../resource/ResourceUser';
 class ResourceReactor extends React.Component {
     constructor(props) {
@@ -35,8 +36,11 @@ class ResourceReactor extends React.Component {
                 case 'Resource':
                     resourceReactor = <Resource enableAuthentication={enableAuthentication} graphName={graphName} properties={properties} resource={resourceURI} resourceType={resourceType} title={title} currentCategory={currentCategory} propertyPath={propertyPath} isComplete={isComplete} config={this.configMinus(config, ['resourceReactor'])}/>;
                 break;
-                case 'ResourceApp':
-                    resourceReactor = <ResourceApp enableAuthentication={enableAuthentication} graphName={graphName} properties={properties} resource={resourceURI} resourceType={resourceType} title={title} currentCategory={currentCategory} propertyPath={propertyPath} isComplete={isComplete} config={this.configMinus(config, ['resourceReactor'])}/>;
+                case 'ResourceAppVisit':
+                    resourceReactor = <ResourceAppVisit enableAuthentication={enableAuthentication} graphName={graphName} properties={properties} resource={resourceURI} resourceType={resourceType} title={title} currentCategory={currentCategory} propertyPath={propertyPath} isComplete={isComplete} config={this.configMinus(config, ['resourceReactor'])}/>;
+                break;
+                case 'ResourceAppAccess':
+                    resourceReactor = <ResourceAppAccess enableAuthentication={enableAuthentication} graphName={graphName} properties={properties} resource={resourceURI} resourceType={resourceType} title={title} currentCategory={currentCategory} propertyPath={propertyPath} isComplete={isComplete} config={this.configMinus(config, ['resourceReactor'])}/>;
                 break;
                 case 'ResourceUser':
                     resourceReactor = <ResourceUser enableAuthentication={enableAuthentication} graphName={graphName} properties={properties} resource={resourceURI} resourceType={resourceType} title={title} currentCategory={currentCategory} propertyPath={propertyPath} isComplete={isComplete} config={this.configMinus(config, ['resourceReactor'])}/>;
