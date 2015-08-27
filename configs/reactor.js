@@ -854,6 +854,10 @@ export default {
                     label: ['Position'],
                     hint: ['Position/Role in the organization. E.g. professor, lecturer, phd student, post doc, researcher, other...']
                 },
+                'http://www.w3.org/2001/vcard-rdf/3.0#role': {
+                    label: ['Position'],
+                    hint: ['Position/Role in the organization. E.g. professor, lecturer, phd student, post doc, researcher, other...']
+                },
                 'http://www.w3.org/2001/vcard-rdf/3.0#adr': {
                     label: ['Postal Address'],
                     objectIEditor: ['BasicTextareaInput'],
