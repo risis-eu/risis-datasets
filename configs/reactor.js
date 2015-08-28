@@ -720,8 +720,8 @@ export default {
                     objectIEditor: ['BasicOptionInput'],
                     options: [
                         {label: 'submitted', value: 'submitted'},
-                        {label: 'approved', value: 'approved'},
-                        {label: 'rejected', value: 'rejected'}
+                        {label: 'positive advice', value: 'positive advice'},
+                        {label: 'negative advice', value: 'negative advice'}
                     ]
                 },
                 'http://rdf.risis.eu/application/applicant': {

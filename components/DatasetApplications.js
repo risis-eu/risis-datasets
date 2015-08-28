@@ -14,9 +14,9 @@ class DatasetApplications extends React.Component {
         let list = this.props.UserApplicationStore.applications.map(function(node, index) {
             if(node.status === 'submitted'){
                 cssClass = 'animated fadeIn warning';
-            }else if (node.status === 'approved'){
+            }else if (node.status === 'positive advice'){
                 cssClass = 'animated fadeIn positive';
-            }else if (node.status === 'rejected'){
+            }else if (node.status === 'negative advice'){
                 cssClass = 'animated fadeIn negative';
             }
             return (

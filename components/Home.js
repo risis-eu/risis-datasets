@@ -119,10 +119,10 @@ class Home extends React.Component {
                         if(applications[node.g].VisitRequestApplication.status === 'submitted'){
                             cssV = cssV + ' orange';
                         }
-                        if(applications[node.g].VisitRequestApplication.status === 'approved'){
+                        if(applications[node.g].VisitRequestApplication.status === 'positive advice'){
                             cssV = cssV + ' green';
                         }
-                        if(applications[node.g].VisitRequestApplication.status === 'rejected'){
+                        if(applications[node.g].VisitRequestApplication.status === 'negative advice'){
                             cssV = cssV + ' red';
                         }
                         visitRequestDIV = <div className={cssV}><NavLink style={{color: '#fff'}} routeName="resource" href={'/dataset/' + encodeURIComponent(applicationsGraphName) + '/resource/' + encodeURIComponent(applications[node.g].VisitRequestApplication.uri)}>Visit Request {applications[node.g].VisitRequestApplication.status}</NavLink></div>;
@@ -132,10 +132,10 @@ class Home extends React.Component {
                         if(applications[node.g].AccessRequestApplication.status === 'submitted'){
                             cssA = cssA + ' orange';
                         }
-                        if(applications[node.g].AccessRequestApplication.status === 'approved'){
+                        if(applications[node.g].AccessRequestApplication.status === 'positive advice'){
                             cssA = cssA + ' green';
                         }
-                        if(applications[node.g].AccessRequestApplication.status === 'rejected'){
+                        if(applications[node.g].AccessRequestApplication.status === 'negative advice'){
                             cssA = cssA + ' red';
                         }
                         accessRequestDIV = <div className={cssA}><NavLink style={{color: '#fff'}} routeName="resource" href={'/dataset/' + encodeURIComponent(applicationsGraphName) + '/resource/' + encodeURIComponent(applications[node.g].AccessRequestApplication.uri)}> Access Request {applications[node.g].AccessRequestApplication.status}</NavLink></div>;
