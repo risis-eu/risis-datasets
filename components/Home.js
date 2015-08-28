@@ -125,7 +125,7 @@ class Home extends React.Component {
                         if(applications[node.g].VisitRequestApplication.status === 'negative advice'){
                             cssV = cssV + ' red';
                         }
-                        visitRequestDIV = <div className={cssV}><NavLink style={{color: '#fff'}} routeName="resource" href={'/dataset/' + encodeURIComponent(applicationsGraphName) + '/resource/' + encodeURIComponent(applications[node.g].VisitRequestApplication.uri)}>Visit Request {applications[node.g].VisitRequestApplication.status}</NavLink></div>;
+                        visitRequestDIV = <div className={cssV}><NavLink style={{color: '#fff'}} routeName="resource" href={'/dataset/' + encodeURIComponent(applicationsGraphName) + '/resource/' + encodeURIComponent(applications[node.g].VisitRequestApplication.uri)}>Visit Request: {applications[node.g].VisitRequestApplication.status}</NavLink></div>;
                     }
                     let cssA = 'ui small button';
                     if(applications[node.g].AccessRequestApplication){
@@ -138,7 +138,7 @@ class Home extends React.Component {
                         if(applications[node.g].AccessRequestApplication.status === 'negative advice'){
                             cssA = cssA + ' red';
                         }
-                        accessRequestDIV = <div className={cssA}><NavLink style={{color: '#fff'}} routeName="resource" href={'/dataset/' + encodeURIComponent(applicationsGraphName) + '/resource/' + encodeURIComponent(applications[node.g].AccessRequestApplication.uri)}> Access Request {applications[node.g].AccessRequestApplication.status}</NavLink></div>;
+                        accessRequestDIV = <div className={cssA}><NavLink style={{color: '#fff'}} routeName="resource" href={'/dataset/' + encodeURIComponent(applicationsGraphName) + '/resource/' + encodeURIComponent(applications[node.g].AccessRequestApplication.uri)}> Access Request: {applications[node.g].AccessRequestApplication.status}</NavLink></div>;
                     }
                 }
                 let iconClass = 'ui large database middle aligned icon';
