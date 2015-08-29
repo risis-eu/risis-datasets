@@ -19,17 +19,26 @@ module.exports = {
                     to = config.sender;
                 }
                 break;
+            case 'passwordReset':
+                if(!from){
+                    from = config.sender;
+                }
+                subject = subject;
+                text = text;
+                break;
             default:
                 subject =subject;
                 text = text;
         }
+        html = text;
         var transporter = nodemailer.createTransport(smtpTransport(config.emailConfig));
         // send mail
         transporter.sendMail({
             from: from,
             to: to,
             subject: subject,
-            text: text
+            text: text,
+            html: html
         }, function(error, info){
              if(error){
                 console.log(error);

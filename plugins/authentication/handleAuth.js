@@ -1,6 +1,10 @@
 'use strict';
+var baseHost = 'http://datasets.risis.eu';
 //required for authentication
 var helper = require('./auth-helper');
+var moment = require('moment');
+var salt1 = 'ewrgkdgerg5463453fdfg2956734rt65';
+var salt2 = 'ntr345egsdfg57597543egdgs456g87';
 var passwordHash = require('password-hash');
 var passport = require ('passport');
 var passportConfig = require('./passport-config');
@@ -59,6 +63,155 @@ module.exports = function handleAuthentication(server) {
     });
     server.get('/profile/:id', function(req, res) {
         res.redirect('/dataset/' + encodeURIComponent(generalConfig.authGraphName)+'/resource/'+ encodeURIComponent(req.params.id));
+    });
+    server.get('/resetPassword/:time/:username/:hash', function(req, res) {
+        var error = '';
+        if(!req.params.time || !req.params.username || !req.params.hash){
+            error = 'Error in receiving user details...'
+            res.render('resetPassword', {appShortTitle: appShortTitle, appFullTitle: appFullTitle, errorMsg: error});
+        }else{
+            var dateStr = req.params.time.replace(salt1, '');
+            var password = req.params.hash.replace(salt2, '');
+            var username = req.params.username;
+            var diffStr = moment(dateStr, "x").fromNow();
+            var diff = parseInt(diffStr.split(' ')[0]);
+            var unit = diffStr.split(' ')[1]; //days and years
+            if(unit === 'years'){
+                error = 'You session is expired... Your password reset request was for ' + diffStr;
+                res.render('resetPassword', {appShortTitle: appShortTitle, appFullTitle: appFullTitle, errorMsg: error});
+            }
+            if(unit === 'days'){
+                if(diff > 0){
+                    error = 'You session is expired... Your password reset request was for ' + diffStr;
+                    res.render('resetPassword', {appShortTitle: appShortTitle, appFullTitle: appFullTitle, errorMsg: error});
+                }
+            }
+            if(!error){
+                //update password with a new one
+                var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+                var rnd = Math.round(+new Date() / 1000);
+                var newPass = '';
+                for( var i=0; i < 5; i++ ) {
+                    newPass += possible.charAt(Math.floor(Math.random() * possible.length));
+                }
+                newPass += rnd;
+                //todo: adapt it for sesame if needed
+                /*jshint multistr: true */
+                var query = '\
+                PREFIX foaf: <http://xmlns.com/foaf/0.1/> \
+                PREFIX ldr: <https://github.com/ali1k/ld-reactor/blob/master/vocabulary/index.ttl#> \
+                DELETE FROM <'+ generalConfig.authGraphName[0] +'> {?s ldr:password ?p .} WHERE { \
+                  ?s a foaf:Person . \
+                  ?s foaf:accountName "'+username+'" .\
+                  ?s ldr:password "'+password+'" .\
+                  ?s ldr:password ?p .\
+                } \
+                INSERT INTO <'+ generalConfig.authGraphName[0] +'> {?s ldr:password "'+passwordHash.generate(newPass)+'" .} WHERE { \
+                    ?s a foaf:Person . \
+                    ?s foaf:accountName "'+username+'" .\
+                }\
+                ';
+                //console.log(query);
+                var endpoint = helper.getEndpointParameters([generalConfig.authGraphName[0]]);
+                var rpPath = helper.getHTTPQuery('read', query, endpoint, outputFormat);
+                rp.post({uri: rpPath}).then(function(){
+                    console.log('Password reset!');
+                    //send email notifications
+                    if(generalConfig.enableEmailNotifications){
+                        //handleEmail.sendMail('userRegistration', req.body.email, '', '', '', '');
+                    }
+                    res.render('resetPassword', {appShortTitle: appShortTitle, appFullTitle: appFullTitle, errorMsg: error, username: req.params.username, password: newPass});
+                }).catch(function (err2) {
+                    console.log(err2);
+                    res.render('resetPassword', {appShortTitle: appShortTitle, appFullTitle: appFullTitle, errorMsg: err2});
+
+                });
+            }
+        }
+    });
+    server.get('/forgotPassword', function(req, res) {
+        res.render('forgotPassword', {appShortTitle: appShortTitle, appFullTitle: appFullTitle});
+    });
+    server.post('/forgotPassword', function(req, res) {
+        var email, error= '';
+        if(!req.body.email.trim()){
+            error = 'Error! please enter your email address...';
+        }
+        if(error){
+            res.render('forgotPassword', {appShortTitle: appShortTitle, appFullTitle: appFullTitle, data: req.body, errorMsg: 'Error... '+error});
+        }else{
+            email = req.body.email.trim();
+            /*jshint multistr: true */
+            var query = '\
+            PREFIX foaf: <http://xmlns.com/foaf/0.1/> \
+            SELECT ( COUNT(?s) AS ?exists ) FROM <'+ generalConfig.authGraphName[0] +'> WHERE { \
+              { \
+                  ?s a foaf:Person . \
+                  ?s foaf:mbox ?mbox .\
+                  FILTER (?mbox = <'+ email +'> || ?mbox = <mailto:'+ email +'>) \
+              } \
+            } \
+            ';
+            var endpoint = helper.getEndpointParameters([generalConfig.authGraphName[0]]);
+            var rpPath = helper.getHTTPQuery('read', query, endpoint, outputFormat);
+            //send request
+            rp.get({uri: rpPath}).then(function(resq){
+                var parsed = JSON.parse(resq);
+                if(parsed.results.bindings.length){
+                    if(parsed.results.bindings[0].exists.value ==='0'){
+                        res.render('forgotPassword', {appShortTitle: appShortTitle, appFullTitle: appFullTitle, data: req.body, errorMsg: 'Error... No user under was found under this email address! Please enter a correct email address...'});
+                    }else{
+                        /*jshint multistr: true */
+                        var query2 = '\
+                        PREFIX foaf: <http://xmlns.com/foaf/0.1/> \
+                        PREFIX ldr: <https://github.com/ali1k/ld-reactor/blob/master/vocabulary/index.ttl#> \
+                        SELECT ?s ?account ?password FROM <'+ generalConfig.authGraphName[0] +'> WHERE { \
+                          { \
+                              ?s a foaf:Person . \
+                              ?s foaf:mbox ?mbox .\
+                              ?s foaf:accountName ?account .\
+                              ?s ldr:password ?password .\
+                              FILTER (?mbox = <'+ email +'> || ?mbox = <mailto:'+ email +'>) \
+                          } \
+                        } \
+                        ';
+                        var rpPath2 = helper.getHTTPQuery('read', query2, endpoint, outputFormat);
+                        rp.get({uri: rpPath2}).then(function(resq){
+                            var parsed = JSON.parse(resq);
+                            if(parsed.results.bindings.length){
+                                var output = [];
+                                parsed.results.bindings.forEach(function(el) {
+                                    output.push({username: el.account.value, password: el.password.value});
+                                });
+                                var links = '';
+                                var startText = '';
+                                var endText = '';
+                                var currentDate = moment().format('x');
+                                if(output.length > 1){
+                                    startText = 'There were multiple user accounts under this email address. Please select the link for the right account name to be reset: <br/> ';
+                                    //in case of multiple accounts
+                                    output.forEach(function(v) {
+                                        links = links + '<br/>' + 'user: "' + v.username + '" <br/> password reset link: ' + baseHost + '/resetPassword/' + salt1 + currentDate + '/' + v.username + '/' + salt2 + v.password +' <br/><br/>';
+                                    });
+                                }else{
+                                    startText = 'Please click on the following link to reset your password: <br/> ';
+                                    links = '<br/> password reset link: ' + baseHost +'/resetPassword/' + salt1 + currentDate + '/' + output[0].username + '/' + salt2 + output[0].password +' <br/>';
+                                }
+                                endText = '<br/><br/> on behalf of RISIS datasets portal.'
+                                //console.log(startText+links+endText);
+                                //send links
+                                handleEmail.sendMail('passwordReset', '', email, '[RISIS] Password Reset Request' , startText+links+endText , '');
+                                res.render('confirmationFPassword', {appShortTitle: appShortTitle, appFullTitle: appFullTitle});
+                            }
+                        }).catch(function (err2) {
+                            console.log(err2);
+                        });
+                    }
+                }
+            }).catch(function (err) {
+                console.log(err);
+            });
+        }
     });
     server.get('/confirmation', function(req, res) {
         if(!req.isAuthenticated()){

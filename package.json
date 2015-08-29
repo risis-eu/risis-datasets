@@ -29,6 +29,7 @@
     "fluxible-router": "^0.2.1",
     "hogan-express": "^0.5.2",
     "log": "^1.4.0",
+    "moment": "^2.10.6",
     "nodemailer": "^1.4.0",
     "nodemailer-smtp-transport": "^1.0.3",
     "passport": "^0.2.1",
