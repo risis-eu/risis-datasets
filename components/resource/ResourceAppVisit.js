@@ -99,7 +99,13 @@ class ResourceAppVisit extends React.Component {
                                 //check access levels
                                 accessLevel = self.checkAccess(user, self.props.graphName, self.props.resource, node.propertyURI);
                                 if(accessLevel.access){
-                                    configReadOnly = false;
+                                    //temporary hack to allow only decision and comment writeable
+                                    let fieldsW = ['http://rdf.risis.eu/application/status', 'http://rdf.risis.eu/application/commentOnDecision'];
+                                    if(fieldsW.indexOf(node.propertyURI) == -1 && (!parseInt(user.isSuperUser))){
+                                        configReadOnly = true;
+                                    }else{
+                                        configReadOnly = false;
+                                    }
                                 }else{
                                     configReadOnly = true;
                                 }
