@@ -2,6 +2,7 @@ var generalConfig = require('../../configs/general');
 var rp = require('request-promise');
 var helper = require('../authentication/auth-helper');
 var config = require('../../configs/server');
+var handleEmail = require('../email/handleEmail');
 var httpOptions, g;
 if(config.sparqlEndpoint[generalConfig.applicationsGraphName[0]]){
     g = generalConfig.applicationsGraphName[0];
@@ -185,7 +186,8 @@ module.exports = function handleUpload(server) {
                          rp.post({uri: helper.getHTTPQuery('update', query2, endpoint, outputFormat)}).then(function(){
                              //send email notifications
                              if(generalConfig.enableEmailNotifications){
-                                 //handleEmail.sendMail('userRegistration', req.body.email, '', '', '', '');
+                                 //todo: put the right receipants
+                                handleEmail.sendMail('accessVisitRequest', req.user.mbox, 'datasets@risis.eu', 'New Access Request to ' + req.params.name, 'please check out the RISIS Datasets Portal: http://datasets.risis.eu/ \n There is a new access request to "'+req.params.name+'".', 'please check out the RISIS Datasets Portal: http://datasets.risis.eu/ \n There is a new access request to "'+req.params.name+'".');
                              }
                              return res.redirect('/');
                          }).catch(function (err22) {
@@ -291,7 +293,8 @@ module.exports = function handleUpload(server) {
                          rp.post({uri: helper.getHTTPQuery('update', query2, endpoint, outputFormat)}).then(function(){
                              //send email notifications
                              if(generalConfig.enableEmailNotifications){
-                                 //handleEmail.sendMail('userRegistration', req.body.email, '', '', '', '');
+                                 //todod: get the contact address of the corresponding dataset holder
+                                 handleEmail.sendMail('datasetVisitRequest', req.user.mbox, 'datasets@risis.eu', 'New Visit Request to ' + req.params.name, 'please check out the RISIS Datasets Portal: http://datasets.risis.eu/ \n There is a new visit request to "'+req.params.name+'".', 'please check out the RISIS Datasets Portal: http://datasets.risis.eu/ \n There is a new visit request to "'+req.params.name+'".');
                              }
                              return res.redirect('/');
                          }).catch(function (err22) {
