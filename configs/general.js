@@ -4,7 +4,7 @@ export default {
     //short page title
     appShortTitle: ['RISIS'],
     //Default Named Graph under observation, if not set , will consider all existing graph names
-    defaultGraphName: [''],
+    defaultGraphName: ['http://rdf.risis.eu/dataset/risis/1.0/void.ttl#'],
     //will prevent access if not logged in
     enableAuthentication: 1,
     //graph that stores users data, must be loaded beforehand

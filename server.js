@@ -27,7 +27,7 @@ import app from './app';
 import HtmlComponent from './components/DefaultHTMLLayout';
 const htmlComponent = React.createFactory(HtmlComponent);
 const debug = debugLib('linked-data-reactor');
-const publicRoutes = ['/', '/about'];
+const publicRoutes = ['/', '/about', '/browse'];
 let createElement = require('fluxible-addons-react').createElementWithContext;
 
 const server = express();

@@ -235,7 +235,7 @@ class FacetedBrowser extends React.Component {
             if(this.props.FacetedBrowserStore.total){
                 resourceDIV = <div className="ui segment">
                                 <h3 className="ui header">
-                                    Resources <span className="ui blue circular label">{this.addCommas(this.props.FacetedBrowserStore.total)}</span>
+                                    Datasets <span className="ui blue circular label">{this.addCommas(this.props.FacetedBrowserStore.total)}</span>
                                 {this.props.FacetedBrowserStore.isComplete ? '' : <img src="/assets/img/loader.gif" alt="loading..."/>}
                                  </h3>
                                 <ResourceList resources={this.props.FacetedBrowserStore.resources} graphName={this.props.FacetedBrowserStore.graphName} OpenInNewTab={true} isBig={!showFactes}/>
@@ -245,7 +245,7 @@ class FacetedBrowser extends React.Component {
             return (
                 <div className="ui page grid" ref="facetedBrowser">
                         <div className="ui stackable four wide column">
-                            <Facet color="green" onCheck={this.handleOnCheck.bind(this, 1, 'uri', '')} key="master" maxHeight={500} minHeight={300} spec={{property: '', propertyURI: '', instances: properties}} config={{label: 'Properties'}} graphName={this.props.FacetedBrowserStore.graphName}/>
+                            <Facet color="green" onCheck={this.handleOnCheck.bind(this, 1, 'uri', '')} key="master" maxHeight={500} minHeight={300} spec={{property: '', propertyURI: '', instances: properties}} config={{label: 'Attributes'}} graphName={this.props.FacetedBrowserStore.graphName}/>
                         </div>
                         {facetsDIV}
                         <div className={'ui stackable ' + resSize + ' wide column'}>

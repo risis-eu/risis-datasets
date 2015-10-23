@@ -33,7 +33,8 @@ export default {
            //control access on authentication
             if(enableAuthentication){
                 if(!req.user){
-                    callback(null, {graphName: graphName, facets: {}, total: 0, page: 1});
+                    user = {accountName: 'open'};
+                    //callback(null, {graphName: graphName, facets: {}, total: 0, page: 1});
                 }else{
                     user = req.user;
                 }
@@ -69,7 +70,8 @@ export default {
            //control access on authentication
             if(enableAuthentication){
                 if(!req.user){
-                    callback(null, {graphName: graphName, facets: {}, total: 0, page: 1});
+                    user = {accountName: 'open'};
+                    //callback(null, {graphName: graphName, facets: {}, total: 0, page: 1});
                 }else{
                     user = req.user;
                 }
@@ -120,7 +122,8 @@ export default {
            //control access on authentication
             if(enableAuthentication){
                 if(!req.user){
-                    callback(null, {graphName: graphName, facets: {}, total: 0, page: 1});
+                    user = {accountName: 'open'};
+                    //callback(null, {graphName: graphName, facets: {}, total: 0, page: 1});
                 }else{
                     user = req.user;
                 }

@@ -9,6 +9,8 @@ class FacetQuery{
         PREFIX void: <http://rdfs.org/ns/void#> \
         PREFIX foaf: <http://xmlns.com/foaf/0.1/> \
         PREFIX skos: <http://www.w3.org/2004/02/skos/core#> \
+        PREFIX risisVoid: <http://rdf.risis.eu/dataset/risis/1.0/void.ttl#> \
+        PREFIX risisV: <http://rdf.risis.eu/metadata/> \
          ';
         this.query='';
     }
@@ -18,9 +20,11 @@ class FacetQuery{
             /*jshint multistr: true */
             this.query = '\
             SELECT (count(?s) AS ?total) ?v WHERE {\
-                { GRAPH <' + graphName + '> \
-                    { '+ st +' \
-                    } \
+                GRAPH risisVoid:  { \
+                  risisVoid:risis_rdf_dataset void:subset ?dataset . \
+                } \
+                GRAPH ?dataset \
+                { '+ st +' \
                 } \
             } GROUP BY ?v \
             ';
@@ -73,10 +77,10 @@ class FacetQuery{
                 st = st + '?s <'+ key + '>  ?v' + i + '. ';
             }
         }
-        st = st + ' FILTER (' + filters.join(' && ') + ') ';
+        st = st + ' ?s rdf:type <http://rdfs.org/ns/void#Dataset> .  FILTER (' + filters.join(' && ') + ') ';
         if(!filters.length){
             //no constrain is selected
-            st = '?s rdf:type ?o .';
+            st = '?s rdf:type <http://rdfs.org/ns/void#Dataset> .';
         }
         return st;
     }
@@ -87,9 +91,11 @@ class FacetQuery{
             /*jshint multistr: true */
             this.query = '\
             SELECT (count(?s) AS ?total) ?v WHERE {\
-                { GRAPH <' + graphName + '> \
-                    { '+ st +' \
-                    } \
+                GRAPH risisVoid:  { \
+                  risisVoid:risis_rdf_dataset void:subset ?dataset . \
+                } \
+                GRAPH ?dataset \
+                { '+ st +' \
                 } \
             } GROUP BY ?v \
             ';
@@ -110,9 +116,11 @@ class FacetQuery{
             /*jshint multistr: true */
             this.query = '\
             SELECT (count(?s) AS ?total) WHERE {\
-                { GRAPH <' + graphName + '> \
-                    { '+ st +' \
-                    } \
+                GRAPH risisVoid:  { \
+                  risisVoid:risis_rdf_dataset void:subset ?dataset . \
+                } \
+                GRAPH ?dataset \
+                { '+ st +' \
                 } \
             }\
             ';
@@ -133,10 +141,13 @@ class FacetQuery{
         if(String(graphName)!=='' && graphName){
             /*jshint multistr: true */
             this.query = '\
-            SELECT DISTINCT ?s WHERE {\
-                { GRAPH <' + graphName + '> \
-                    { '+ st +' \
-                    } \
+            SELECT DISTINCT ?s ?dataset ?title WHERE {\
+                GRAPH risisVoid:  { \
+                  risisVoid:risis_rdf_dataset void:subset ?dataset . \
+                } \
+                GRAPH ?dataset \
+                { '+ st +' \
+                    OPTIONAL {?s dcterms:title ?title .} \
                 } \
             } LIMIT ' + limit + ' OFFSET ' + noffset;
         }else{
