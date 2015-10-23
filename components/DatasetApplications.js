@@ -41,7 +41,7 @@ class DatasetApplications extends React.Component {
             <div className="ui page grid" ref="datasetApplications">
                 <div className="row">
                   <div className="column">
-                    <h1 className="ui header">Datset Visit/Access Requests</h1>
+                    <h1 className="ui header"><a target="_blank" href={'/export/NTriples/' + encodeURIComponent(applicationsGraphName)}><span className="ui big black circular label">{this.props.UserApplicationStore.applications.length}</span></a> Datset Visit/Access Requests</h1>
                       <div className="ui segment">
                           <table className="ui celled table">
                             <thead>
