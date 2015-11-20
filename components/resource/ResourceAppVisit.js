@@ -56,7 +56,7 @@ class ResourceAppVisit extends React.Component {
         let readOnly = 1;
         let user = this.context.getUser();
         let self = this;
-        let usertURI, datasetURI, applicantDIV, projectTitleDIV, projectSummaryDIV, hostingLocationDIV, prefferedVisitDatesDIV, visitDurationDIV, travelBudgetDIV, accommodationBudgetDIV, totalBudgetDIV, budgetRemarksDIV, projectDescAnnexsDIV, cvAnnexDIV, datasetDIV, statusDIV, commentOnDecisionDIV, accessLevel, isWriteable, configReadOnly;
+        let usertURI, dataRequestedDIV, datasetURI, applicantDIV, projectTitleDIV, projectSummaryDIV, hostingLocationDIV, prefferedVisitDatesDIV, visitDurationDIV, travelBudgetDIV, accommodationBudgetDIV, totalBudgetDIV, budgetRemarksDIV, projectDescAnnexsDIV, cvAnnexDIV, datasetDIV, statusDIV, commentOnDecisionDIV, accessLevel, isWriteable, configReadOnly;
         if(self.props.readOnly !== 'undefined'){
             readOnly = self.props.readOnly;
         }else{
@@ -122,6 +122,8 @@ class ResourceAppVisit extends React.Component {
                     }
                     if(node.propertyURI === 'http://rdf.risis.eu/application/projectTitle'){
                         projectTitleDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
+                    }else if (node.propertyURI === 'http://rdf.risis.eu/application/dataRequested'){
+                        dataRequestedDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
                     }else if (node.propertyURI === 'http://rdf.risis.eu/application/projectSummary'){
                         projectSummaryDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
                     }else if (node.propertyURI === 'http://rdf.risis.eu/application/prefferedVisitDates'){
@@ -200,6 +202,8 @@ class ResourceAppVisit extends React.Component {
                                     {applicantDIV}
                                     {projectTitleDIV}
                                     {projectSummaryDIV}
+                                    {dataRequestedDIV}
+                                    {projectDescAnnexsDIV}
                                     {hostingLocationDIV}
                                     {prefferedVisitDatesDIV}
                                     {visitDurationDIV}
@@ -207,7 +211,6 @@ class ResourceAppVisit extends React.Component {
                                     {accommodationBudgetDIV}
                                     {totalBudgetDIV}
                                     {budgetRemarksDIV}
-                                    {projectDescAnnexsDIV}
                                     {cvAnnexDIV}
                                     {statusDIV}
                                     {commentOnDecisionDIV}
@@ -232,6 +235,8 @@ class ResourceAppVisit extends React.Component {
                                         <h2 className="ui dividing header orange">Project</h2>
                                         {projectTitleDIV}
                                         {projectSummaryDIV}
+                                        {dataRequestedDIV}
+                                        {projectDescAnnexsDIV}
             							<h2 className="ui dividing orange header">Visit Data</h2>
                                         {hostingLocationDIV}
                                         {prefferedVisitDatesDIV}
@@ -242,7 +247,6 @@ class ResourceAppVisit extends React.Component {
                                         {totalBudgetDIV}
                                         {budgetRemarksDIV}
                                         <h2 className="ui dividing orange header">Annex</h2>
-                                        {projectDescAnnexsDIV}
                                         {cvAnnexDIV}
                                         <h2 className="ui dividing orange header">Decision</h2>
                                         {statusDIV}

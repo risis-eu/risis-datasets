@@ -221,8 +221,10 @@ module.exports = function handleUpload(server) {
                      file.pipe(fs.createWriteStream(saveTo));
                      fields[fieldname] = saveTo;
                  }else{
-                     error = error + ' missing value for "' + fieldname +'"';
-                     file.resume();
+                     if(fieldname !== 'projectDescAnnex'){
+                        error = error + ' missing value for "' + fieldname +'"';
+                     }
+                    file.resume();
                  }
              });
              busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated) {
@@ -256,7 +258,7 @@ module.exports = function handleUpload(server) {
                          PREFIX foaf: <http://xmlns.com/foaf/0.1/> \
                          PREFIX dcterms: <http://purl.org/dc/terms/> \
                          INSERT DATA { GRAPH <'+ generalConfig.applicationsGraphName[0] +'> { \
-                             <'+ applicationURI + '> a risisV:VisitRequestApplication; risisV:status "submitted" ; risisV:commentOnDecision "-"; risisV:projectTitle """'+fields.projectTitle+'"""; risisV:projectSummary """'+fields.projectSummary+'"""; risisV:hostingLocation """'+fields.hostingLocation+'"""; risisV:prefferedVisitDates """'+fields.prefferedVisitDates+'"""; risisV:visitDuration """'+fields.visitDuration+'"""; dcterms:created "' + currentDate + '"^^xsd:dateTime; risisV:travelBudget """'+fields.travelBudget+'"""; risisV:accommodationBudget """'+fields.accommodationBudget+'"""; risisV:totalBudget """'+fields.totalBudget+'""";  risisV:budgetRemarks """'+fields.budgetRemarks+'"""; risisV:projectDescAnnex """'+fields.projectDescAnnex+'"""; risisV:cvAnnex """'+fields.cvAnnex+'"""; risisV:applicant <'+req.user.id+'>;risisV:dataset <'+datasetURI+'>. \
+                             <'+ applicationURI + '> a risisV:VisitRequestApplication; risisV:status "submitted" ; risisV:commentOnDecision "-"; risisV:dataRequested """'+fields.dataRequested+'"""; risisV:projectTitle """'+fields.projectTitle+'"""; risisV:projectSummary """'+fields.projectSummary+'"""; risisV:hostingLocation """'+fields.hostingLocation+'"""; risisV:prefferedVisitDates """'+fields.prefferedVisitDates+'"""; risisV:visitDuration """'+fields.visitDuration+'"""; dcterms:created "' + currentDate + '"^^xsd:dateTime; risisV:travelBudget """'+fields.travelBudget+'"""; risisV:accommodationBudget """'+fields.accommodationBudget+'"""; risisV:totalBudget """'+fields.totalBudget+'""";  risisV:budgetRemarks """'+fields.budgetRemarks+'"""; risisV:projectDescAnnex """'+fields.projectDescAnnex+'"""; risisV:cvAnnex """'+fields.cvAnnex+'"""; risisV:applicant <'+req.user.id+'>;risisV:dataset <'+datasetURI+'>. \
                          }} \
                              ';
                              //todo: write query2 for sesame!
@@ -271,7 +273,7 @@ module.exports = function handleUpload(server) {
                          PREFIX foaf: <http://xmlns.com/foaf/0.1/> \
                          PREFIX dcterms: <http://purl.org/dc/terms/> \
                          INSERT DATA INTO <'+ generalConfig.applicationsGraphName[0] +'> { \
-                         <'+ applicationURI + '> a risisV:VisitRequestApplication; risisV:status "submitted"; risisV:commentOnDecision "-" ; risisV:projectTitle """'+fields.projectTitle+'"""; risisV:projectSummary """'+fields.projectSummary+'"""; risisV:hostingLocation """'+fields.hostingLocation+'"""; risisV:prefferedVisitDates """'+fields.prefferedVisitDates+'"""; risisV:visitDuration """'+fields.visitDuration+'"""; dcterms:created "' + currentDate + '"^^xsd:dateTime; risisV:travelBudget """'+fields.travelBudget+'"""; risisV:accommodationBudget """'+fields.accommodationBudget+'"""; risisV:totalBudget """'+fields.totalBudget+'""";  risisV:budgetRemarks """'+fields.budgetRemarks+'"""; risisV:projectDescAnnex """'+fields.projectDescAnnex+'"""; risisV:cvAnnex """'+fields.cvAnnex+'"""; risisV:applicant <'+req.user.id+'>;risisV:dataset <'+datasetURI+'>. \
+                         <'+ applicationURI + '> a risisV:VisitRequestApplication; risisV:status "submitted"; risisV:commentOnDecision "-" ; risisV:dataRequested """'+fields.dataRequested+'"""; risisV:projectTitle """'+fields.projectTitle+'"""; risisV:projectSummary """'+fields.projectSummary+'"""; risisV:hostingLocation """'+fields.hostingLocation+'"""; risisV:prefferedVisitDates """'+fields.prefferedVisitDates+'"""; risisV:visitDuration """'+fields.visitDuration+'"""; dcterms:created "' + currentDate + '"^^xsd:dateTime; risisV:travelBudget """'+fields.travelBudget+'"""; risisV:accommodationBudget """'+fields.accommodationBudget+'"""; risisV:totalBudget """'+fields.totalBudget+'""";  risisV:budgetRemarks """'+fields.budgetRemarks+'"""; risisV:projectDescAnnex """'+fields.projectDescAnnex+'"""; risisV:cvAnnex """'+fields.cvAnnex+'"""; risisV:applicant <'+req.user.id+'>;risisV:dataset <'+datasetURI+'>. \
                          } \
                          ';
 
