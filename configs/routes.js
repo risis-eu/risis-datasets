@@ -77,7 +77,7 @@ export default {
         handler: require('../components/DatasetApplications'),
         label: 'DatasetApplications',
         action: (context, payload, done) => {
-            context.executeAction(loadDatasetApplications, { dataset: payload.get('params').get('id')}, done);
+            context.executeAction(loadDatasetApplications, { dataset: payload.params.id}, done);
         }
     },
     applications: {
@@ -119,15 +119,15 @@ export default {
         label: 'Resource',
         action: (context, payload, done) => {
             //predicate Category
-            let category = payload.get('params').get('pcategory');
+            let category = payload.params.pcategory;
             if(!category){
                 category = 0;
             }
-            let propertyPath = payload.get('params').get('propertyPath');
+            let propertyPath = payload.params.propertyPath;
             if(!propertyPath){
                 propertyPath = [];
             }
-            let name = payload.get('params').get('name');
+            let name = payload.params.name;
             let graphName = 'http://rdf.risis.eu/dataset/' + name + '/1.0/void.ttl#';
             let resourceURI = 'http://rdf.risis.eu/dataset/' + name + '/1.0/void.ttl#' + name + '_rdf_dataset';
             context.executeAction(loadResource, { dataset: graphName, resource: resourceURI, category: category, propertyPath: propertyPath}, done);
