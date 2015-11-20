@@ -5,7 +5,8 @@ RISIS portal to search and access datasets
 ## Quick Start
 
 ###Installation
-You should have installed [NodeJS](https://nodejs.org/), [npm](https://github.com/npm/npm), [bower](http://bower.io/) and [GruntJS](http://gruntjs.com/) on your system as prerequisite, then:
+
+You should have installed [NodeJS](https://nodejs.org/), [npm](https://github.com/npm/npm), [bower](http://bower.io/) and [Webpack](https://webpack.github.io/) on your system as prerequisite, then:
 
 Clone the repository: `git clone https://github.com/ali1k/ld-r.git`
 
@@ -28,7 +29,9 @@ check server at `localhost:5001`
 
 ###Development Mode
 
-`npm run dev` or `grunt` or `PORT=5001 DEBUG=* grunt`
+`npm run dev`
+
+check server at `localhost:3000`
 
 ## Documentation
 
