@@ -677,9 +677,9 @@ export default {
                 hint: ['Web page where further information about the dataset can be found.']
             },
             'http://xmlns.com/foaf/0.1/page': {
-                label: ['Additional web pages'],
+                label: ['Use cases and complementary documentation'],
                 category: ['overview'],
-                hint: ['Additional web pages with relevant information that can not be considered the homepage of the dataset.'],
+                hint: ['Additional web pages and files with relevant information about the dataset and it use cases.'],
                 allowNewValue: 1
             },
             'http://vocab.org/waiver/terms/norms': {
