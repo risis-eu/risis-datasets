@@ -677,9 +677,15 @@ export default {
                 hint: ['Web page where further information about the dataset can be found.']
             },
             'http://xmlns.com/foaf/0.1/page': {
-                label: ['Use cases and complementary documentation'],
+                label: ['Documentation, Handbook or other Complementary Information'],
                 category: ['overview'],
-                hint: ['Additional web pages and files with relevant information about the dataset and it use cases.'],
+                hint: ['Additional web pages and files with relevant information about the dataset and its documentation.'],
+                allowNewValue: 1
+            },
+            'http://rdf.risis.eu/metadata/useCase': {
+                label: ['Use case(s)'],
+                category: ['overview'],
+                hint: ['Use case(s) related to the dataset.'],
                 allowNewValue: 1
             },
             'http://vocab.org/waiver/terms/norms': {

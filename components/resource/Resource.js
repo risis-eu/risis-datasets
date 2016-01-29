@@ -32,7 +32,7 @@ class Resource extends React.Component {
         let readOnly = 1;
         let user = this.context.getUser();
         let self = this;
-        let titleDIV, descDIV, keywordDIV, pageDIV, accessLevel, isWriteable, configReadOnly;
+        let titleDIV, descDIV, keywordDIV, pageDIV, useCaseDIV, accessLevel, isWriteable, configReadOnly;
         if(self.props.readOnly !== 'undefined'){
             readOnly = self.props.readOnly;
         }else{
@@ -77,6 +77,8 @@ class Resource extends React.Component {
                     titleDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
                 }else if (node.propertyURI === 'http://purl.org/dc/terms/description'){
                     descDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
+                }else if (node.propertyURI === 'http://rdf.risis.eu/metadata/useCase'){
+                    useCaseDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
                 }else if (node.propertyURI === 'http://xmlns.com/foaf/0.1/page'){
                     pageDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
                 } else if(node.propertyURI === 'http://purl.org/dc/terms/subject'){
@@ -111,6 +113,7 @@ class Resource extends React.Component {
                                 {titleDIV}
                                 {descDIV}
                                 {keywordDIV}
+                                {useCaseDIV}
                                 {pageDIV}
                                 {(node === currentCategory ? list : '')}
                             </div>
@@ -131,6 +134,7 @@ class Resource extends React.Component {
                                     {titleDIV}
                                     {descDIV}
                                     {keywordDIV}
+                                    {useCaseDIV}
                                     {pageDIV}
                                     {list}
                                 </div>
