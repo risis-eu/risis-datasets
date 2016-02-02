@@ -722,7 +722,7 @@ export default {
                     label: ['Dataset']
                 },
                 'http://rdf.risis.eu/application/status': {
-                    label: ['Status'],
+                    label: ['Decision'],
                     objectIEditor: ['BasicOptionInput'],
                     options: [
                         {label: 'not decided yet', value: 'not decided yet'},

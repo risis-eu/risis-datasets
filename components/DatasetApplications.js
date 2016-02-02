@@ -50,7 +50,7 @@ class DatasetApplications extends React.Component {
                                 <th>Type</th>
                                 <th>Dataset</th>
                                 <th>Submission Date</th>
-                                <th>Status</th>
+                                <th>Decision</th>
                               </tr>
                             </thead>
                             <tbody>
