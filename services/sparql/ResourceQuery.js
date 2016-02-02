@@ -87,10 +87,12 @@ class ResourceQuery{
     getUserApplications(graphName, userURI) {
         /*jshint multistr: true */
         this.query = '\
-        SELECT ?a ?type ?status ?dataset ?created from <' + graphName + '> WHERE { \
+        SELECT ?a ?type ?decisionDSO ?decisionPRB ?decisionFCB ?dataset ?created from <' + graphName + '> WHERE { \
         ?a a ?type . \
         ?a risisV:applicant <' + userURI + '> . \
-        ?a risisV:status ?status . \
+        ?a risisV:decisionDSO ?decisionDSO . \
+        ?a risisV:decisionPRB ?decisionPRB . \
+        ?a risisV:decisionFCB ?decisionFCB . \
         ?a risisV:dataset ?dataset . \
         ?a dcterms:created ?created . \
         } ORDER BY DESC(?created)';
@@ -99,11 +101,13 @@ class ResourceQuery{
     getDatasetApplications(graphName, datasetURI) {
         /*jshint multistr: true */
         this.query = '\
-        SELECT ?a ?type ?status ?dataset ?created from <' + graphName + '> WHERE { \
+        SELECT ?a ?type ?decisionDSO ?decisionPRB ?decisionFCB ?dataset ?created from <' + graphName + '> WHERE { \
         ?a a ?type . \
         ?a risisV:dataset <' + datasetURI + '> . \
         ?a risisV:dataset ?dataset . \
-        ?a risisV:status ?status . \
+        ?a risisV:decisionDSO ?decisionDSO . \
+        ?a risisV:decisionPRB ?decisionPRB . \
+        ?a risisV:decisionFCB ?decisionFCB . \
         ?a dcterms:created ?created . \
         } ORDER BY DESC(?created)';
         return this.query;
@@ -111,10 +115,12 @@ class ResourceQuery{
     getAllApplications(graphName) {
         /*jshint multistr: true */
         this.query = '\
-        SELECT ?a ?type ?dataset ?status ?created from <' + graphName + '> WHERE { \
+        SELECT ?a ?type ?dataset ?decisionDSO ?decisionPRB ?decisionFCB ?created from <' + graphName + '> WHERE { \
         ?a a ?type . \
         ?a risisV:dataset ?dataset . \
-        ?a risisV:status ?status . \
+        ?a risisV:decisionDSO ?decisionDSO . \
+        ?a risisV:decisionPRB ?decisionPRB . \
+        ?a risisV:decisionFCB ?decisionFCB . \
         ?a dcterms:created ?created . \
         } ORDER BY DESC(?created)';
         return this.query;

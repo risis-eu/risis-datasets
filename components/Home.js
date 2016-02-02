@@ -66,10 +66,10 @@ class Home extends React.Component {
         let out = {};
         this.props.UserApplicationStore.applications.forEach(function(el) {
             if(out[el.dataset]){
-                out[el.dataset][el.type] = {status: el.status, created: el.created, uri: el.uri};
+                out[el.dataset][el.type] = {decisionDSO: el.decisionDSO, decisionPRB: el.decisionPRB, decisionFCB: el.decisionFCB, created: el.created, uri: el.uri};
             }else{
                 out[el.dataset] = {};
-                out[el.dataset][el.type] = {status: el.status, created: el.created, uri: el.uri};
+                out[el.dataset][el.type] = {decisionDSO: el.decisionDSO, decisionPRB: el.decisionPRB, decisionFCB: el.decisionFCB, created: el.created, uri: el.uri};
             }
         });
         return out;
@@ -116,29 +116,29 @@ class Home extends React.Component {
                 if(applications[node.g]){
                     let cssV = 'ui small button';
                     if(applications[node.g].VisitRequestApplication){
-                        if(applications[node.g].VisitRequestApplication.status === 'not decided yet'){
+                        if(applications[node.g].VisitRequestApplication.decisionFCB === 'not decided yet'){
                             cssV = cssV + ' orange';
                         }
-                        if(applications[node.g].VisitRequestApplication.status === 'positive advice'){
+                        if(applications[node.g].VisitRequestApplication.decisionFCB === 'positive advice'){
                             cssV = cssV + ' green';
                         }
-                        if(applications[node.g].VisitRequestApplication.status === 'negative advice'){
+                        if(applications[node.g].VisitRequestApplication.decisionFCB === 'negative advice'){
                             cssV = cssV + ' red';
                         }
-                        visitRequestDIV = <div className={cssV}><NavLink style={{color: '#fff'}} routeName="resource" href={'/dataset/' + encodeURIComponent(applicationsGraphName) + '/resource/' + encodeURIComponent(applications[node.g].VisitRequestApplication.uri)}>Visit Request: {applications[node.g].VisitRequestApplication.status}</NavLink></div>;
+                        visitRequestDIV = <div className={cssV}><NavLink style={{color: '#fff'}} routeName="resource" href={'/dataset/' + encodeURIComponent(applicationsGraphName) + '/resource/' + encodeURIComponent(applications[node.g].VisitRequestApplication.uri)}>Visit Request: {applications[node.g].VisitRequestApplication.decisionFCB}</NavLink></div>;
                     }
                     let cssA = 'ui small button';
                     if(applications[node.g].AccessRequestApplication){
-                        if(applications[node.g].AccessRequestApplication.status === 'not decided yet'){
+                        if(applications[node.g].AccessRequestApplication.decisionFCB === 'not decided yet'){
                             cssA = cssA + ' orange';
                         }
-                        if(applications[node.g].AccessRequestApplication.status === 'positive advice'){
+                        if(applications[node.g].AccessRequestApplication.decisionFCB === 'positive advice'){
                             cssA = cssA + ' green';
                         }
-                        if(applications[node.g].AccessRequestApplication.status === 'negative advice'){
+                        if(applications[node.g].AccessRequestApplication.decisionFCB === 'negative advice'){
                             cssA = cssA + ' red';
                         }
-                        accessRequestDIV = <div className={cssA}><NavLink style={{color: '#fff'}} routeName="resource" href={'/dataset/' + encodeURIComponent(applicationsGraphName) + '/resource/' + encodeURIComponent(applications[node.g].AccessRequestApplication.uri)}> Access Request: {applications[node.g].AccessRequestApplication.status}</NavLink></div>;
+                        accessRequestDIV = <div className={cssA}><NavLink style={{color: '#fff'}} routeName="resource" href={'/dataset/' + encodeURIComponent(applicationsGraphName) + '/resource/' + encodeURIComponent(applications[node.g].AccessRequestApplication.uri)}> Access Request: {applications[node.g].AccessRequestApplication.decisionFCB}</NavLink></div>;
                     }
                 }
                 let iconClass = 'ui large database middle aligned icon';

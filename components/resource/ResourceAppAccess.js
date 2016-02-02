@@ -56,7 +56,7 @@ class ResourceAppAccess extends React.Component {
         let readOnly = 1;
         let user = this.context.getUser();
         let self = this;
-        let usertURI, datasetURI, applicantDIV, dataRequestedDIV, purposeOfUseDIV, technicalSpecificationDIV, ndaFormDIV, datasetDIV, statusDIV, commentOnDecisionDIV, accessLevel, isWriteable, configReadOnly;
+        let usertURI, datasetURI, applicantDIV, dataRequestedDIV, purposeOfUseDIV, technicalSpecificationDIV, ndaFormDIV, datasetDIV, decisionDSODIV, evaluationDSODIV, decisionPRBDIV, evaluationPRBDIV, decisionFCBDIV, evaluationFCBDIV, accessLevel, isWriteable, configReadOnly;
         if(self.props.readOnly !== 'undefined'){
             readOnly = self.props.readOnly;
         }else{
@@ -100,7 +100,7 @@ class ResourceAppAccess extends React.Component {
                                 accessLevel = self.checkAccess(user, self.props.graphName, self.props.resource, node.propertyURI);
                                 if(accessLevel.access){
                                     //temporary hack to allow only decision and comment writeable
-                                    let fieldsW = ['http://rdf.risis.eu/application/status', 'http://rdf.risis.eu/application/commentOnDecision'];
+                                    let fieldsW = ['http://rdf.risis.eu/application/decisionDSO', 'http://rdf.risis.eu/application/evaluationDSO'];
                                     if(fieldsW.indexOf(node.propertyURI) == -1 && (!parseInt(user.isSuperUser))){
                                         configReadOnly = true;
                                     }else{
@@ -129,13 +129,21 @@ class ResourceAppAccess extends React.Component {
                     }else if (node.propertyURI === 'http://rdf.risis.eu/application/dataset'){
                         datasetURI= node.instances[0].value;
                         datasetDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
-                    }else if (node.propertyURI === 'http://rdf.risis.eu/application/status'){
-                        statusDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
-                    }else if (node.propertyURI === 'http://rdf.risis.eu/application/commentOnDecision'){
-                        commentOnDecisionDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
                     }else if (node.propertyURI === 'http://rdf.risis.eu/application/applicant'){
                         usertURI= node.instances[0].value;
                         applicantDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
+                    }else if (node.propertyURI === 'http://rdf.risis.eu/application/decisionDSO'){
+                        decisionDSODIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
+                    }else if (node.propertyURI === 'http://rdf.risis.eu/application/evaluationDSO'){
+                        evaluationDSODIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
+                    }else if (node.propertyURI === 'http://rdf.risis.eu/application/decisionPRB'){
+                        decisionPRBDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
+                    }else if (node.propertyURI === 'http://rdf.risis.eu/application/evaluationPRB'){
+                        evaluationPRBDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
+                    }else if (node.propertyURI === 'http://rdf.risis.eu/application/decisionFCB'){
+                        decisionFCBDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
+                    }else if (node.propertyURI === 'http://rdf.risis.eu/application/evaluationFCB'){
+                        evaluationFCBDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
                     } else if(node.propertyURI === 'http://rdf.risis.eu/application/ndaForm'){
                         ndaFormDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
                     }else{
@@ -188,8 +196,12 @@ class ResourceAppAccess extends React.Component {
                                     {purposeOfUseDIV}
                                     {technicalSpecificationDIV}
                                     {ndaFormDIV}
-                                    {statusDIV}
-                                    {commentOnDecisionDIV}
+                                    {decisionDSODIV}
+                                    {evaluationDSODIV}
+                                    {decisionPRBDIV}
+                                    {evaluationPRBDIV}
+                                    {decisionFCBDIV}
+                                    {evaluationFCBDIV}
                                     {datasetDIV}
                                     {(node === currentCategory ? list : '')}
                                 </div>
@@ -214,9 +226,15 @@ class ResourceAppAccess extends React.Component {
                                         {technicalSpecificationDIV}
             							<h2 className="ui dividing orange header">Non-disclosure Agreement</h2>
                                         {ndaFormDIV}
-                                        <h2 className="ui dividing orange header">Decision</h2>
-                                        {statusDIV}
-                                        {commentOnDecisionDIV}
+                                        <h2 className="ui dividing brown header">Decision by Dataset Coordinator</h2>
+                                        {decisionDSODIV}
+                                        {evaluationDSODIV}
+                                        <h2 className="ui dividing violet header">Decision by Project Review Board (PRB)</h2>
+                                        {decisionPRBDIV}
+                                        {evaluationPRBDIV}
+                                        <h2 className="ui dividing purple header">Decision by Committee Board (FCB)</h2>
+                                        {decisionFCBDIV}
+                                        {evaluationFCBDIV}
                                         <h2 className="ui dividing orange header">Misc.</h2>
                                         {datasetDIV}
                                         {list}

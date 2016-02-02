@@ -721,7 +721,25 @@ export default {
                 'http://rdf.risis.eu/application/dataset': {
                     label: ['Dataset']
                 },
-                'http://rdf.risis.eu/application/status': {
+                'http://rdf.risis.eu/application/decisionDSO': {
+                    label: ['Decision'],
+                    objectIEditor: ['BasicOptionInput'],
+                    options: [
+                        {label: 'not decided yet', value: 'not decided yet'},
+                        {label: 'positive advice', value: 'positive advice'},
+                        {label: 'negative advice', value: 'negative advice'}
+                    ]
+                },
+                'http://rdf.risis.eu/application/decisionPRB': {
+                    label: ['Decision'],
+                    objectIEditor: ['BasicOptionInput'],
+                    options: [
+                        {label: 'not decided yet', value: 'not decided yet'},
+                        {label: 'positive advice', value: 'positive advice'},
+                        {label: 'negative advice', value: 'negative advice'}
+                    ]
+                },
+                'http://rdf.risis.eu/application/decisionFCB': {
                     label: ['Decision'],
                     objectIEditor: ['BasicOptionInput'],
                     options: [
@@ -784,8 +802,16 @@ export default {
                 'http://rdf.risis.eu/application/budgetRemarks': {
                     label: ['Remarks to Budget']
                 },
-                'http://rdf.risis.eu/application/commentOnDecision': {
-                    label: ['Comments on Decision'],
+                'http://rdf.risis.eu/application/evaluationDSO': {
+                    label: ['Evaluation'],
+                    objectIEditor: ['BasicTextareaInput']
+                },
+                'http://rdf.risis.eu/application/evaluationPRB': {
+                    label: ['Evaluation'],
+                    objectIEditor: ['BasicTextareaInput']
+                },
+                'http://rdf.risis.eu/application/evaluationFCB': {
+                    label: ['Evaluation'],
                     objectIEditor: ['BasicTextareaInput']
                 }
             },

@@ -12,11 +12,11 @@ class DatasetApplications extends React.Component {
     render() {
         let cssClass;
         let list = this.props.UserApplicationStore.applications.map(function(node, index) {
-            if(node.status === 'not decided yet'){
+            if(node.decisionFCB === 'not decided yet'){
                 cssClass = 'animated fadeIn warning';
-            }else if (node.status === 'positive advice'){
+            }else if (node.decisionFCB === 'positive advice'){
                 cssClass = 'animated fadeIn positive';
-            }else if (node.status === 'negative advice'){
+            }else if (node.decisionFCB === 'negative advice'){
                 cssClass = 'animated fadeIn negative';
             }
             return (
@@ -33,7 +33,7 @@ class DatasetApplications extends React.Component {
                   </td>
                   <td>{node.dataset}</td>
                   <td>{node.created}</td>
-                  <td>{node.status}</td>
+                  <td>{node.decisionFCB}</td>
                 </tr>
             )
         });
