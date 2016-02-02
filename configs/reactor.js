@@ -725,7 +725,7 @@ export default {
                     label: ['Status'],
                     objectIEditor: ['BasicOptionInput'],
                     options: [
-                        {label: 'submitted', value: 'submitted'},
+                        {label: 'not decided yet', value: 'not decided yet'},
                         {label: 'positive advice', value: 'positive advice'},
                         {label: 'negative advice', value: 'negative advice'}
                     ]

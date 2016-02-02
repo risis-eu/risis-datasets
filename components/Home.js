@@ -116,7 +116,7 @@ class Home extends React.Component {
                 if(applications[node.g]){
                     let cssV = 'ui small button';
                     if(applications[node.g].VisitRequestApplication){
-                        if(applications[node.g].VisitRequestApplication.status === 'submitted'){
+                        if(applications[node.g].VisitRequestApplication.status === 'not decided yet'){
                             cssV = cssV + ' orange';
                         }
                         if(applications[node.g].VisitRequestApplication.status === 'positive advice'){
@@ -129,7 +129,7 @@ class Home extends React.Component {
                     }
                     let cssA = 'ui small button';
                     if(applications[node.g].AccessRequestApplication){
-                        if(applications[node.g].AccessRequestApplication.status === 'submitted'){
+                        if(applications[node.g].AccessRequestApplication.status === 'not decided yet'){
                             cssA = cssA + ' orange';
                         }
                         if(applications[node.g].AccessRequestApplication.status === 'positive advice'){
