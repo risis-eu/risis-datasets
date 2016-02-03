@@ -233,7 +233,7 @@ module.exports = function handleAuthentication(server) {
              error = 'Error! password mismatch...';
          }else{
              for (var prop in req.body) {
-                 if(!req.body[prop]){
+                 if(!req.body[prop] && prop !== 'orcidid'){
                      error = error + ' missing value for "' + prop +'"';
                  }
              }
@@ -268,6 +268,12 @@ module.exports = function handleAuthentication(server) {
                          var dresourceURI = generalConfig.baseResourceDomain + '/resource/' + rnd;
                          var dgraphURI = generalConfig.baseResourceDomain + '/graph/' + rnd;
                          var blanknode = generalConfig.baseResourceDomain + '/editorship/' + rnd;
+                         var orcidid;
+                         if(req.body.orcidid) {
+                            orcidid = 'http://orcid.org/' + req.body.orcidid;
+                         }else{
+                            orcidid = 'http://';
+                         }
                          var tmpE= [];
                          var isActive = generalConfig.enableUserConfirmation? 0 : 1;
                          var date = new Date();
@@ -278,15 +284,17 @@ module.exports = function handleAuthentication(server) {
                              PREFIX ldr: <https://github.com/ali1k/ld-reactor/blob/master/vocabulary/index.ttl#> \
                              PREFIX vCard: <http://www.w3.org/2001/vcard-rdf/3.0#> \
                              PREFIX foaf: <http://xmlns.com/foaf/0.1/> \
+                             PREFIX vivo: <http://vivoweb.org/ontology/core#> \
                              PREFIX dcterms: <http://purl.org/dc/terms/> \
                              INSERT DATA { GRAPH <'+ generalConfig.authGraphName[0] +'> { \
-                             <'+ resourceURI + '> a foaf:Person; foaf:firstName """'+req.body.firstname+'"""; foaf:lastName """'+req.body.lastname+'"""; foaf:organization """'+req.body.organization+'"""; vCard:role """'+req.body.position+'"""; vCard:adr """'+req.body.address+'"""; foaf:mbox <mailto:'+req.body.email+'>; dcterms:created "' + currentDate + '"^^xsd:dateTime; foaf:accountName """'+req.body.username+'"""; ldr:password """'+passwordHash.generate(req.body.password)+'"""; ldr:isActive "'+isActive+'"^^xsd:Integer; ldr:isSuperUser "0"^^xsd:Integer; ldr:editorOfGraph <'+dgraphURI+'>; ldr:editorOfResource <'+dresourceURI+'>; ldr:editorOfProperty <'+blanknode+'1>;ldr:editorOfProperty <'+blanknode+'2>; ldr:editorOfProperty <'+blanknode+'3>; ldr:editorOfProperty <'+blanknode+'4> . \
+                             <'+ resourceURI + '> a foaf:Person; foaf:firstName """'+req.body.firstname+'"""; foaf:lastName """'+req.body.lastname+'"""; foaf:organization """'+req.body.organization+'"""; vCard:role """'+req.body.position+'"""; vivo:orcidId <'+orcidid+'> ; vCard:adr """'+req.body.address+'"""; foaf:mbox <mailto:'+req.body.email+'>; dcterms:created "' + currentDate + '"^^xsd:dateTime; foaf:accountName """'+req.body.username+'"""; ldr:password """'+passwordHash.generate(req.body.password)+'"""; ldr:isActive "'+isActive+'"^^xsd:Integer; ldr:isSuperUser "0"^^xsd:Integer; ldr:editorOfGraph <'+dgraphURI+'>; ldr:editorOfResource <'+dresourceURI+'>; ldr:editorOfProperty <'+blanknode+'1>;ldr:editorOfProperty <'+blanknode+'2>; ldr:editorOfProperty <'+blanknode+'3>; ldr:editorOfProperty <'+blanknode+'4> . \
                              <'+blanknode+'1> ldr:resource <'+resourceURI+'> ; ldr:property foaf:firstName . \
                              <'+blanknode+'2> ldr:resource <'+resourceURI+'> ; ldr:property foaf:lastName . \
                              <'+blanknode+'3> ldr:resource <'+resourceURI+'> ; ldr:property vCard:role . \
                              <'+blanknode+'4> ldr:resource <'+resourceURI+'> ; ldr:property vCard:adr . \
                              <'+blanknode+'5> ldr:resource <'+resourceURI+'> ; ldr:property foaf:organization . \
                              <'+blanknode+'6> ldr:resource <'+resourceURI+'> ; ldr:property ldr:password . \
+                             <'+blanknode+'7> ldr:resource <'+resourceURI+'> ; ldr:property vivo:orcidId . \
                             }} \
                              ';
                          }else {
@@ -295,15 +303,17 @@ module.exports = function handleAuthentication(server) {
                              PREFIX ldr: <https://github.com/ali1k/ld-reactor/blob/master/vocabulary/index.ttl#> \
                              PREFIX vCard: <http://www.w3.org/2001/vcard-rdf/3.0#> \
                              PREFIX foaf: <http://xmlns.com/foaf/0.1/> \
+                             PREFIX vivo: <http://vivoweb.org/ontology/core#> \
                              PREFIX dcterms: <http://purl.org/dc/terms/> \
                              INSERT DATA INTO <'+ generalConfig.authGraphName[0] +'> { \
-                             <'+ resourceURI + '> a foaf:Person; foaf:firstName """'+req.body.firstname+'"""; foaf:lastName """'+req.body.lastname+'"""; foaf:organization """'+req.body.organization+'"""; vCard:role """'+req.body.position+'"""; vCard:adr """'+req.body.address+'"""; foaf:mbox <mailto:'+req.body.email+'>; dcterms:created "' + currentDate + '"^^xsd:dateTime; foaf:accountName """'+req.body.username+'"""; ldr:password """'+passwordHash.generate(req.body.password)+'"""; ldr:isActive "'+isActive+'"^^xsd:Integer; ldr:isSuperUser "0"^^xsd:Integer; ldr:editorOfGraph <'+dgraphURI+'>; ldr:editorOfResource <'+dresourceURI+'>; ldr:editorOfProperty <'+blanknode+'1>;ldr:editorOfProperty <'+blanknode+'2>; ldr:editorOfProperty <'+blanknode+'3>; ldr:editorOfProperty <'+blanknode+'4> . \
+                             <'+ resourceURI + '> a foaf:Person; foaf:firstName """'+req.body.firstname+'"""; foaf:lastName """'+req.body.lastname+'"""; foaf:organization """'+req.body.organization+'"""; vCard:role """'+req.body.position+'"""; vivo:orcidId <'+orcidid+'> ; vCard:adr """'+req.body.address+'"""; foaf:mbox <mailto:'+req.body.email+'>; dcterms:created "' + currentDate + '"^^xsd:dateTime; foaf:accountName """'+req.body.username+'"""; ldr:password """'+passwordHash.generate(req.body.password)+'"""; ldr:isActive "'+isActive+'"^^xsd:Integer; ldr:isSuperUser "0"^^xsd:Integer; ldr:editorOfGraph <'+dgraphURI+'>; ldr:editorOfResource <'+dresourceURI+'>; ldr:editorOfProperty <'+blanknode+'1>;ldr:editorOfProperty <'+blanknode+'2>; ldr:editorOfProperty <'+blanknode+'3>; ldr:editorOfProperty <'+blanknode+'4> . \
                              <'+blanknode+'1> ldr:resource <'+resourceURI+'> ; ldr:property foaf:firstName . \
                              <'+blanknode+'2> ldr:resource <'+resourceURI+'> ; ldr:property foaf:lastName . \
                              <'+blanknode+'3> ldr:resource <'+resourceURI+'> ; ldr:property vCard:role . \
                              <'+blanknode+'4> ldr:resource <'+resourceURI+'> ; ldr:property vCard:adr . \
                              <'+blanknode+'5> ldr:resource <'+resourceURI+'> ; ldr:property foaf:organization . \
                              <'+blanknode+'6> ldr:resource <'+resourceURI+'> ; ldr:property ldr:password . \
+                             <'+blanknode+'7> ldr:resource <'+resourceURI+'> ; ldr:property vivo:orcidId . \
                              } \
                              ';
                          }
