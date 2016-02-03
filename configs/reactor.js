@@ -809,10 +809,6 @@ export default {
                 'http://rdf.risis.eu/application/evaluationPRB': {
                     label: ['Evaluation'],
                     objectIEditor: ['BasicTextareaInput']
-                },
-                'http://rdf.risis.eu/application/evaluationFCB': {
-                    label: ['Evaluation'],
-                    objectIEditor: ['BasicTextareaInput']
                 }
             },
             'http://rdf.risis.eu/sms/users.ttl#': {

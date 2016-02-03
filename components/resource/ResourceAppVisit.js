@@ -56,7 +56,7 @@ class ResourceAppVisit extends React.Component {
         let readOnly = 1;
         let user = this.context.getUser();
         let self = this;
-        let usertURI, dataRequestedDIV, datasetURI, applicantDIV, projectTitleDIV, projectSummaryDIV, hostingLocationDIV, prefferedVisitDatesDIV, visitDurationDIV, travelBudgetDIV, accommodationBudgetDIV, totalBudgetDIV, budgetRemarksDIV, projectDescAnnexsDIV, cvAnnexDIV, datasetDIV, decisionDSODIV, evaluationDSODIV, decisionPRBDIV, evaluationPRBDIV, decisionFCBDIV, evaluationFCBDIV, accessLevel, isWriteable, configReadOnly;
+        let usertURI, dataRequestedDIV, datasetURI, applicantDIV, projectTitleDIV, projectSummaryDIV, hostingLocationDIV, prefferedVisitDatesDIV, visitDurationDIV, travelBudgetDIV, accommodationBudgetDIV, totalBudgetDIV, budgetRemarksDIV, projectDescAnnexsDIV, cvAnnexDIV, datasetDIV, decisionDSODIV, evaluationDSODIV, decisionPRBDIV, evaluationPRBDIV, decisionFCBDIV, accessLevel, isWriteable, configReadOnly;
         if(self.props.readOnly !== 'undefined'){
             readOnly = self.props.readOnly;
         }else{
@@ -158,8 +158,6 @@ class ResourceAppVisit extends React.Component {
                         evaluationPRBDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
                     }else if (node.propertyURI === 'http://rdf.risis.eu/application/decisionFCB'){
                         decisionFCBDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
-                    }else if (node.propertyURI === 'http://rdf.risis.eu/application/evaluationFCB'){
-                        evaluationFCBDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
                     } else if(node.propertyURI === 'http://rdf.risis.eu/application/hostingLocation'){
                         hostingLocationDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
                     }else{
@@ -225,7 +223,6 @@ class ResourceAppVisit extends React.Component {
                                     {decisionPRBDIV}
                                     {evaluationPRBDIV}
                                     {decisionFCBDIV}
-                                    {evaluationFCBDIV}
                                     {datasetDIV}
                                     {(node === currentCategory ? list : '')}
                                 </div>
@@ -266,9 +263,8 @@ class ResourceAppVisit extends React.Component {
                                         <h2 className="ui dividing violet header">Decision by Project Review Board (PRB)</h2>
                                         {decisionPRBDIV}
                                         {evaluationPRBDIV}
-                                        <h2 className="ui dividing purple header">Decision by Committee Board (FCB)</h2>
+                                        <h2 className="ui dividing purple header">Decision by FCB</h2>
                                         {decisionFCBDIV}
-                                        {evaluationFCBDIV}
                                         <h2 className="ui dividing orange header">Misc.</h2>
                                         {datasetDIV}
                                         {list}
