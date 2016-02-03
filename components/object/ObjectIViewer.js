@@ -1,5 +1,6 @@
 import React from 'react';
 import BasicIndividualView from './viewer/individual/BasicIndividualView';
+import BasicImageView from './viewer/individual/BasicImageView';
 import BasicIndividualDetailView from './viewer/individual/BasicIndividualDetailView';
 import BasicDBpediaView from './viewer/individual/BasicDBpediaView';
 import BasicLinkedIndividualView from './viewer/individual/BasicLinkedIndividualView';
@@ -46,6 +47,8 @@ class ObjectIViewer extends React.Component {
             break;
             case 'UploadedView':
                 viewer = <UploadedView spec={this.props.spec} config={this.props.config}/>;
+            case 'BasicImageView':
+                viewer = <BasicImageView spec={this.props.spec} config={this.props.config}/>;
             break;
             case 'BasicLinkedIndividualView':
                 viewer = <BasicLinkedIndividualView graphName={this.props.graphName} spec={this.props.spec} config={this.props.config} propertyPath={propertyPath} category={category}/>;
