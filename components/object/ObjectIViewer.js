@@ -47,6 +47,7 @@ class ObjectIViewer extends React.Component {
             break;
             case 'UploadedView':
                 viewer = <UploadedView spec={this.props.spec} config={this.props.config}/>;
+            break;
             case 'BasicImageView':
                 viewer = <BasicImageView spec={this.props.spec} config={this.props.config}/>;
             break;
