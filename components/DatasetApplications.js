@@ -10,13 +10,14 @@ class DatasetApplications extends React.Component {
     }
 
     render() {
-        let cssClass;
+        let cssClass, finalDecision;
         let list = this.props.UserApplicationStore.applications.map(function(node, index) {
-            if(node.decisionFCB === 'not decided yet'){
+            finalDecision = node.decisionFCB ? node.decisionFCB : node.decisionDSO ;
+            if(finalDecision === 'not decided yet'){
                 cssClass = 'animated fadeIn warning';
-            }else if (node.decisionFCB === 'positive advice'){
+            }else if (finalDecision === 'positive advice'){
                 cssClass = 'animated fadeIn positive';
-            }else if (node.decisionFCB === 'negative advice'){
+            }else if (finalDecision === 'negative advice'){
                 cssClass = 'animated fadeIn negative';
             }
             return (
@@ -33,7 +34,7 @@ class DatasetApplications extends React.Component {
                   </td>
                   <td>{node.dataset}</td>
                   <td>{node.created}</td>
-                  <td>{node.decisionFCB}</td>
+                  <td>{finalDecision}</td>
                 </tr>
             )
         });

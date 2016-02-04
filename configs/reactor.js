@@ -802,6 +802,10 @@ export default {
                 'http://rdf.risis.eu/application/budgetRemarks': {
                     label: ['Remarks to Budget']
                 },
+                'http://rdf.risis.eu/application/commentOnDecision': {
+                     label: ['Comments on Decision'],
+                     objectIEditor: ['BasicTextareaInput']
+                 },
                 'http://rdf.risis.eu/application/evaluationDSO': {
                     label: ['Evaluation'],
                     objectIViewer: ['UploadedView'],

@@ -91,8 +91,8 @@ class ResourceQuery{
         ?a a ?type . \
         ?a risisV:applicant <' + userURI + '> . \
         ?a risisV:decisionDSO ?decisionDSO . \
-        ?a risisV:decisionPRB ?decisionPRB . \
-        ?a risisV:decisionFCB ?decisionFCB . \
+        OPTIONAL {?a risisV:decisionPRB ?decisionPRB .} \
+        OPTIONAL {?a risisV:decisionFCB ?decisionFCB .} \
         ?a risisV:dataset ?dataset . \
         ?a dcterms:created ?created . \
         } ORDER BY DESC(?created)';
@@ -106,8 +106,8 @@ class ResourceQuery{
         ?a risisV:dataset <' + datasetURI + '> . \
         ?a risisV:dataset ?dataset . \
         ?a risisV:decisionDSO ?decisionDSO . \
-        ?a risisV:decisionPRB ?decisionPRB . \
-        ?a risisV:decisionFCB ?decisionFCB . \
+        OPTIONAL {?a risisV:decisionPRB ?decisionPRB .} \
+        OPTIONAL {?a risisV:decisionFCB ?decisionFCB .} \
         ?a dcterms:created ?created . \
         } ORDER BY DESC(?created)';
         return this.query;
@@ -119,8 +119,8 @@ class ResourceQuery{
         ?a a ?type . \
         ?a risisV:dataset ?dataset . \
         ?a risisV:decisionDSO ?decisionDSO . \
-        ?a risisV:decisionPRB ?decisionPRB . \
-        ?a risisV:decisionFCB ?decisionFCB . \
+        OPTIONAL {?a risisV:decisionPRB ?decisionPRB .} \
+        OPTIONAL {?a risisV:decisionFCB ?decisionFCB .} \
         ?a dcterms:created ?created . \
         } ORDER BY DESC(?created)';
         return this.query;

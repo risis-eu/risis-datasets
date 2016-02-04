@@ -176,7 +176,7 @@ module.exports = function handleUpload(server) {
                          PREFIX foaf: <http://xmlns.com/foaf/0.1/> \
                          PREFIX dcterms: <http://purl.org/dc/terms/> \
                          INSERT DATA { GRAPH <'+ generalConfig.applicationsGraphName[0] +'> { \
-                             <'+ applicationURI + '> a risisV:AccessRequestApplication; risisV:decisionDSO "not decided yet" ; risisV:decisionPRB "not decided yet" ; risisV:decisionFCB "not decided yet" ; risisV:evaluationDSO "not added yet" ; risisV:evaluationPRB "not added yet" ; risisV:dataRequested """'+fields.dataRequested+'"""; risisV:purposeOfUse """'+fields.purposeOfUse+'"""; risisV:technicalSpecification """'+fields.technicalSpecification+'"""; dcterms:created "' + currentDate + '"^^xsd:dateTime; risisV:ndaForm """'+ndaForm+'"""; risisV:applicant <'+req.user.id+'>;risisV:dataset <'+datasetURI+'>. \
+                             <'+ applicationURI + '> a risisV:AccessRequestApplication; risisV:decisionDSO "not decided yet" ; risisV:commentOnDecision "--" ; risisV:dataRequested """'+fields.dataRequested+'"""; risisV:purposeOfUse """'+fields.purposeOfUse+'"""; risisV:technicalSpecification """'+fields.technicalSpecification+'"""; dcterms:created "' + currentDate + '"^^xsd:dateTime; risisV:ndaForm """'+ndaForm+'"""; risisV:applicant <'+req.user.id+'>;risisV:dataset <'+datasetURI+'>. \
                          }} \
                              ';
                              //todo: write query2 for sesame!
@@ -191,7 +191,7 @@ module.exports = function handleUpload(server) {
                          PREFIX foaf: <http://xmlns.com/foaf/0.1/> \
                          PREFIX dcterms: <http://purl.org/dc/terms/> \
                          INSERT DATA INTO <'+ generalConfig.applicationsGraphName[0] +'> { \
-                         <'+ applicationURI + '> a risisV:AccessRequestApplication; risisV:decisionDSO "not decided yet" ; risisV:decisionPRB "not decided yet" ; risisV:decisionFCB "not decided yet" ; risisV:evaluationDSO "not added yet" ; risisV:evaluationPRB "not added yet" ; risisV:dataRequested """'+fields.dataRequested+'"""; risisV:purposeOfUse """'+fields.purposeOfUse+'"""; risisV:technicalSpecification """'+fields.technicalSpecification+'"""; dcterms:created "' + currentDate + '"^^xsd:dateTime; risisV:ndaForm """'+ndaForm+'"""; risisV:applicant <'+req.user.id+'>;risisV:dataset <'+datasetURI+'>. \
+                         <'+ applicationURI + '> a risisV:AccessRequestApplication; risisV:decisionDSO "not decided yet" ; risisV:commentOnDecision "--" ; risisV:dataRequested """'+fields.dataRequested+'"""; risisV:purposeOfUse """'+fields.purposeOfUse+'"""; risisV:technicalSpecification """'+fields.technicalSpecification+'"""; dcterms:created "' + currentDate + '"^^xsd:dateTime; risisV:ndaForm """'+ndaForm+'"""; risisV:applicant <'+req.user.id+'>;risisV:dataset <'+datasetURI+'>. \
                          } \
                          ';
 

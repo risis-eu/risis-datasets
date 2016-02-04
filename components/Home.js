@@ -129,16 +129,16 @@ class Home extends React.Component {
                     }
                     let cssA = 'ui small button';
                     if(applications[node.g].AccessRequestApplication){
-                        if(applications[node.g].AccessRequestApplication.decisionFCB === 'not decided yet'){
+                        if(applications[node.g].AccessRequestApplication.decisionDSO === 'not decided yet'){
                             cssA = cssA + ' orange';
                         }
-                        if(applications[node.g].AccessRequestApplication.decisionFCB === 'positive advice'){
+                        if(applications[node.g].AccessRequestApplication.decisionDSO === 'positive advice'){
                             cssA = cssA + ' green';
                         }
-                        if(applications[node.g].AccessRequestApplication.decisionFCB === 'negative advice'){
+                        if(applications[node.g].AccessRequestApplication.decisionDSO === 'negative advice'){
                             cssA = cssA + ' red';
                         }
-                        accessRequestDIV = <div className={cssA}><NavLink style={{color: '#fff'}} routeName="resource" href={'/dataset/' + encodeURIComponent(applicationsGraphName) + '/resource/' + encodeURIComponent(applications[node.g].AccessRequestApplication.uri)}> Access Request: {applications[node.g].AccessRequestApplication.decisionFCB}</NavLink></div>;
+                        accessRequestDIV = <div className={cssA}><NavLink style={{color: '#fff'}} routeName="resource" href={'/dataset/' + encodeURIComponent(applicationsGraphName) + '/resource/' + encodeURIComponent(applications[node.g].AccessRequestApplication.uri)}> Access Request: {applications[node.g].AccessRequestApplication.decisionDSO}</NavLink></div>;
                     }
                 }
                 let iconClass = 'ui large database middle aligned icon';
