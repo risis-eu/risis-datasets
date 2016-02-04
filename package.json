@@ -18,7 +18,7 @@
     "start": "node start.js",
     "validate": "npm ls"
   },
-  "license": "Apache version 2.0",
+  "license": "Apache-2.0",
   "dependencies": {
     "body-parser": "^1.14.1",
     "busboy": "^0.2.9",
