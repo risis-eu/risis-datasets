@@ -42,7 +42,7 @@ server.use(cookieParser());
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ extended: false }));
 //parse multipart/form-data
-//server.use(busboyBodyParser());
+server.use(busboyBodyParser());
 server.use(cookieSession({
     name: 'LDR',
     keys: ['u1waegf234ss', 'u2wef23ed5325']

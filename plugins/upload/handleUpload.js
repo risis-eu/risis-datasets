@@ -124,223 +124,225 @@ module.exports = function handleUpload(server) {
         }
      });
      server.post('/accessRequest/:name', function (req, res) {
-         if(!req.isAuthenticated()){
+        if(!req.isAuthenticated()){
              res.render('login', {appShortTitle: appShortTitle, appFullTitle: appFullTitle, user: req.user});
-         }else{
-             var fields = [];
-             var error = '';
-             var busboy = new Busboy({ headers: req.headers, limits: {fileSize: 500* 1024} });
-             busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
-                 if(filename){
-                     var fname = req.params.name + '_' + fieldname + '_' + Date.now()+ '.pdf';
-                     var saveTo = path.join('./uploaded/', fname);
-                     file.pipe(fs.createWriteStream(saveTo));
-                     fields[fieldname] = saveTo;
-                 }else{
-                     error = error + ' missing value for "' + fieldname +'"';
-                     file.resume();
-                 }
-             });
-             busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated) {
-                 if(!val){
-                    error = error + ' missing value for "' + fieldname +'"';
+        }else{
+            var error = '';
+            for(var prop in req.body){
+                 if(!req.body[prop]){
+                    error = error + ' missing value for "' + prop +'"';
                 }
-                fields[fieldname] = val;
-               //console.log('Field [' + fieldname + ']: value: ' + val);
-             });
-             busboy.on('finish', function() {
-                 if(error){
-                     res.render('accessRequest', {appShortTitle: appShortTitle, appFullTitle: appFullTitle, name: req.params.name, user: req.user, graphName: encodeURIComponent(req.user.graphName), resourceURI: encodeURIComponent(req.user.id), data: fields, errorMsg: 'Error... '+error});
+            }
+            if(!req.files.ndaForm || !req.files.ndaForm.size){
+                error = error + ' missing value for "NDA Form"';
+            }else{
+                if(req.files.ndaForm.size > (500 * 1024)){
+                    error = error + ' file size > 500KB ! ';
+                }
+            }
+            if(!error){
+                var fname = req.params.name + '_ndaForm_' + Date.now()+ '.pdf';
+                var saveTo = path.join('./uploaded/', fname);
+                var fileStream = fs.createWriteStream(saveTo);
+                fileStream.write(req.files.ndaForm.data);
+                fileStream.end();
+                fileStream.on('error', function (err) {
+                    res.end("error in upload!");
+                    console.log("error", err);
+                });
+                fileStream.on('finish', function (res2) {
+                 });
+                 //store data into the triple store
+                 var endpoint = helper.getEndpointParameters([generalConfig.applicationsGraphName[0]]);
+                 var datasetURI = 'http://rdf.risis.eu/dataset/'+req.params.name+'/1.0/void.ttl#';
+                 var rnd = Math.round(+new Date() / 1000);
+                 var applicationURI = generalConfig.baseResourceDomain + '/application/' + rnd;
+                 var date = new Date();
+                 var currentDate = date.toISOString(); //"2011-12-19T15:28:46.493Z"
+                 let ndaForm = 'uploaded/'+fname;
+                 var query = '';
+                 var query2 = '';
+                 if(endpoint.type === 'sesame'){
+                     /*jshint multistr: true */
+                     query = '\
+                     PREFIX ldr: <https://github.com/ali1k/ld-reactor/blob/master/vocabulary/index.ttl#> \
+                     PREFIX risis: <http://risis.eu/> \
+                     PREFIX risisV: <http://rdf.risis.eu/application/> \
+                     PREFIX risisVoid: <http://rdf.risis.eu/dataset/risis/1.0/void.ttl#> \
+                     PREFIX vCard: <http://www.w3.org/2001/vcard-rdf/3.0#> \
+                     PREFIX foaf: <http://xmlns.com/foaf/0.1/> \
+                     PREFIX dcterms: <http://purl.org/dc/terms/> \
+                     INSERT DATA { GRAPH <'+ generalConfig.applicationsGraphName[0] +'> { \
+                         <'+ applicationURI + '> a risisV:AccessRequestApplication; risisV:decisionDSO "not decided yet" ; risisV:commentOnDecision "--" ; risisV:dataRequested """'+req.body.dataRequested+'"""; risisV:purposeOfUse """'+req.body.purposeOfUse+'"""; risisV:technicalSpecification """'+req.body.technicalSpecification+'"""; dcterms:created "' + currentDate + '"^^xsd:dateTime; risisV:ndaForm """'+ndaForm+'"""; risisV:applicant <'+req.user.id+'>;risisV:dataset <'+datasetURI+'>. \
+                     }} \
+                         ';
+                         //todo: write query2 for sesame!
                  }else{
-                     //store data into the triple store
-                     var endpoint = helper.getEndpointParameters([generalConfig.applicationsGraphName[0]]);
-                     var datasetURI = 'http://rdf.risis.eu/dataset/'+req.params.name+'/1.0/void.ttl#';
-                     var rnd = Math.round(+new Date() / 1000);
-                     var applicationURI = generalConfig.baseResourceDomain + '/application/' + rnd;
-                     var date = new Date();
-                     var currentDate = date.toISOString(); //"2011-12-19T15:28:46.493Z"
-                     let ndaForm = 'not applicable';
-                     if(fields.ndaForm){
-                        ndaForm = fields.ndaForm;
-                     }
-                     var query = '';
-                     var query2 = '';
-                     if(endpoint.type === 'sesame'){
-                         /*jshint multistr: true */
-                         query = '\
-                         PREFIX ldr: <https://github.com/ali1k/ld-reactor/blob/master/vocabulary/index.ttl#> \
-                         PREFIX risis: <http://risis.eu/> \
-                         PREFIX risisV: <http://rdf.risis.eu/application/> \
-                         PREFIX risisVoid: <http://rdf.risis.eu/dataset/risis/1.0/void.ttl#> \
-                         PREFIX vCard: <http://www.w3.org/2001/vcard-rdf/3.0#> \
-                         PREFIX foaf: <http://xmlns.com/foaf/0.1/> \
-                         PREFIX dcterms: <http://purl.org/dc/terms/> \
-                         INSERT DATA { GRAPH <'+ generalConfig.applicationsGraphName[0] +'> { \
-                             <'+ applicationURI + '> a risisV:AccessRequestApplication; risisV:decisionDSO "not decided yet" ; risisV:commentOnDecision "--" ; risisV:dataRequested """'+fields.dataRequested+'"""; risisV:purposeOfUse """'+fields.purposeOfUse+'"""; risisV:technicalSpecification """'+fields.technicalSpecification+'"""; dcterms:created "' + currentDate + '"^^xsd:dateTime; risisV:ndaForm """'+ndaForm+'"""; risisV:applicant <'+req.user.id+'>;risisV:dataset <'+datasetURI+'>. \
-                         }} \
-                             ';
-                             //todo: write query2 for sesame!
-                     }else{
-                         /*jshint multistr: true */
-                         query = '\
-                         PREFIX ldr: <https://github.com/ali1k/ld-reactor/blob/master/vocabulary/index.ttl#> \
-                         PREFIX risis: <http://risis.eu/> \
-                         PREFIX risisV: <http://rdf.risis.eu/application/> \
-                         PREFIX risisVoid: <http://rdf.risis.eu/dataset/risis/1.0/void.ttl#> \
-                         PREFIX vCard: <http://www.w3.org/2001/vcard-rdf/3.0#> \
-                         PREFIX foaf: <http://xmlns.com/foaf/0.1/> \
-                         PREFIX dcterms: <http://purl.org/dc/terms/> \
-                         INSERT DATA INTO <'+ generalConfig.applicationsGraphName[0] +'> { \
-                         <'+ applicationURI + '> a risisV:AccessRequestApplication; risisV:decisionDSO "not decided yet" ; risisV:commentOnDecision "--" ; risisV:dataRequested """'+fields.dataRequested+'"""; risisV:purposeOfUse """'+fields.purposeOfUse+'"""; risisV:technicalSpecification """'+fields.technicalSpecification+'"""; dcterms:created "' + currentDate + '"^^xsd:dateTime; risisV:ndaForm """'+ndaForm+'"""; risisV:applicant <'+req.user.id+'>;risisV:dataset <'+datasetURI+'>. \
-                         } \
-                         ';
+                     /*jshint multistr: true */
+                     query = '\
+                     PREFIX ldr: <https://github.com/ali1k/ld-reactor/blob/master/vocabulary/index.ttl#> \
+                     PREFIX risis: <http://risis.eu/> \
+                     PREFIX risisV: <http://rdf.risis.eu/application/> \
+                     PREFIX risisVoid: <http://rdf.risis.eu/dataset/risis/1.0/void.ttl#> \
+                     PREFIX vCard: <http://www.w3.org/2001/vcard-rdf/3.0#> \
+                     PREFIX foaf: <http://xmlns.com/foaf/0.1/> \
+                     PREFIX dcterms: <http://purl.org/dc/terms/> \
+                     INSERT DATA INTO <'+ generalConfig.applicationsGraphName[0] +'> { \
+                     <'+ applicationURI + '> a risisV:AccessRequestApplication; risisV:decisionDSO "not decided yet" ; risisV:commentOnDecision "--" ; risisV:dataRequested """'+req.body.dataRequested+'"""; risisV:purposeOfUse """'+req.body.purposeOfUse+'"""; risisV:technicalSpecification """'+req.body.technicalSpecification+'"""; dcterms:created "' + currentDate + '"^^xsd:dateTime; risisV:ndaForm """'+ndaForm+'"""; risisV:applicant <'+req.user.id+'>;risisV:dataset <'+datasetURI+'>. \
+                     } \
+                     ';
 
-                         //we need to  give permission to dataset owner to edit the application
-                         /*jshint multistr: true */
-                         query2 = '\
-                         PREFIX ldr: <https://github.com/ali1k/ld-reactor/blob/master/vocabulary/index.ttl#> \
-                         INSERT INTO <' + generalConfig.authGraphName[0] + '> { \
-                            ?user ldr:editorOfResource <' + applicationURI + '> . \
-                          } \
-                         WHERE { \
-                            ?user ldr:editorOfGraph <'+datasetURI+'> . \
-                          } \
-                         ';
-                     }
-                     var rpPath = helper.getHTTPQuery('update', query, endpoint, outputFormat);
-                     rp.post({uri: rpPath}).then(function(){
-                         console.log('Application is created!');
-                         rp.post({uri: helper.getHTTPQuery('update', query2, endpoint, outputFormat)}).then(function(){
-                             //send email notifications
-                             if(generalConfig.enableEmailNotifications){
-                                 //todo: put the right receipants
-                                handleEmail.sendMail('accessVisitRequest', req.user.mbox, 'datasets@risis.eu', 'New Access Request to ' + req.params.name, 'please check out the RISIS Datasets Portal: http://datasets.risis.eu/ \n There is a new access request to "'+req.params.name+'".', 'please check out the RISIS Datasets Portal: http://datasets.risis.eu/ \n There is a new access request to "'+req.params.name+'".');
-                             }
-                             return res.redirect('/');
-                         }).catch(function (err22) {
-                             console.log(err22);
-                         });
-                     }).catch(function (err2) {
-                         console.log(err2);
-                     });
+                     //we need to  give permission to dataset owner to edit the application
+                     /*jshint multistr: true */
+                     query2 = '\
+                     PREFIX ldr: <https://github.com/ali1k/ld-reactor/blob/master/vocabulary/index.ttl#> \
+                     INSERT INTO <' + generalConfig.authGraphName[0] + '> { \
+                        ?user ldr:editorOfResource <' + applicationURI + '> . \
+                      } \
+                     WHERE { \
+                        ?user ldr:editorOfGraph <'+datasetURI+'> . \
+                      } \
+                     ';
                  }
-             });
-             req.pipe(busboy);
-             /*
-             busboy.on('filesLimit',function(){
-                 error = error + ' file is too large! Max size is 500KB';
-                 console.log(error);
-             });
-             */
-         }
+                 var rpPath = helper.getHTTPQuery('update', query, endpoint, outputFormat);
+                 rp.post({uri: rpPath}).then(function(){
+                     console.log('Application is created!');
+                     rp.post({uri: helper.getHTTPQuery('update', query2, endpoint, outputFormat)}).then(function(){
+                         //send email notifications
+                         if(generalConfig.enableEmailNotifications){
+                             //todo: put the right receipants
+                            handleEmail.sendMail('accessVisitRequest', req.user.mbox, 'datasets@risis.eu', 'New Access Request to ' + req.params.name, 'please check out the RISIS Datasets Portal: http://datasets.risis.eu/ \n There is a new access request to "'+req.params.name+'".', 'please check out the RISIS Datasets Portal: http://datasets.risis.eu/ \n There is a new access request to "'+req.params.name+'".');
+                         }
+                         return res.redirect('/');
+                     }).catch(function (err22) {
+                         console.log(err22);
+                     });
+                 }).catch(function (err2) {
+                     console.log(err2);
+                 });
+
+            }else{
+                res.render('accessRequest', {appShortTitle: appShortTitle, appFullTitle: appFullTitle, name: req.params.name, user: req.user, graphName: encodeURIComponent(req.user.graphName), resourceURI: encodeURIComponent(req.user.id), data: req.body, errorMsg: 'Error... '+error});
+            }
+
+        }
     });
      server.post('/visitRequest/:name', function (req, res) {
          if(!req.isAuthenticated()){
              res.render('login', {appShortTitle: appShortTitle, appFullTitle: appFullTitle, user: req.user});
          }else{
-             var fields = [];
-             var error = '';
-             var busboy = new Busboy({ headers: req.headers, limits: {fileSize: 500* 1024} });
-             busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
-                 if(filename){
-                     var fname = req.params.name + '_' + fieldname + '_' + Date.now()+ '.pdf';
-                     var saveTo = path.join('./uploaded/', fname);
-                     file.pipe(fs.createWriteStream(saveTo));
-                     fields[fieldname] = saveTo;
-                 }else{
-                     if(fieldname !== 'projectDescAnnex'){
-                        error = error + ' missing value for "' + fieldname +'"';
-                     }
-                    file.resume();
+            var error = '';
+            for(var prop in req.body){
+                  if(!req.body[prop] && prop!=='budgetRemarks'){
+                     error = error + ' missing value for "' + prop +'"';
                  }
-             });
-             busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated) {
-                 if(!val && fieldname !== 'budgetRemarks'){
-                    error = error + ' missing value for "' + fieldname +'"';
-                }
-                fields[fieldname] = val;
-               //console.log('Field [' + fieldname + ']: value: ' + val);
-             });
-             busboy.on('finish', function() {
-                 if(error){
-                     res.render('visitRequest', {appShortTitle: appShortTitle, appFullTitle: appFullTitle, name: req.params.name, user: req.user, graphName: encodeURIComponent(req.user.graphName), resourceURI: encodeURIComponent(req.user.id), data: fields, errorMsg: 'Error... '+error});
-                 }else{
-                     //store data into the triple store
-                     var endpoint = helper.getEndpointParameters([generalConfig.applicationsGraphName[0]]);
-                     var datasetURI = 'http://rdf.risis.eu/dataset/'+req.params.name+'/1.0/void.ttl#';
-                     var rnd = Math.round(+new Date() / 1000);
-                     var applicationURI = generalConfig.baseResourceDomain + '/application/' + rnd;
-                     var date = new Date();
-                     var currentDate = date.toISOString(); //"2011-12-19T15:28:46.493Z"
-                     var query = '';
-                     var query2 = '';
-                     if(endpoint.type === 'sesame'){
-                         /*jshint multistr: true */
-                         query = '\
-                         PREFIX ldr: <https://github.com/ali1k/ld-reactor/blob/master/vocabulary/index.ttl#> \
-                         PREFIX risis: <http://risis.eu/> \
-                         PREFIX risisV: <http://rdf.risis.eu/application/> \
-                         PREFIX risisVoid: <http://rdf.risis.eu/dataset/risis/1.0/void.ttl#> \
-                         PREFIX vCard: <http://www.w3.org/2001/vcard-rdf/3.0#> \
-                         PREFIX foaf: <http://xmlns.com/foaf/0.1/> \
-                         PREFIX dcterms: <http://purl.org/dc/terms/> \
-                         INSERT DATA { GRAPH <'+ generalConfig.applicationsGraphName[0] +'> { \
-                             <'+ applicationURI + '> a risisV:VisitRequestApplication; risisV:decisionDSO "not decided yet" ; risisV:decisionPRB "not decided yet" ; risisV:decisionFCB "not decided yet" ; risisV:evaluationDSO "not added yet" ; risisV:evaluationPRB "not added yet" ; risisV:dataRequested """'+fields.dataRequested+'"""; risisV:projectTitle """'+fields.projectTitle+'"""; risisV:projectSummary """'+fields.projectSummary+'"""; risisV:hostingLocation """'+fields.hostingLocation+'"""; risisV:prefferedVisitDates """'+fields.prefferedVisitDates+'"""; risisV:visitDuration """'+fields.visitDuration+'"""; dcterms:created "' + currentDate + '"^^xsd:dateTime; risisV:travelBudget """'+fields.travelBudget+'"""; risisV:accommodationBudget """'+fields.accommodationBudget+'"""; risisV:totalBudget """'+fields.totalBudget+'""";  risisV:budgetRemarks """'+fields.budgetRemarks+'"""; risisV:projectDescAnnex """'+fields.projectDescAnnex+'"""; risisV:cvAnnex """'+fields.cvAnnex+'"""; risisV:applicant <'+req.user.id+'>;risisV:dataset <'+datasetURI+'>. \
-                         }} \
-                             ';
-                             //todo: write query2 for sesame!
-                     }else{
-                         /*jshint multistr: true */
-                         query = '\
-                         PREFIX ldr: <https://github.com/ali1k/ld-reactor/blob/master/vocabulary/index.ttl#> \
-                         PREFIX risis: <http://risis.eu/> \
-                         PREFIX risisV: <http://rdf.risis.eu/application/> \
-                         PREFIX risisVoid: <http://rdf.risis.eu/dataset/risis/1.0/void.ttl#> \
-                         PREFIX vCard: <http://www.w3.org/2001/vcard-rdf/3.0#> \
-                         PREFIX foaf: <http://xmlns.com/foaf/0.1/> \
-                         PREFIX dcterms: <http://purl.org/dc/terms/> \
-                         INSERT DATA INTO <'+ generalConfig.applicationsGraphName[0] +'> { \
-                         <'+ applicationURI + '> a risisV:VisitRequestApplication; risisV:decisionDSO "not decided yet" ; risisV:decisionPRB "not decided yet" ; risisV:decisionFCB "not decided yet" ; risisV:evaluationDSO "not added yet" ; risisV:evaluationPRB "not added yet" ; risisV:dataRequested """'+fields.dataRequested+'"""; risisV:projectTitle """'+fields.projectTitle+'"""; risisV:projectSummary """'+fields.projectSummary+'"""; risisV:hostingLocation """'+fields.hostingLocation+'"""; risisV:prefferedVisitDates """'+fields.prefferedVisitDates+'"""; risisV:visitDuration """'+fields.visitDuration+'"""; dcterms:created "' + currentDate + '"^^xsd:dateTime; risisV:travelBudget """'+fields.travelBudget+'"""; risisV:accommodationBudget """'+fields.accommodationBudget+'"""; risisV:totalBudget """'+fields.totalBudget+'""";  risisV:budgetRemarks """'+fields.budgetRemarks+'"""; risisV:projectDescAnnex """'+fields.projectDescAnnex+'"""; risisV:cvAnnex """'+fields.cvAnnex+'"""; risisV:applicant <'+req.user.id+'>;risisV:dataset <'+datasetURI+'>. \
-                         } \
-                         ';
-
-                         //we need to  give permission to dataset owner to edit the application
-                         /*jshint multistr: true */
-                         query2 = '\
-                         PREFIX ldr: <https://github.com/ali1k/ld-reactor/blob/master/vocabulary/index.ttl#> \
-                         INSERT INTO <' + generalConfig.authGraphName[0] + '> { \
-                            ?user ldr:editorOfResource <' + applicationURI + '> . \
-                          } \
-                         WHERE { \
-                            ?user ldr:editorOfGraph <'+datasetURI+'> . \
-                          } \
-                         ';
-                     }
-                     var rpPath = helper.getHTTPQuery('update', query, endpoint, outputFormat);
-                     rp.post({uri: rpPath}).then(function(){
-                         console.log('Application is created!');
-                         rp.post({uri: helper.getHTTPQuery('update', query2, endpoint, outputFormat)}).then(function(){
-                             //send email notifications
-                             if(generalConfig.enableEmailNotifications){
-                                 //todod: get the contact address of the corresponding dataset holder
-                                 handleEmail.sendMail('datasetVisitRequest', req.user.mbox, 'datasets@risis.eu', 'New Visit Request to ' + req.params.name, 'please check out the RISIS Datasets Portal: http://datasets.risis.eu/ \n There is a new visit request to "'+req.params.name+'".', 'please check out the RISIS Datasets Portal: http://datasets.risis.eu/ \n There is a new visit request to "'+req.params.name+'".');
-                             }
-                             return res.redirect('/');
-                         }).catch(function (err22) {
-                             console.log(err22);
-                         });
-                     }).catch(function (err2) {
-                         console.log(err2);
+             }
+            if(!req.files.cvAnnex || !req.files.cvAnnex.size){
+                 error = error + ' missing value for "CV"';
+            }else{
+                 if(req.files.cvAnnex.size > (500 * 1024) || (req.files.projectDescAnnex && req.files.projectDescAnnex.size > (500 * 1024))){
+                     error = error + ' file size > 500KB ! ';
+                 }
+            }
+            if(!error){
+                var fname = req.params.name + '_cvAnnex_' + Date.now()+ '.pdf';
+                var saveTo = path.join('./uploaded/', fname);
+                var fileStream = fs.createWriteStream(saveTo);
+                fileStream.write(req.files.cvAnnex.data);
+                fileStream.end();
+                fileStream.on('error', function (err) {
+                    res.end("error in upload!");
+                    console.log("error", err);
+                });
+                fileStream.on('finish', function (res2) {
+                 });
+                let cvAnnex = 'uploaded/'+fname;
+                let projectDescAnnex = 'not added';
+                if(req.files.projectDescAnnex.size){
+                     var fname2 = req.params.name + '_projectDescAnnex_' + Date.now()+ '.pdf';
+                     var saveTo2 = path.join('./uploaded/', fname2);
+                     var fileStream2 = fs.createWriteStream(saveTo2);
+                     fileStream2.write(req.files.projectDescAnnex.data);
+                     fileStream2.end();
+                     fileStream2.on('error', function (err) {
+                         res.end("error in upload!");
+                         console.log("error", err);
                      });
-                 }
-             });
-             req.pipe(busboy);
-             /*
-             busboy.on('filesLimit',function(){
-                 error = error + ' file is too large! Max size is 500KB';
-                 console.log(error);
-             });
-             */
+                     fileStream2.on('finish', function (res2) {
+                      });
+                      projectDescAnnex = 'uploaded/'+fname2;
+                }
+                //store data into the triple store
+                var endpoint = helper.getEndpointParameters([generalConfig.applicationsGraphName[0]]);
+                var datasetURI = 'http://rdf.risis.eu/dataset/'+req.params.name+'/1.0/void.ttl#';
+                var rnd = Math.round(+new Date() / 1000);
+                var applicationURI = generalConfig.baseResourceDomain + '/application/' + rnd;
+                var date = new Date();
+                var currentDate = date.toISOString(); //"2011-12-19T15:28:46.493Z"
+                var query = '';
+                var query2 = '';
+                if(endpoint.type === 'sesame'){
+                    /*jshint multistr: true */
+                    query = '\
+                    PREFIX ldr: <https://github.com/ali1k/ld-reactor/blob/master/vocabulary/index.ttl#> \
+                    PREFIX risis: <http://risis.eu/> \
+                    PREFIX risisV: <http://rdf.risis.eu/application/> \
+                    PREFIX risisVoid: <http://rdf.risis.eu/dataset/risis/1.0/void.ttl#> \
+                    PREFIX vCard: <http://www.w3.org/2001/vcard-rdf/3.0#> \
+                    PREFIX foaf: <http://xmlns.com/foaf/0.1/> \
+                    PREFIX dcterms: <http://purl.org/dc/terms/> \
+                    INSERT DATA { GRAPH <'+ generalConfig.applicationsGraphName[0] +'> { \
+                        <'+ applicationURI + '> a risisV:VisitRequestApplication; risisV:decisionDSO "not decided yet" ; risisV:decisionPRB "not decided yet" ; risisV:decisionFCB "not decided yet" ; risisV:evaluationDSO "not added yet" ; risisV:evaluationPRB "not added yet" ; risisV:dataRequested """'+req.body.dataRequested+'"""; risisV:projectTitle """'+req.body.projectTitle+'"""; risisV:projectSummary """'+req.body.projectSummary+'"""; risisV:hostingLocation """'+req.body.hostingLocation+'"""; risisV:prefferedVisitDates """'+req.body.prefferedVisitDates+'"""; risisV:visitDuration """'+req.body.visitDuration+'"""; dcterms:created "' + currentDate + '"^^xsd:dateTime; risisV:travelBudget """'+req.body.travelBudget+'"""; risisV:accommodationBudget """'+req.body.accommodationBudget+'"""; risisV:totalBudget """'+req.body.totalBudget+'""";  risisV:budgetRemarks """'+req.body.budgetRemarks+'"""; risisV:projectDescAnnex """'+projectDescAnnex+'"""; risisV:cvAnnex """'+cvAnnex+'"""; risisV:applicant <'+req.user.id+'>;risisV:dataset <'+datasetURI+'>. \
+                    }} \
+                        ';
+                        //todo: write query2 for sesame!
+                }else{
+                    /*jshint multistr: true */
+                    query = '\
+                    PREFIX ldr: <https://github.com/ali1k/ld-reactor/blob/master/vocabulary/index.ttl#> \
+                    PREFIX risis: <http://risis.eu/> \
+                    PREFIX risisV: <http://rdf.risis.eu/application/> \
+                    PREFIX risisVoid: <http://rdf.risis.eu/dataset/risis/1.0/void.ttl#> \
+                    PREFIX vCard: <http://www.w3.org/2001/vcard-rdf/3.0#> \
+                    PREFIX foaf: <http://xmlns.com/foaf/0.1/> \
+                    PREFIX dcterms: <http://purl.org/dc/terms/> \
+                    INSERT DATA INTO <'+ generalConfig.applicationsGraphName[0] +'> { \
+                    <'+ applicationURI + '> a risisV:VisitRequestApplication; risisV:decisionDSO "not decided yet" ; risisV:decisionPRB "not decided yet" ; risisV:decisionFCB "not decided yet" ; risisV:evaluationDSO "not added yet" ; risisV:evaluationPRB "not added yet" ; risisV:dataRequested """'+req.body.dataRequested+'"""; risisV:projectTitle """'+req.body.projectTitle+'"""; risisV:projectSummary """'+req.body.projectSummary+'"""; risisV:hostingLocation """'+req.body.hostingLocation+'"""; risisV:prefferedVisitDates """'+req.body.prefferedVisitDates+'"""; risisV:visitDuration """'+req.body.visitDuration+'"""; dcterms:created "' + currentDate + '"^^xsd:dateTime; risisV:travelBudget """'+req.body.travelBudget+'"""; risisV:accommodationBudget """'+req.body.accommodationBudget+'"""; risisV:totalBudget """'+req.body.totalBudget+'""";  risisV:budgetRemarks """'+req.body.budgetRemarks+'"""; risisV:projectDescAnnex """'+projectDescAnnex+'"""; risisV:cvAnnex """'+cvAnnex+'"""; risisV:applicant <'+req.user.id+'>;risisV:dataset <'+datasetURI+'>. \
+                    } \
+                    ';
+
+                    //we need to  give permission to dataset owner to edit the application
+                    /*jshint multistr: true */
+                    query2 = '\
+                    PREFIX ldr: <https://github.com/ali1k/ld-reactor/blob/master/vocabulary/index.ttl#> \
+                    INSERT INTO <' + generalConfig.authGraphName[0] + '> { \
+                       ?user ldr:editorOfResource <' + applicationURI + '> . \
+                     } \
+                    WHERE { \
+                       ?user ldr:editorOfGraph <'+datasetURI+'> . \
+                     } \
+                    ';
+                }
+                var rpPath = helper.getHTTPQuery('update', query, endpoint, outputFormat);
+                rp.post({uri: rpPath}).then(function(){
+                    console.log('Application is created!');
+                    rp.post({uri: helper.getHTTPQuery('update', query2, endpoint, outputFormat)}).then(function(){
+                        //send email notifications
+                        if(generalConfig.enableEmailNotifications){
+                            //todod: get the contact address of the corresponding dataset holder
+                            handleEmail.sendMail('datasetVisitRequest', req.user.mbox, 'datasets@risis.eu', 'New Visit Request to ' + req.params.name, 'please check out the RISIS Datasets Portal: http://datasets.risis.eu/ \n There is a new visit request to "'+req.params.name+'".', 'please check out the RISIS Datasets Portal: http://datasets.risis.eu/ \n There is a new visit request to "'+req.params.name+'".');
+                        }
+                        return res.redirect('/');
+                    }).catch(function (err22) {
+                        console.log(err22);
+                    });
+                }).catch(function (err2) {
+                    console.log(err2);
+                });
+            }else{
+                res.render('visitRequest', {appShortTitle: appShortTitle, appFullTitle: appFullTitle, name: req.params.name, user: req.user, graphName: encodeURIComponent(req.user.graphName), resourceURI: encodeURIComponent(req.user.id), data: req.body, errorMsg: 'Error... '+error});
+            }
+
          }
     });
 };
