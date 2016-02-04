@@ -1,5 +1,6 @@
 import React from 'react';
 import BasicIndividualInput from './editor/individual/BasicIndividualInput';
+import FileUploader from './editor/individual/FileUploader';
 import BasicTextareaInput from './editor/individual/BasicTextareaInput';
 import BasicIndividualDetailEdit from './editor/individual/BasicIndividualDetailEdit';
 import BasicOptionInput from './editor/individual/BasicOptionInput';
@@ -41,6 +42,9 @@ class ObjectIEditor extends React.Component {
         switch(editorConfig){
             case 'BasicIndividualInput':
                 editor = <BasicIndividualInput spec={this.props.spec} config={this.props.config} onDataEdit={this.handleDataEdit.bind(this)} allowActionByKey="1" onEnterPress={this.handleEnterPress.bind(this)}/>;
+            break;
+            case 'FileUploader':
+                editor = <FileUploader spec={this.props.spec} config={this.props.config} onDataEdit={this.handleDataEdit.bind(this)} onEnterPress={this.handleEnterPress.bind(this)} allowActionByKey="1"/>;
             break;
             case 'BasicTextareaInput':
                 editor = <BasicTextareaInput spec={this.props.spec} config={this.props.config} onDataEdit={this.handleDataEdit.bind(this)}/>;

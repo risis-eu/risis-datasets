@@ -175,7 +175,7 @@ class Home extends React.Component {
                           <div className="header">
                             Welcome to RISIS Datasets Portal!
                           </div>
-                          <p>
+                          <div>
                               Access to RISIS datasets is offered through a two-step process:
                               <ul>
                                   <li>
@@ -186,7 +186,7 @@ class Home extends React.Component {
                                   </li>
                               </ul>
                               * Cost for travel and on site stay (when needed) will be covered by the <a href="http://risis.eu">RISIS project</a>.
-                          </p>
+                          </div>
                         </div>
                     }
                     <div className="ui">

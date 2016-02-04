@@ -804,11 +804,19 @@ export default {
                 },
                 'http://rdf.risis.eu/application/evaluationDSO': {
                     label: ['Evaluation'],
-                    objectIEditor: ['BasicTextareaInput']
+                    objectIViewer: ['UploadedView'],
+                    objectIEditor: ['FileUploader'],
+                    filePrefix: 'evaluationDSO_',
+                    fileSizeLimit: '500',
+                    uploadFolder: 'uploaded'
                 },
                 'http://rdf.risis.eu/application/evaluationPRB': {
                     label: ['Evaluation'],
-                    objectIEditor: ['BasicTextareaInput']
+                    objectIViewer: ['UploadedView'],
+                    objectIEditor: ['FileUploader'],
+                    filePrefix: 'evaluationPRB_',
+                    fileSizeLimit: '500',
+                    uploadFolder: 'uploaded'
                 }
             },
             'http://rdf.risis.eu/sms/users.ttl#': {

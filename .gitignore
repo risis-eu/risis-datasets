@@ -7,3 +7,5 @@ tmp.js
 configs/server.js
 plugins/email/config.js
 uploaded/*.pdf
+uploaded/*.doc
+uploaded/*.docx

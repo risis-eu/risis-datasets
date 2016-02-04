@@ -96,6 +96,33 @@ module.exports = function handleUpload(server) {
            });
         }
      });
+     server.post('/uploadFile/:name?/:limit?', function (req, res) {
+        //console.log(req.files.file);
+        var fname = 'noName' + '_' + Date.now();
+        if(req.params.name){
+            fname = req.params.name;
+        }
+        var limit = 500 ; //KB
+        if(req.params.limit){
+            limit = parseInt(req.params.limit);
+        }
+        if(req.files.file.size > (limit * 1024)){
+            res.end("file is too big!!");
+            console.log('file size too big: ' + req.files.file.size);
+        }else{
+            var saveTo = path.join('./uploaded/', fname);
+            var fileStream = fs.createWriteStream(saveTo);
+            fileStream.write(req.files.file.data);
+            fileStream.end();
+            fileStream.on('error', function (err) {
+                res.end("error in upload!");
+                console.log("error", err);
+            });
+            fileStream.on('finish', function (res2) {
+                res.end("upload completed!");
+            });
+        }
+     });
      server.post('/accessRequest/:name', function (req, res) {
          if(!req.isAuthenticated()){
              res.render('login', {appShortTitle: appShortTitle, appFullTitle: appFullTitle, user: req.user});
