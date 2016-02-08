@@ -1,4 +1,5 @@
 import React from 'react';
+import Time from 'react-time';
 import {applicationsGraphName} from '../configs/general';
 import UserApplicationStore from '../stores/UserApplicationStore';
 import {connectToStores} from 'fluxible-addons-react';
@@ -33,7 +34,7 @@ class DatasetApplications extends React.Component {
                     </NavLink>
                   </td>
                   <td>{node.dataset}</td>
-                  <td>{node.created}</td>
+                  <td><Time value={node.created} titleFormat="YYYY/MM/DD HH:mm" relative /></td>
                   <td>{finalDecision}</td>
                 </tr>
             )

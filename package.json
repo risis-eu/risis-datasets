@@ -50,6 +50,7 @@
     "react-dropzone": "^3.3.2",
     "react-google-maps": "^4.2.0",
     "react-search-input": "^0.5.0",
+    "react-time": "^4.0.0",
     "request-promise": "^1.0.2",
     "serialize-javascript": "^1.1.2",
     "serve-favicon": "^2.3.0",
