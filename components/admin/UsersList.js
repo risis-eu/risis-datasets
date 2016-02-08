@@ -36,17 +36,17 @@ class UsersList extends React.Component {
         list = this.props.UserStore.users.map(function(node, index) {
             membership = node.membership.split(',');
             if(membership.indexOf('http://rdf.risis.eu/user/DatasetCoordinators') !== -1){
-                DSODIV = <span className="ui mini brown tag label">DSO</span>;
+                DSODIV = <span className="ui mini brown tag label" title="Dataset Coordinator">DSO</span>;
             }else{
                 DSODIV = '';
             }
             if(membership.indexOf('http://rdf.risis.eu/user/PRB') !== -1){
-                PRBDIV = <span className="ui mini violet tag label">PRB</span>;
+                PRBDIV = <span className="ui mini violet tag label" title="Project Review Board">PRB</span>;
             }else{
                 PRBDIV = '';
             }
             if(membership.indexOf('http://rdf.risis.eu/user/FCB') !== -1){
-                FCBDIV = <span className="ui mini purple tag label">FCB</span>;
+                FCBDIV = <span className="ui mini purple tag label" title="Facility Coordination Board">FCB</span>;
             }else{
                 FCBDIV = '';
             }
