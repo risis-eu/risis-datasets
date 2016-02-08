@@ -19,7 +19,7 @@ class Nav extends React.Component {
                                 <div className="menu">
                                     <NavLink className="item" routeName="resource" href={'/dataset/' + encodeURIComponent(user.graphName) + '/resource/' + encodeURIComponent(user.id)}>Profile</NavLink>
                                     {parseInt(user.isSuperUser) ? <NavLink className="item" routeName="users" href="/users">Users List</NavLink> : ''}
-                                    {parseInt(user.isSuperUser) ? <NavLink className="item" routeName="applications" href="/applications">Applications List</NavLink> : ''}
+                                    {(parseInt(user.isSuperUser) || user.member.indexOf('http://rdf.risis.eu/user/PRB') !== -1 || user.member.indexOf('http://rdf.risis.eu/user/FCB') !== -1 || user.member.indexOf('http://rdf.risis.eu/user/DatasetCoordinators') !== -1) ? <NavLink className="item" routeName="applications" href="/applications">Applications List</NavLink> : ''}
                                     <a href="/logout" className="item">Logout</a>
                                 </div>
                             </div>;

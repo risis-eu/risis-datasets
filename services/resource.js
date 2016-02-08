@@ -194,7 +194,7 @@ export default {
         }else if (resource === 'resource.allApplications') {
             //control access on authentication
             if(enableAuthentication){
-                if(!req.user || !parseInt(req.user.isSuperUser)){
+                if(!req.user){
                     callback(null, {dataset: '', applications: []});
                     return 0;
                 }else{
@@ -205,7 +205,18 @@ export default {
                 return 0;
             }
             endpointParameters = getEndpointParameters(applicationsGraphName);
-            query = queryObject.getPrefixes() + queryObject.getAllApplications(applicationsGraphName);
+            if(parseInt(req.user.isSuperUser) || req.user.member.indexOf('http://rdf.risis.eu/user/PRB') !== -1 || req.user.member.indexOf('http://rdf.risis.eu/user/FCB') !== -1){
+                //we show all the applications
+                query = queryObject.getPrefixes() + queryObject.getAllApplications(applicationsGraphName);
+            }else{
+                if(req.user.member.indexOf('http://rdf.risis.eu/user/DatasetCoordinators') !==-1){
+                    //we only show the applications for the corresponding Dataset
+                    query = queryObject.getPrefixes() + queryObject.getDatasetsApplications(applicationsGraphName, user.editorOfGraph)
+                }else{
+                    //no access is given!
+                    callback(null, {dataset: '', applications: []});
+                }
+            }
             // console.log(query);
             //build http uri
             //send request

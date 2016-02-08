@@ -112,6 +112,25 @@ class ResourceQuery{
         } ORDER BY DESC(?created)';
         return this.query;
     }
+    getDatasetsApplications(graphName, datasets) {
+        let datasetsURIArr = [];
+        datasets.forEach((v, k) => {
+            datasetsURIArr.push('<' + v + '>');
+        })
+        /*jshint multistr: true */
+        this.query = '\
+        SELECT ?a ?type ?decisionDSO ?decisionPRB ?decisionFCB ?dataset ?created from <' + graphName + '> WHERE { \
+        ?a a ?type . \
+        ?a risisV:dataset ?dataset . \
+        ?a risisV:dataset ?dataset . \
+        ?a risisV:decisionDSO ?decisionDSO . \
+        OPTIONAL {?a risisV:decisionPRB ?decisionPRB .} \
+        OPTIONAL {?a risisV:decisionFCB ?decisionFCB .} \
+        ?a dcterms:created ?created . \
+        FILTER (?dataset IN (' + datasetsURIArr.join(',') + ')) \
+        } ORDER BY DESC(?created)';
+        return this.query;
+    }
     getAllApplications(graphName) {
         /*jshint multistr: true */
         this.query = '\

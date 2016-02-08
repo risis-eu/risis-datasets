@@ -100,7 +100,7 @@ class ResourceAppAccess extends React.Component {
                                 accessLevel = self.checkAccess(user, self.props.graphName, self.props.resource, node.propertyURI);
                                 if(accessLevel.access){
                                     //temporary hack to allow only decision and comment writeable
-                                    let fieldsW = ['http://rdf.risis.eu/application/decisionDSO', 'http://rdf.risis.eu/application/evaluationDSO'];
+                                    let fieldsW = ['http://rdf.risis.eu/application/decisionDSO', 'http://rdf.risis.eu/application/commentOnDecision'];
                                     if(fieldsW.indexOf(node.propertyURI) == -1 && (!parseInt(user.isSuperUser))){
                                         configReadOnly = true;
                                     }else{
@@ -146,7 +146,7 @@ class ResourceAppAccess extends React.Component {
                 }
             });
             //another check
-            if((user.editorOfGraph.indexOf(datasetURI) === -1) && !parseInt(user.isSuperUser) && (user.id !== usertURI)){
+            if((user.editorOfGraph.indexOf(datasetURI) === -1) && !parseInt(user.isSuperUser) && (user.id !== usertURI) && user.member.indexOf('http://rdf.risis.eu/user/PRB') === -1 && user.member.indexOf('http://rdf.risis.eu/user/FCB') !== -1){
                 return (
                     <div className="ui page grid" ref="resource" itemScope itemType={this.props.resourceType} itemID={this.props.resource}>
                         <div className="ui row">

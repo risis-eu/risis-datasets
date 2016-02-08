@@ -53,6 +53,7 @@ module.exports = {
           user.editorOfGraph=[];
           user.editorOfResource=[];
           user.editorOfProperty=[];
+          user.member=[];
           if(parsed.results.bindings.length){
             parsed.results.bindings.forEach(function(el) {
                 if(self.getPropertyLabel(el.p.value)==='editorOfGraph'){
@@ -66,7 +67,11 @@ module.exports = {
                                 user.editorOfProperty.push({p: el.pp.value,r: el.pr.value})
                             }
                         }else{
-                            user[self.getPropertyLabel(el.p.value)] = el.o.value;
+                            if(self.getPropertyLabel(el.p.value)==='member'){
+                                user.member.push(el.o.value);
+                            }else{
+                                user[self.getPropertyLabel(el.p.value)] = el.o.value;
+                            }
                         }
                     }
                 }

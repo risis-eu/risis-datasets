@@ -92,31 +92,44 @@ class ResourceAppVisit extends React.Component {
                         configReadOnly = true;
                     }else{
                         //it property is readOnly from config
-                        if(node.config){
-                            if(node.config.readOnly){
-                                configReadOnly = true;
+                        if(node.config && node.config.readOnly){
+                            configReadOnly = true;
+                        }else{
+                            if(parseInt(user.isSuperUser)){
+                                configReadOnly = false;
                             }else{
-                                //check access levels
+                                let checkF = 0;
+                                //determine which fields are writeable
+                                let fieldsW = [];
                                 accessLevel = self.checkAccess(user, self.props.graphName, self.props.resource, node.propertyURI);
                                 if(accessLevel.access){
-                                    //temporary hack to allow only decision and comment writeable
-                                    let fieldsW = ['http://rdf.risis.eu/application/decisionDSO', 'http://rdf.risis.eu/application/evaluationDSO'];
-                                    if(fieldsW.indexOf(node.propertyURI) == -1 && (!parseInt(user.isSuperUser))){
+                                    fieldsW.push('http://rdf.risis.eu/application/decisionDSO');
+                                    fieldsW.push('http://rdf.risis.eu/application/evaluationDSO');
+                                    //fieldsW.push('http://rdf.risis.eu/application/commentOnDecision');
+                                    checkF = 1;
+                                }
+                                // if(user.member.indexOf('http://rdf.risis.eu/user/DatasetCoordinators') !== -1){
+                                //     checkF = 1;
+                                // }
+                                if(user.member.indexOf('http://rdf.risis.eu/user/PRB') !== -1){
+                                    fieldsW.push('http://rdf.risis.eu/application/decisionPRB');
+                                    fieldsW.push('http://rdf.risis.eu/application/evaluationPRB');
+                                    checkF = 1;
+                                }
+                                if(user.member.indexOf('http://rdf.risis.eu/user/FCB') !== -1){
+                                    fieldsW.push('http://rdf.risis.eu/application/decisionFCB');
+                                    checkF = 1;
+                                }
+                                if(!checkF){
+                                    configReadOnly = true;
+                                }else{
+                                    console.log(node.propertyURI, fieldsW.indexOf(node.propertyURI));
+                                    if(fieldsW.indexOf(node.propertyURI) == -1){
                                         configReadOnly = true;
                                     }else{
                                         configReadOnly = false;
                                     }
-                                }else{
-                                    configReadOnly = true;
                                 }
-                            }
-                        }else{
-                            //check access levels
-                            accessLevel = self.checkAccess(user, self.props.graphName, self.props.resource, node.propertyURI);
-                            if(accessLevel.access){
-                                configReadOnly = false;
-                            }else{
-                                configReadOnly = true;
                             }
                         }
                     }
@@ -168,7 +181,7 @@ class ResourceAppVisit extends React.Component {
                 }
             });
             //another check
-            if((user.editorOfGraph.indexOf(datasetURI) === -1) && !parseInt(user.isSuperUser) && (user.id !== usertURI)){
+            if((user.editorOfGraph.indexOf(datasetURI) === -1) && !parseInt(user.isSuperUser) && (user.id !== usertURI) && user.member.indexOf('http://rdf.risis.eu/user/PRB') === -1 && user.member.indexOf('http://rdf.risis.eu/user/FCB') !== -1){
                 return (
                     <div className="ui page grid" ref="resource" itemScope itemType={this.props.resourceType} itemID={this.props.resource}>
                         <div className="ui row">
@@ -258,11 +271,11 @@ class ResourceAppVisit extends React.Component {
                                         <h2 className="ui dividing orange header">Annex</h2>
                                         {cvAnnexDIV}
                                         <h2 className="ui dividing brown header">Decision by Dataset Coordinator</h2>
-                                        {decisionDSODIV}
                                         {evaluationDSODIV}
+                                        {decisionDSODIV}
                                         <h2 className="ui dividing violet header">Decision by Project Review Board (PRB)</h2>
-                                        {decisionPRBDIV}
                                         {evaluationPRBDIV}
+                                        {decisionPRBDIV}
                                         <h2 className="ui dividing purple header">Decision by FCB</h2>
                                         {decisionFCBDIV}
                                         <h2 className="ui dividing orange header">Misc.</h2>
