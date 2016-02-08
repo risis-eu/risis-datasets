@@ -18,15 +18,18 @@ class AdminQuery{
     getUsers(graphName) {
         /*jshint multistr: true */
         this.query = '\
-        SELECT DISTINCT ?subject ?username ?isActive ?isSuperUser ?mbox FROM <'+ graphName +'> WHERE {\
+        SELECT DISTINCT ?subject ?username ?isActive ?isSuperUser ?mbox ?firstName ?lastName (group_concat(distinct ?member ; separator = ",") AS ?membership) FROM <'+ graphName +'> WHERE {\
                 { \
                 ?subject a foaf:Person . \
                 ?subject foaf:accountName ?username . \
                 ?subject ldReactor:isActive ?isActive . \
+                ?subject foaf:firstName ?firstName . \
+                ?subject foaf:lastName ?lastName . \
+                ?subject foaf:member ?member . \
                 ?subject ldReactor:isSuperUser ?isSuperUser . \
                 ?subject foaf:mbox ?mbox . \
                 } \
-        } ORDER BY ASC(?username)\
+        } ORDER BY ASC(?lastName)\
         ';
         return this.prefixes + this.query;
     }
