@@ -18,6 +18,7 @@ module.exports = {
             case 'userActivation':
                 subject = config.emailTemplates.userActivation.subject;
                 text = config.emailTemplates.userActivation.text;
+                html = text;
                 if(!from){
                     from = config.sender;
                 }
@@ -25,6 +26,7 @@ module.exports = {
             case 'userRegistration':
                 subject = config.emailTemplates.userRegistration.subject;
                 text = config.emailTemplates.userRegistration.text;
+                html = text;
                 if(!to){
                     to = config.sender;
                 }
@@ -35,12 +37,17 @@ module.exports = {
                 }
                 subject = subject;
                 text = text;
+                html = text;
+                break;
+            case 'applicationDecisionChange':
+                subject = subject;
+                html = html;
                 break;
             default:
                 subject =subject;
                 text = text;
+                html = text;
         }
-        html = text;
         var transporter = nodemailer.createTransport(smtpTransport(config.emailConfig));
         // send mail
         transporter.sendMail({

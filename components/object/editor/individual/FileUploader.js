@@ -40,7 +40,6 @@ class FileUploader extends React.Component {
     render() {
         return (
             <div className="ui">
-                <div className="ui label basic"><a href="http://risis.eu/wp-content/uploads/2016/02/RISIS_eval_visits.docx"> Download the evaluation form</a></div>
                 <Dropzone onDrop={this.onDrop.bind(this)} ref="fileUploader" multiple={false} accept="application/pdf, application/msword,  application/vnd.openxmlformats-officedocument.wordprocessingml.document">
                   <div><div className="ui basic big button info">Try dropping the file here, or click here to select your file to upload.</div></div>
                 </Dropzone>

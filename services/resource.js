@@ -362,9 +362,11 @@ export default {
                     if(shouldTrigger(user.accountName, cGraphName, params.resourceURI, params.propertyURI, params.oldObjectValue, params.newObjectValue)){
                         //must trigger the right actions
                         //first get the FCB and PRB list
+                        let notifList = [];
+                        notifList.push({'type': 'FCB', 'firstName': 'Admin', 'mbox': 'datasets@risis.eu', 'username': 'admin'});
                         let queryEx = queryObject.getPrefixes() + queryObject.getFCBPRM(authGraphName) ;
                         rp.get({uri: getHTTPQuery('read', queryEx, endpointParameters, outputFormat)}).then(function(resEx){
-                            let notifList = utilObject.parseFCBPRB(resEx);
+                            notifList = utilObject.parseFCBPRB(resEx).concat(notifList);
                             //get Dataset coordintors
                             let queryEx2 = queryObject.getPrefixes() + queryObject.getDSOForApp(authGraphName, applicationsGraphName, params.resourceURI) ;
                             rp.get({uri: getHTTPQuery('read', queryEx2, endpointParameters, outputFormat)}).then(function(resEx2){
