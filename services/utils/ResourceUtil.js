@@ -1,6 +1,20 @@
 'use strict';
 import Configurator from './Configurator';
 class ResourceUtil{
+    parseFCBPRB(body){
+        let output = [];
+        let parsed = JSON.parse(body);
+        if(parsed.head.vars[0]=== 'callret-0'){
+          //no results!
+          return [];
+        }else{
+            parsed.results.bindings.forEach(function(el) {
+                output.push({'type': el.member.value === 'http://rdf.risis.eu/user/PRB' ? 'PRB' : 'FCB', 'firstName': el.firstName.value, 'mbox': el.mbox.value, 'username': el.username.value})
+            });
+            return output;
+        }
+        return output;
+    }
     parseUserApplications(body){
         let output = [];
         let parsed = JSON.parse(body);

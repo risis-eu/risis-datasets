@@ -808,6 +808,7 @@ export default {
                  },
                 'http://rdf.risis.eu/application/evaluationDSO': {
                     label: ['Evaluation'],
+                    hint: ['Please click on edit button, download and fill in the evaluation form, then upload the form.'],
                     objectIViewer: ['UploadedView'],
                     objectIEditor: ['FileUploader'],
                     filePrefix: 'evaluationDSO_',
@@ -815,6 +816,7 @@ export default {
                     uploadFolder: 'uploaded'
                 },
                 'http://rdf.risis.eu/application/evaluationPRB': {
+                    hint: ['Please click on edit button, download and fill in the evaluation form, then upload the form.'],
                     label: ['Evaluation'],
                     objectIViewer: ['UploadedView'],
                     objectIEditor: ['FileUploader'],

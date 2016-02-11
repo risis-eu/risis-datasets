@@ -1,6 +1,7 @@
 'use strict';
 import {getEndpointParameters, getHTTPQuery} from './utils/helpers';
-import {defaultGraphName, enableLogs, enableAuthentication, authGraphName, applicationsGraphName} from '../configs/general';
+import {runMailTrigger, shouldTrigger} from './utils/triggers';
+import {defaultGraphName, enableLogs, enableAuthentication, authGraphName, applicationsGraphName, enableEmailNotifications} from '../configs/general';
 import ResourceQuery from './sparql/ResourceQuery';
 import ResourceUtil from './utils/ResourceUtil';
 import rp from 'request-promise';
@@ -357,7 +358,27 @@ export default {
                 if(enableLogs){
                     log.info('\n User: ' + user.accountName + ' \n Query: \n' + query);
                 }
-                callback(null, {category: params.category});
+                if(enableEmailNotifications){
+                    if(shouldTrigger(user.accountName, cGraphName, params.resourceURI, params.propertyURI, params.oldObjectValue, params.newObjectValue)){
+                        //must trigger the right actions
+                        var queryEx = queryObject.getPrefixes() + queryObject.getFCBPRM(authGraphName) ;
+                        rp.get({uri: getHTTPQuery('read', queryEx, endpointParameters, outputFormat)}).then(function(resEx){
+                            let notifList = utilObject.parseFCBPRB(resEx);
+                            runMailTrigger(user.accountName, cGraphName, params.resourceURI, params.propertyURI, params.oldObjectValue, params.newObjectValue, notifList);
+                            callback(null, {category: params.category});
+                        }).catch(function (err2) {
+                            console.log(err2);
+                            if(enableLogs){
+                                log.error('\n User: ' + user.accountName + '\n Status Code: \n' + err2.statusCode + '\n Error Msg: \n' + err2.message);
+                            }
+                            callback(null, {category: params.category});
+                        });
+                    }else{
+                        callback(null, {category: params.category});
+                    }
+                }else{
+                    callback(null, {category: params.category});
+                }
             }).catch(function (err) {
                 console.log(err);
                 if(enableLogs){

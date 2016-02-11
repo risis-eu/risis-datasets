@@ -276,7 +276,7 @@ class ResourceAppVisit extends React.Component {
                                         <h2 className="ui dividing violet header">Decision by Project Review Board (PRB)</h2>
                                         {evaluationPRBDIV}
                                         {decisionPRBDIV}
-                                        <h2 className="ui dividing purple header">Decision by FCB</h2>
+                                        <h2 className="ui dividing purple header">Decision by Facility Coordination Board (FCB)</h2>
                                         {decisionFCBDIV}
                                         <h2 className="ui dividing orange header">Misc.</h2>
                                         {datasetDIV}

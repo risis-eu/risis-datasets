@@ -71,6 +71,18 @@ class ResourceQuery{
                 return this.updateObjectTriples(graphName, resourceURI, propertyURI, oldObjectValue, newObjectValue, valueType, dataType, detailData);
         }
     }
+    getFCBPRM(authGraphName) {
+        /*jshint multistr: true */
+        this.query = '\
+        SELECT ?member ?username ?firstName ?mbox  FROM <' + authGraphName + '> WHERE { \
+        ?user foaf:member ?member .\
+        ?user foaf:mbox ?mbox .\
+        ?user foaf:accountName ?username .\
+        ?user foaf:firstName ?firstName.\
+        FILTER (?member in (<http://rdf.risis.eu/user/FCB>, <http://rdf.risis.eu/user/PRB>))\
+        }'
+        return this.query;
+    }
     getProperties(graphName, resourceURI) {
         let ex = 'FROM <'+ graphName +'>';
         if(!graphName){

@@ -210,8 +210,34 @@ module.exports = function handleUpload(server) {
                      rp.post({uri: helper.getHTTPQuery('update', query2, endpoint, outputFormat)}).then(function(){
                          //send email notifications
                          if(generalConfig.enableEmailNotifications){
-                             //todo: put the right receipants
-                            handleEmail.sendMail('accessVisitRequest', req.user.mbox, 'datasets@risis.eu', 'New Access Request to ' + req.params.name, 'please check out the RISIS Datasets Portal: http://datasets.risis.eu/ \n There is a new access request to "'+req.params.name+'".', 'please check out the RISIS Datasets Portal: http://datasets.risis.eu/ \n There is a new access request to "'+req.params.name+'".');
+                             /*jshint multistr: true */
+                             var query3 = '\
+                             PREFIX ldr: <https://github.com/ali1k/ld-reactor/blob/master/vocabulary/index.ttl#> \
+                             PREFIX foaf: <http://xmlns.com/foaf/0.1/> \
+                             SELECT DISTINCT ?username ?firstName ?mbox FROM <' + generalConfig.authGraphName[0] + '> WHERE { \
+                                ?user ldr:editorOfGraph <' + datasetURI + '> ; \
+                                      foaf:mbox ?mbox ; \
+                                      foaf:firstName ?firstName; \
+                                      foaf:accountName ?username . \
+                              } \
+                             ';
+                             var ntfusers= [];
+                             ntfusers.push({'type': 'FCB', 'firstName': 'Admin', 'mbox': 'datasets@risis.eu', 'username': 'admin'});
+                             rp.post({uri: helper.getHTTPQuery('read', query3, endpoint, outputFormat)}).then(function(res3){
+                                 var parsed = JSON.parse(res3);
+                                 if(parsed.results.bindings.length){
+                                   parsed.results.bindings.forEach(function(el) {
+                                       ntfusers.push({'type': 'DSO', 'firstName': el.firstName.value, 'mbox': el.mbox.value, 'username': el.username.value})
+                                   });
+                                 }
+                                 ntfusers.forEach(function(el) {
+                                     var etext = 'Dear '+ el.firstName +',\n There is a new access request for "'+req.params.name+'" dataset. Please sign in to RISIS Datasets Portal with your username ('+el.username+'): \n \n http://datasets.risis.eu/ \n \n and check the applications list for further information. \n \n -- on behalf of RISIS Datasets Portal';
+                                     //console.log(etext);
+                                     handleEmail.sendMail('datasetAccessRequest', 'datasets@risis.eu', el.mbox, 'RISIS ['+el.type +'] New Access Request to ' + req.params.name, etext, etext);
+                                 });
+                             }).catch(function (err3) {
+                                 console.log(err3);
+                             });
                          }
                          return res.redirect('/');
                      }).catch(function (err22) {
@@ -329,8 +355,64 @@ module.exports = function handleUpload(server) {
                     rp.post({uri: helper.getHTTPQuery('update', query2, endpoint, outputFormat)}).then(function(){
                         //send email notifications
                         if(generalConfig.enableEmailNotifications){
-                            //todod: get the contact address of the corresponding dataset holder
-                            handleEmail.sendMail('datasetVisitRequest', req.user.mbox, 'datasets@risis.eu', 'New Visit Request to ' + req.params.name, 'please check out the RISIS Datasets Portal: http://datasets.risis.eu/ \n There is a new visit request to "'+req.params.name+'".', 'please check out the RISIS Datasets Portal: http://datasets.risis.eu/ \n There is a new visit request to "'+req.params.name+'".');
+                            /*jshint multistr: true */
+                            var query3 = '\
+                            PREFIX ldr: <https://github.com/ali1k/ld-reactor/blob/master/vocabulary/index.ttl#> \
+                            PREFIX foaf: <http://xmlns.com/foaf/0.1/> \
+                            SELECT DISTINCT ?username ?firstName ?mbox FROM <' + generalConfig.authGraphName[0] + '> WHERE { \
+                               ?user ldr:editorOfGraph <' + datasetURI + '> ; \
+                                     foaf:mbox ?mbox ; \
+                                     foaf:firstName ?firstName; \
+                                     foaf:accountName ?username . \
+                             } \
+                            ';
+                            var ntfusers= [];
+                            ntfusers.push({'type': 'FCB', 'firstName': 'Admin', 'mbox': 'datasets@risis.eu', 'username': 'admin'});
+                            rp.post({uri: helper.getHTTPQuery('read', query3, endpoint, outputFormat)}).then(function(res3){
+                                var parsed = JSON.parse(res3);
+                                if(parsed.results.bindings.length){
+                                  parsed.results.bindings.forEach(function(el) {
+                                      ntfusers.push({'type': 'DSO', 'firstName': el.firstName.value, 'mbox': el.mbox.value, 'username': el.username.value})
+                                  });
+                                }
+                                //check FCB users now
+                                /*jshint multistr: true */
+                                var query4 = '\
+                                PREFIX foaf: <http://xmlns.com/foaf/0.1/> \
+                                SELECT DISTINCT ?username ?firstName ?mbox FROM <' + generalConfig.authGraphName[0] + '> WHERE { \
+                                   ?user foaf:member <http://rdf.risis.eu/user/FCB> ; \
+                                         foaf:mbox ?mbox ; \
+                                         foaf:firstName ?firstName; \
+                                         foaf:accountName ?username . \
+                                 } \
+                                ';
+                                rp.post({uri: helper.getHTTPQuery('read', query4, endpoint, outputFormat)}).then(function(res4){
+                                    var parsed = JSON.parse(res4);
+                                    if(parsed.results.bindings.length){
+                                      parsed.results.bindings.forEach(function(el) {
+                                          ntfusers.push({'type': 'FCB', 'firstName': el.firstName.value, 'mbox': el.mbox.value, 'username': el.username.value})
+                                      });
+                                    }
+                                    //console.log(ntfusers);
+                                    ntfusers.forEach(function(el) {
+                                        var etext = '';
+                                        if(el.type === 'DSO'){
+                                            etext = 'Dear '+ el.firstName +',\n There is a new visit request for "'+req.params.name+'" dataset. Please sign in to RISIS Datasets Portal with your username ('+el.username+'): \n \n http://datasets.risis.eu/ \n \n and check the applications list for further information. \n \n on behalf of RISIS Datasets Portal';
+                                        } else{
+                                            if(el.type === 'FCB'){
+                                                etext = 'Dear '+ el.firstName +',\n There is a new visit request for "'+req.params.name+'"  dataset. Please sign in to RISIS Datasets Portal with your username ('+el.username+'): \n \n http://datasets.risis.eu/ \n \n and check the applications list for further information. \n \n -- on behalf of RISIS Datasets Portal';
+                                            }
+                                        }
+                                        //console.log(etext);
+                                        handleEmail.sendMail('datasetVisitRequest', 'datasets@risis.eu', el.mbox, 'RISIS ['+el.type +'] New Visit Request to ' + req.params.name, etext, etext);
+                                    });
+                                }).catch(function (err4) {
+                                    console.log(err4);
+                                });
+
+                            }).catch(function (err3) {
+                                console.log(err3);
+                            });
                         }
                         return res.redirect('/');
                     }).catch(function (err22) {
