@@ -123,7 +123,7 @@ class ResourceAppVisit extends React.Component {
                                 if(!checkF){
                                     configReadOnly = true;
                                 }else{
-                                    console.log(node.propertyURI, fieldsW.indexOf(node.propertyURI));
+                                    //console.log(node.propertyURI, fieldsW.indexOf(node.propertyURI));
                                     if(fieldsW.indexOf(node.propertyURI) == -1){
                                         configReadOnly = true;
                                     }else{
@@ -181,7 +181,7 @@ class ResourceAppVisit extends React.Component {
                 }
             });
             //another check
-            if((user.editorOfGraph.indexOf(datasetURI) === -1) && !parseInt(user.isSuperUser) && (user.id !== usertURI) && user.member.indexOf('http://rdf.risis.eu/user/PRB') === -1 && user.member.indexOf('http://rdf.risis.eu/user/FCB') !== -1){
+            if((user.editorOfGraph.indexOf(datasetURI) === -1) && !parseInt(user.isSuperUser) && (user.id !== usertURI) && (user.member.indexOf('http://rdf.risis.eu/user/PRB') === -1 && user.member.indexOf('http://rdf.risis.eu/user/FCB') === -1)){
                 return (
                     <div className="ui page grid" ref="resource" itemScope itemType={this.props.resourceType} itemID={this.props.resource}>
                         <div className="ui row">

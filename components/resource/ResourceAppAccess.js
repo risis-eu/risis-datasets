@@ -146,7 +146,7 @@ class ResourceAppAccess extends React.Component {
                 }
             });
             //another check
-            if((user.editorOfGraph.indexOf(datasetURI) === -1) && !parseInt(user.isSuperUser) && (user.id !== usertURI) && user.member.indexOf('http://rdf.risis.eu/user/PRB') === -1 && user.member.indexOf('http://rdf.risis.eu/user/FCB') !== -1){
+            if((user.editorOfGraph.indexOf(datasetURI) === -1) && !parseInt(user.isSuperUser) && (user.id !== usertURI) && user.member.indexOf('http://rdf.risis.eu/user/PRB') === -1 && user.member.indexOf('http://rdf.risis.eu/user/FCB') === -1){
                 return (
                     <div className="ui page grid" ref="resource" itemScope itemType={this.props.resourceType} itemID={this.props.resource}>
                         <div className="ui row">
