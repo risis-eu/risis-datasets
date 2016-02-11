@@ -15,7 +15,7 @@ class UsersList extends React.Component {
     render() {
       let actBtn, emailHint = 0, list, dbClass = 'yellow user icon', user = this.context.getUser();
       let currentComponent = this;
-      if((!user || user.member.indexOf('http://rdf.risis.eu/user/PRB') === -1 || user.member.indexOf('http://rdf.risis.eu/user/FCB') === -1) && !parseInt(user.isSuperUser)){
+      if((!user || (user.member.indexOf('http://rdf.risis.eu/user/PRB') === -1 && user.member.indexOf('http://rdf.risis.eu/user/FCB') === -1)) && !parseInt(user.isSuperUser)){
           return (
               <div className="ui page grid">
                 <div className="row">
