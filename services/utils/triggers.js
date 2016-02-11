@@ -6,7 +6,7 @@ export default {
         case 'http://rdf.risis.eu/application/decisionDSO':
             tmp = resourceURI.split('/');
             appName = tmp[tmp.length - 1];
-            appLink = 'http://datasets.risis.eu/dataset/'+  encodeURIComponent(graphName)+'resource/' + encodeURIComponent(resourceURI);
+            appLink = 'http://datasets.risis.eu/dataset/'+  encodeURIComponent(graphName)+'/resource/' + encodeURIComponent(resourceURI);
             notifList.forEach(function(el) {
                 if(el.type !== 'USER'){
                     etext = 'Dear '+ el.firstName +',\n The decision for visit request application #' + appName + ' has changed by dataset coordinator (' + username +') to "'+newObjectValue+'": \n \n '+ appLink +' \n \n Please sign in to RISIS Datasets Portal with your username ('+el.username+'): \n \n http://datasets.risis.eu/ \n \n and check the applications list for further information. \n \n -- on behalf of RISIS Datasets Portal';
@@ -18,7 +18,7 @@ export default {
         case 'http://rdf.risis.eu/application/decisionPRB':
             tmp = resourceURI.split('/');
             appName = tmp[tmp.length - 1];
-            appLink = 'http://datasets.risis.eu/dataset/'+  encodeURIComponent(graphName)+'resource/' + encodeURIComponent(resourceURI);
+            appLink = 'http://datasets.risis.eu/dataset/'+  encodeURIComponent(graphName)+'/resource/' + encodeURIComponent(resourceURI);
             notifList.forEach(function(el) {
                 if(el.type !== 'USER'){
                     etext = 'Dear '+ el.firstName +',\n The decision for visit request application #' + appName + ' has changed by PRB (' + username +') to "'+newObjectValue+'": \n \n '+ appLink +' \n \n Please sign in to RISIS Datasets Portal with your username ('+el.username+'): \n \n http://datasets.risis.eu/ \n \n and check the applications list for further information. \n \n -- on behalf of RISIS Datasets Portal';
@@ -29,7 +29,7 @@ export default {
         case 'http://rdf.risis.eu/application/decisionFCB':
             tmp = resourceURI.split('/');
             appName = tmp[tmp.length - 1];
-            appLink = 'http://datasets.risis.eu/dataset/'+  encodeURIComponent(graphName)+'resource/' + encodeURIComponent(resourceURI);
+            appLink = 'http://datasets.risis.eu/dataset/'+  encodeURIComponent(graphName)+'/resource/' + encodeURIComponent(resourceURI);
             notifList.forEach(function(el) {
                 if(el.type !== 'USER'){
                     etext = 'Dear '+ el.firstName +',\n Final decision for visit request application #' + appName + ' decided by "' + username +'" is "'+newObjectValue+'": \n \n '+ appLink +' \n \n Please sign in to RISIS Datasets Portal with your username ('+el.username+'): \n \n http://datasets.risis.eu/ \n \n and check the applications list for further information. \n \n -- on behalf of RISIS Datasets Portal';
