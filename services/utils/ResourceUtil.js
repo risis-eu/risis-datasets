@@ -15,6 +15,34 @@ class ResourceUtil{
         }
         return output;
     }
+    parseAppUser(body){
+        let output = [];
+        let parsed = JSON.parse(body);
+        if(parsed.head.vars[0]=== 'callret-0'){
+          //no results!
+          return [];
+        }else{
+            parsed.results.bindings.forEach(function(el) {
+                output.push({'type': 'USER', 'firstName': el.firstName.value, 'mbox': el.mbox.value, 'username': el.username.value})
+            });
+            return output;
+        }
+        return output;
+    }
+    parseDSOApp(body){
+        let output = [];
+        let parsed = JSON.parse(body);
+        if(parsed.head.vars[0]=== 'callret-0'){
+          //no results!
+          return [];
+        }else{
+            parsed.results.bindings.forEach(function(el) {
+                output.push({'type': 'DSO', 'firstName': el.firstName.value, 'mbox': el.mbox.value, 'username': el.username.value})
+            });
+            return output;
+        }
+        return output;
+    }
     parseUserApplications(body){
         let output = [];
         let parsed = JSON.parse(body);

@@ -10,6 +10,7 @@ class ResourceQuery{
         PREFIX foaf: <http://xmlns.com/foaf/0.1/> \
         PREFIX skos: <http://www.w3.org/2004/02/skos/core#> \
         PREFIX risisV: <http://rdf.risis.eu/application/> \
+        PREFIX ldr: <https://github.com/ali1k/ld-reactor/blob/master/vocabulary/index.ttl#> \
          ';
         this.query='';
     }
@@ -70,18 +71,6 @@ class ResourceQuery{
             default:
                 return this.updateObjectTriples(graphName, resourceURI, propertyURI, oldObjectValue, newObjectValue, valueType, dataType, detailData);
         }
-    }
-    getFCBPRM(authGraphName) {
-        /*jshint multistr: true */
-        this.query = '\
-        SELECT ?member ?username ?firstName ?mbox  FROM <' + authGraphName + '> WHERE { \
-        ?user foaf:member ?member .\
-        ?user foaf:mbox ?mbox .\
-        ?user foaf:accountName ?username .\
-        ?user foaf:firstName ?firstName.\
-        FILTER (?member in (<http://rdf.risis.eu/user/FCB>, <http://rdf.risis.eu/user/PRB>))\
-        }'
-        return this.query;
     }
     getProperties(graphName, resourceURI) {
         let ex = 'FROM <'+ graphName +'>';
@@ -276,6 +265,49 @@ class ResourceQuery{
             self.query = self.query + self.addTripleForSesame (graphName, newObjectValue, propURI, detailData[propURI].value, detailData[propURI].valueType, detailData[propURI].dataType)+ ';';
         }
         return self.query;
+    }
+    getFCBPRM(authGraphName) {
+        /*jshint multistr: true */
+        this.query = '\
+        SELECT ?member ?username ?firstName ?mbox  FROM <' + authGraphName + '> WHERE { \
+        ?user foaf:member ?member .\
+        ?user foaf:mbox ?mbox .\
+        ?user foaf:accountName ?username .\
+        ?user foaf:firstName ?firstName.\
+        FILTER (?member in (<http://rdf.risis.eu/user/FCB>, <http://rdf.risis.eu/user/PRB>))\
+        }'
+        return this.query;
+    }
+    getDSOForApp(authGraphName, applicationsGraphName, appURL) {
+        /*jshint multistr: true */
+        this.query = '\
+        SELECT DISTINCT ?username ?firstName ?mbox  WHERE {\
+          GRAPH <' + authGraphName + '> {\
+            ?user ldr:editorOfGraph ?dataset ;\
+                  foaf:mbox ?mbox ;\
+                  foaf:firstName ?firstName;\
+                  foaf:accountName ?username .\
+          }\
+          GRAPH <' + applicationsGraphName + '> {\
+           <' + appURL + '> <http://rdf.risis.eu/application/dataset> ?dataset .\
+          }\
+        }'
+        return this.query;
+    }
+    getUserForApp(authGraphName, applicationsGraphName, appURL) {
+        /*jshint multistr: true */
+        this.query = '\
+        SELECT DISTINCT ?username ?firstName ?mbox  WHERE {\
+          GRAPH <' + authGraphName + '> {\
+            ?user foaf:mbox ?mbox ;\
+                  foaf:firstName ?firstName;\
+                  foaf:accountName ?username .\
+          }\
+          GRAPH <' + applicationsGraphName + '> {\
+           <' + appURL + '> <http://rdf.risis.eu/application/applicant> ?user .\
+          }\
+        }'
+        return this.query;
     }
 }
 export default ResourceQuery;

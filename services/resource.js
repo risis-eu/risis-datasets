@@ -361,10 +361,35 @@ export default {
                 if(enableEmailNotifications){
                     if(shouldTrigger(user.accountName, cGraphName, params.resourceURI, params.propertyURI, params.oldObjectValue, params.newObjectValue)){
                         //must trigger the right actions
-                        var queryEx = queryObject.getPrefixes() + queryObject.getFCBPRM(authGraphName) ;
+                        //first get the FCB and PRB list
+                        let queryEx = queryObject.getPrefixes() + queryObject.getFCBPRM(authGraphName) ;
                         rp.get({uri: getHTTPQuery('read', queryEx, endpointParameters, outputFormat)}).then(function(resEx){
                             let notifList = utilObject.parseFCBPRB(resEx);
-                            runMailTrigger(user.accountName, cGraphName, params.resourceURI, params.propertyURI, params.oldObjectValue, params.newObjectValue, notifList);
+                            //get Dataset coordintors
+                            let queryEx2 = queryObject.getPrefixes() + queryObject.getDSOForApp(authGraphName, applicationsGraphName, params.resourceURI) ;
+                            rp.get({uri: getHTTPQuery('read', queryEx2, endpointParameters, outputFormat)}).then(function(resEx2){
+                                notifList = utilObject.parseDSOApp(resEx2).concat(notifList);
+                                //get applicant
+                                let queryEx3 = queryObject.getPrefixes() + queryObject.getUserForApp(authGraphName, applicationsGraphName, params.resourceURI) ;
+                                rp.get({uri: getHTTPQuery('read', queryEx3, endpointParameters, outputFormat)}).then(function(resEx3){
+                                    notifList = utilObject.parseAppUser(resEx3).concat(notifList);
+                                    //handle the trigger here
+                                    //console.log(notifList);
+                                    runMailTrigger(user.accountName, cGraphName, params.resourceURI, params.propertyURI, params.oldObjectValue, params.newObjectValue, notifList);
+                                }).catch(function (err4) {
+                                    console.log(err4);
+                                    if(enableLogs){
+                                        log.error('\n User: ' + user.accountName + '\n Status Code: \n' + err4.statusCode + '\n Error Msg: \n' + err4.message);
+                                    }
+                                    callback(null, {category: params.category});
+                                });
+                            }).catch(function (err3) {
+                                console.log(err3);
+                                if(enableLogs){
+                                    log.error('\n User: ' + user.accountName + '\n Status Code: \n' + err3.statusCode + '\n Error Msg: \n' + err3.message);
+                                }
+                                callback(null, {category: params.category});
+                            });
                             callback(null, {category: params.category});
                         }).catch(function (err2) {
                             console.log(err2);
