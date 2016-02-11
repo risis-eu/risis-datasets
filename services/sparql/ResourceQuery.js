@@ -272,6 +272,7 @@ class ResourceQuery{
         SELECT ?member ?username ?firstName ?mbox  FROM <' + authGraphName + '> WHERE { \
         ?user foaf:member ?member .\
         ?user foaf:mbox ?mbox .\
+        ?user ldr:isActive "1" . \
         ?user foaf:accountName ?username .\
         ?user foaf:firstName ?firstName.\
         FILTER (?member in (<http://rdf.risis.eu/user/FCB>, <http://rdf.risis.eu/user/PRB>))\
@@ -286,6 +287,7 @@ class ResourceQuery{
             ?user ldr:editorOfGraph ?dataset ;\
                   foaf:mbox ?mbox ;\
                   foaf:firstName ?firstName;\
+                  ldr:isActive "1" ; \
                   foaf:accountName ?username .\
           }\
           GRAPH <' + applicationsGraphName + '> {\
@@ -301,6 +303,7 @@ class ResourceQuery{
           GRAPH <' + authGraphName + '> {\
             ?user foaf:mbox ?mbox ;\
                   foaf:firstName ?firstName;\
+                  ldr:isActive "1" ; \
                   foaf:accountName ?username .\
           }\
           GRAPH <' + applicationsGraphName + '> {\
