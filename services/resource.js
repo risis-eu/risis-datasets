@@ -375,6 +375,9 @@ export default {
                                     notifList = utilObject.parseAppUser(resEx3).concat(notifList);
                                     //handle the trigger here
                                     //console.log(notifList);
+                                    if(enableLogs){
+                                        log.info('\n Responsible User: ' + user.accountName + ' \n Notified Users: \n' + JSON.stringify(notifList) + ' \n Edited Property:' + propertyURI);
+                                    }
                                     runMailTrigger(user.accountName, cGraphName, params.resourceURI, params.propertyURI, params.oldObjectValue, params.newObjectValue, notifList);
                                 }).catch(function (err4) {
                                     console.log(err4);
