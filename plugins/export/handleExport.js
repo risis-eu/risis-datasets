@@ -78,7 +78,12 @@ module.exports = function handleExport(server) {
         var resourceURI = req.params.r;
         if(generalConfig.enableAuthentication){
             if(!req.isAuthenticated()){
-                res.render('export', {appShortTitle: appShortTitle, appFullTitle: appFullTitle, data:'', errorMsg: 'Permission denied! Please login to system to access the page...'});
+                //allow public to export dataset metadata
+                if(graphName !== generalConfig.authGraphName || graphName !== generalConfig.applicationsGraphName ){
+                    exportResource(format, graphName, resourceURI, req, res);
+                }else{
+                    res.render('export', {appShortTitle: appShortTitle, appFullTitle: appFullTitle, data:'', errorMsg: 'Permission denied! Please login to system to access the page...'});
+                }
             }else{
                 if(resourceURI){
                     exportResource(format, graphName, resourceURI, req, res);
