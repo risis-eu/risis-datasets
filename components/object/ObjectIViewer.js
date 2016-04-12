@@ -7,9 +7,9 @@ import BasicLinkedIndividualView from './viewer/individual/BasicLinkedIndividual
 import BasicOptionView from './viewer/individual/BasicOptionView';
 import PasswordView from './viewer/individual/PasswordView';
 import UploadedView from './viewer/individual/UploadedView';
-import {FileSizeView} from 'void-components';
-import {LanguageView} from 'void-components';
-import {TwoLetterCountryView} from 'void-components';
+import FileSizeView from './viewer/individual/FileSizeView';
+import LanguageView from './viewer/individual/LanguageView';
+import TwoLetterCountryView from './viewer/individual/TwoLetterCountryView';
 
 class ObjectIViewer extends React.Component {
     render() {
