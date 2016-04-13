@@ -270,10 +270,10 @@ class ResourceAppVisit extends React.Component {
                                         {budgetRemarksDIV}
                                         <h2 className="ui dividing orange header">Annex</h2>
                                         {cvAnnexDIV}
-                                        <h2 className="ui dividing brown header">Decision by Dataset Coordinator <a className="ui big brown label basic" href="http://risis.eu/wp-content/uploads/2016/02/RISIS_eval_visits.docx"> <i className="download icon"></i> Evaluation Form</a></h2>
+                                        <h2 className="ui dividing brown header">Decision by Dataset Coordinator <a className="ui big brown label basic" href="http://risis.eu/wp-content/uploads/2016/04/RISIS_eval_visits_.doc"> <i className="download icon"></i> Evaluation Form</a></h2>
                                         {evaluationDSODIV}
                                         {decisionDSODIV}
-                                        <h2 className="ui dividing violet header">Decision by Project Review Board (PRB) <a className="ui big violet label basic" href="http://risis.eu/wp-content/uploads/2016/02/RISIS_eval_visits.docx"> <i className="download icon"></i> Evaluation Form</a></h2>
+                                        <h2 className="ui dividing violet header">Decision by Project Review Board (PRB) <a className="ui big violet label basic" href="http://risis.eu/wp-content/uploads/2016/04/RISIS_eval_visits_.doc"> <i className="download icon"></i> Evaluation Form</a></h2>
                                         {evaluationPRBDIV}
                                         {decisionPRBDIV}
                                         <h2 className="ui dividing purple header">Decision by Facility Coordination Board (FCB)</h2>

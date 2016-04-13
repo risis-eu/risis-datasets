@@ -271,7 +271,23 @@ class ResourceUtil{
                     if(property && this.includesProperty(user.editorOfProperty, resource, property)){
                         return {access: true, type: 'partial'};
                     }else{
-                        return {access: false};
+                        let fieldsW = [];
+                        let checkF = 0;
+                        //handling user specific roles like PRB
+                        if(user.member.indexOf('http://rdf.risis.eu/user/PRB') !== -1){
+                            fieldsW.push('http://rdf.risis.eu/application/decisionPRB');
+                            fieldsW.push('http://rdf.risis.eu/application/evaluationPRB');
+                            checkF = 1;
+                        }
+                        if(user.member.indexOf('http://rdf.risis.eu/user/FCB') !== -1){
+                            fieldsW.push('http://rdf.risis.eu/application/decisionFCB');
+                            checkF = 1;
+                        }
+                        if(!checkF){
+                            return {access: false};
+                        }else{
+                            return {access: true, type: 'partial'};
+                        }
                     }
                 }
             }
