@@ -186,6 +186,10 @@ class Home extends React.Component {
                                   </li>
                               </ul>
                               * Cost for travel and on site stay (when needed) will be covered by the <a href="http://risis.eu">RISIS project</a>.
+                              <div className="ui warning message">
+                                <i className="ui icon warning sign"></i>It is recommended to use <a href="
+https://www.mozilla.org/en-US/firefox/new/" target="_blank">Firefox</a> or <a href="https://www.google.com/chrome/" target="_blank">Chrome</a> to view this website. Support for <b>Internet Explorer</b> and other Web browsers is still under progress...
+                              </div>
                           </div>
                         </div>
                     }
