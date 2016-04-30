@@ -17,11 +17,11 @@ class DefaultHTMLLayout extends React.Component {
             <body>
                 <div id="app" dangerouslySetInnerHTML={{__html: this.props.markup}}></div>
                 <script dangerouslySetInnerHTML={{__html: this.props.state}}></script>
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-shim.min.js"></script>
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-sham.min.js"></script>
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/json3/3.3.2/json3.min.js"></script>
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.34.2/es6-shim.min.js"></script>
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.34.2/es6-sham.min.js"></script>
+                <script src="/bower_components/es5-shim/es5-shim.min.js"></script>
+                <script src="/bower_components/es5-shim/es5-sham.min.js"></script>
+                <script src="/bower_components/json3/lib/json3.min.js"></script>
+                <script src="/bower_components/es6-shim/es6-shim.min.js"></script>
+                <script src="/bower_components/es6-shim/es6-sham.min.js"></script>
                 <script src="/bower_components/jquery/dist/jquery.min.js"></script>
                 <script src="/bower_components/semantic/dist/components/transition.min.js"></script>
                 <script src="/bower_components/semantic/dist/components/popup.min.js"></script>
