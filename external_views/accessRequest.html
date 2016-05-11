@@ -1,0 +1,107 @@
+<html>
+	<head>
+		<meta charSet="utf-8" />
+		<meta name="viewport" content="width=device-width, user-scalable=no" />
+		<link href="/bower_components/semantic/dist/semantic.min.css" rel="stylesheet" type="text/css" />
+		<title>{{appFullTitle}} | Access Request | {{dataset.title}}</title>
+	</head>
+	<body>
+		<div>
+			<nav  class="ui black menu inverted navbar page grid">
+					<div class="ui item brand">
+						<a href="/accessRequest/{{name}}"><img class="ui image" src="/assets/img/risis_logo_full.jpg" alt="RISIS" /></a>
+					</div>
+					<a href="/" class="ui item label"> Datasets Portal</a>
+                    <a class="ui item blue label" href="http://sms.risis.eu">SMS Platform</a>
+                    <a class="ui item teal label" href="http://cortext.risis.eu">Cortext Platform</a>
+					<div class="right menu">
+						<div class="ui right dropdown item">
+		                    {{user.accountName}} <i class="dropdown icon"></i>
+		                    <div class="menu">
+		                        <a class="item" routeName="resource" href="/dataset/{{graphName}}/resource/{{resourceURI}}">Profile</a>
+		                        <a href="/logout" class="item">Logout</a>
+		                    </div>
+		                </div>
+					</div>
+			</nav>
+		</div>
+		<div class="ui page grid">
+			<div class="row">
+				<div class="ui wide column">
+					{{#errorMsg}}<br/><div class="ui warning message"><div class="header"> {{errorMsg}} </div></div>{{/errorMsg}}
+					<form action="/accessRequest/{{name}}" method="post"
+						 enctype="multipart/form-data">
+						<div class="ui form">
+						<div class="">
+							<br/>
+							<div class="ui tablet stackable steps">
+								<div class="step">
+								  <div class="content">
+									<div class="title"><a href="/">RISIS Datasets Portal</a></div>
+								  </div>
+								</div>
+							  <div class="step">
+							    <i class="yellow database icon"></i>
+							    <div class="content">
+							      <div class="title"><a href="/metadata/{{name}}">{{dataset.title}}</a></div>
+							    </div>
+							  </div>
+							  <div class="active step">
+							    <i class="privacy icon"></i>
+							    <div class="content">
+							      <div class="ui header">Request to Access</div>
+							    </div>
+							  </div>
+							</div>
+							<div class="twelve wide field required">
+								{{#dataset.aForm}}
+								<div class="ui info blue message">
+									<i class="ui info circle  icon"></i>Before applying for data access, please read the <a href="{{dataset.aForm}}"><b>conditions and details of access to "{{dataset.title}}"</b></a>.
+								</div>
+								{{/dataset.aForm}}
+							</div>
+							<h3 class="ui dividing header orange">Data requested and purpose</h3>
+							<div class="twelve wide field required">
+								<label>Data requested from "{{dataset.title}}" (type of data, year, etc.)</label>
+								<div class="ui icon input">
+									<textarea type="text" placeholder="Data requested" name="dataRequested">{{data.dataRequested}}</textarea>
+								</div>
+							</div>
+							<div class="twelve wide field required">
+								<label>Short description of research purpose (up to  100 words)</label>
+								<div class="ui icon input">
+									<textarea type="text" placeholder="Purpose of use" name="purposeOfUse">{{data.purposeOfUse}}</textarea>
+								</div>
+							</div>
+							<div class="twelve wide field required">
+								<label>Technical specifications (format, etc.).</label>
+								<div class="ui icon input">
+									<textarea type="text" placeholder="Technical specifications" name="technicalSpecification">{{data.technicalSpecification}}</textarea>
+								</div>
+							</div>
+							<h3 class="ui dividing header orange">Non-disclosure Agreement</h3>
+							<div class="ui twelve wide field required form">
+								<label>Signed copy of <a href="{{dataset.ndaForm}}">non-disclosure agreement</a> (in <b>PDF</b> format, Max. 500KB)</label>
+								<div class="ui icon input">
+									<input type="file" name="ndaForm" id="ndaForm">
+								</div>
+							</div>
+							<div class="field">
+								<input class="ui submit orange button" type="submit" value="Submit Request"/>
+							</div>
+						</div>
+					</div>
+					</form>
+				</div>
+
+			</div>
+		</div>
+		<script src="/bower_components/jquery/dist/jquery.min.js"></script>
+		<script src="/bower_components/semantic-ui/dist/components/transition.min.js"></script>
+		<script src="/bower_components/semantic-ui/dist/components/popup.min.js"></script>
+		<script src="/bower_components/semantic-ui/dist/components/dropdown.min.js"></script>
+		<script>
+		$('.ui.dropdown').dropdown();
+		</script>
+	</body>
+</html>

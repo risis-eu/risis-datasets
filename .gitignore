@@ -1,0 +1,11 @@
+node_modules
+bower_components
+build
+*.log
+logs/*.log
+tmp.js
+configs/server.js
+plugins/email/config.js
+uploaded/*.pdf
+uploaded/*.doc
+uploaded/*.docx

@@ -1,0 +1,112 @@
+<html>
+	<head>
+		<meta charSet="utf-8" />
+		<meta name="viewport" content="width=device-width, user-scalable=no" />
+		<link href="/bower_components/semantic/dist/semantic.min.css" rel="stylesheet" type="text/css" />
+		<title>{{appFullTitle}}| User Registration Page</title>
+	</head>
+	<body>
+		<div>
+			<nav  class="ui black menu inverted navbar page grid">
+					<div class="ui item brand">
+						<a href="/register"><img class="ui image" src="/assets/img/risis_logo_full.jpg" alt="RISIS" /></a>
+					</div>
+					<a href="/" class="ui item label"> Datasets Portal</a>
+                    <a class="ui item blue label" href="http://sms.risis.eu">SMS Platform</a>
+                    <a class="ui item teal label" href="http://cortext.risis.eu">Cortext Platform</a>
+			</nav>
+		</div>
+		<div class="ui page grid">
+			<div class="row">
+				<div class="ui wide column">
+					{{#errorMsg}}<br/><div class="ui warning message"><div class="header"> {{errorMsg}} </div></div>{{/errorMsg}}
+					<form action="/register" method="post">
+						<div class="ui form">
+						<div class="">
+							<br/>
+							<div class="twelve wide field ui header center aligned">Register as a new RISIS user</div>
+							<div class="twelve wide field required">
+
+							</div>
+							<div class="twelve wide field required">
+								<label>First Name</label>
+								<div class="ui icon input">
+									<input type="text" placeholder="First Name" name="firstname" value="{{data.firstname}}"/>
+								</div>
+							</div>
+							<div class="twelve wide field required">
+								<label>Last Name</label>
+								<div class="ui icon input">
+									<input type="text" placeholder="Last Name" name="lastname" value="{{data.lastname}}"/>
+								</div>
+							</div>
+							<div class="twelve wide field">
+								<label>ORCID ID (if available)</label>
+								<div class="ui icon input">
+									<input type="text" placeholder="NNNN-NNNN-NNNN-NNNN" name="orcidid" value="{{data.orcidid}}"/>
+								</div>
+							</div>
+							<div class="twelve wide field required">
+								<label>Institution Name</label>
+								<div class="ui icon input">
+									<input type="text" placeholder="Institution Name" name="organization" value="{{data.organization}}"/>
+								</div>
+							</div>
+							<div class="twelve wide field required">
+								<label>Position</label>
+								<div class="ui icon input">
+									<input type="text" placeholder="Position (professor, lecturer, phd student, post doc, researcher, other)" name="position" value="{{data.position}}"/>
+								</div>
+							</div>
+							<div class="twelve wide field required">
+								<label>Email Address</label>
+								<div class="ui icon input">
+									<input type="text" placeholder="Email of the institutional affiliation" name="email" value="{{data.email}}"/>
+									<i class="at icon"></i>
+								</div>
+							</div>
+							<div class="twelve wide field required">
+								<label>Postal Address</label>
+								<div class="ui icon input">
+									<textarea type="text" placeholder="Full address of your institutional affiliation" name="address" value="{{data.address}}"></textarea>
+								</div>
+							</div>
+							<div class="twelve wide field required">
+								<label>Username</label>
+								<div class="ui icon input">
+									<input type="text" placeholder="Username" name="username" value="{{data.username}}"/>
+									<i class="user icon"></i>
+								</div>
+							</div>
+							<div class="twelve wide field required">
+								<label>Password</label>
+								<div class="ui icon input">
+									<input type="password" name="password">
+									<i class="lock icon"></i>
+								</div>
+							</div>
+							<div class="twelve wide field required">
+								<label>Confirm Password</label>
+								<div class="ui icon input">
+									<input type="password" name="cpassword">
+									<i class="lock icon"></i>
+								</div>
+							</div>
+							<div class="twelve wide field required">
+								<div class="ui checkbox">
+									<input type="checkbox" name="hot-deals" readonly="readonly" checked>
+									<label>I agree to the <a target="_blank" href="http://risis.eu/risis-code-of-conduct/">RISIS code of conduct</a>.</label>
+								</div>
+							</div>
+							<div class="field">
+								<input class="ui submit button" type="submit" value="Register"/>
+							</div>
+						</div>
+					</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+	</body>
+</html>
