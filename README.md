@@ -1,6 +1,6 @@
 
-# YAVE
-Yet Another VoID Editor
+# DATASETS
+RISIS datasets portal
 
 ## Quick Start
 
