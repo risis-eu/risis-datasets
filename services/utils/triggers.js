@@ -8,12 +8,16 @@ export default {
             appName = tmp[tmp.length - 1];
             appLink = 'http://datasets.risis.eu/dataset/'+  encodeURIComponent(graphName)+'/resource/' + encodeURIComponent(resourceURI);
             notifList.forEach(function(el) {
-                //send notifications to FCB & PRB
+                //send notifications to FCB & PRB (not in case of negative advice)
                 if(el.type !== 'USER' && el.type !== 'DSO'){
-                    etext = 'Dear '+ el.firstName +',\n The decision for visit request application #' + appName + ' has changed by dataset coordinator (' + username +') to "'+newObjectValue+'": \n \n '+ appLink +' \n \n Please sign in to RISIS Datasets Portal with your username ('+el.username+'): \n \n http://datasets.risis.eu/ \n \n and check the applications list for further information. \n \n -- on behalf of RISIS Datasets Portal';
-                    ehtml = 'Dear '+ el.firstName +',<br/> The decision for visit request application #' + appName + ' has changed by dataset coordinator (' + username +') to "'+newObjectValue+'": <br/><br/> <a href="'+ appLink +'">'+ appLink +'</a> <br/><br/> Please sign in to RISIS Datasets Portal with your username ('+el.username+'): <br/><br/> <a href="http://datasets.risis.eu/">http://datasets.risis.eu/</a> <br/><br/> and check the applications list for further information. <br/><br/> -- on behalf of RISIS Datasets Portal';
-                    //send email
-                    sendMail('applicationDecisionChange', 'datasets@risis.eu', el.mbox, 'RISIS ['+el.type +'] Decision Update for Visit Request Application #' + appName + ' by DSO: ' + newObjectValue, etext, ehtml);
+                    if(el.type === 'PRB' && newObjectValue === 'negative advice'){
+                        //do not notify in case of negative advice
+                    }else{
+                        etext = 'Dear '+ el.firstName +',\n The decision for visit request application #' + appName + ' has changed by dataset coordinator (' + username +') to "'+newObjectValue+'": \n \n '+ appLink +' \n \n Please sign in to RISIS Datasets Portal with your username ('+el.username+'): \n \n http://datasets.risis.eu/ \n \n and check the applications list for further information. \n \n -- on behalf of RISIS Datasets Portal';
+                        ehtml = 'Dear '+ el.firstName +',<br/> The decision for visit request application #' + appName + ' has changed by dataset coordinator (' + username +') to "'+newObjectValue+'": <br/><br/> <a href="'+ appLink +'">'+ appLink +'</a> <br/><br/> Please sign in to RISIS Datasets Portal with your username ('+el.username+'): <br/><br/> <a href="http://datasets.risis.eu/">http://datasets.risis.eu/</a> <br/><br/> and check the applications list for further information. <br/><br/> -- on behalf of RISIS Datasets Portal';
+                        //send email
+                        sendMail('applicationDecisionChange', 'datasets@risis.eu', el.mbox, 'RISIS ['+el.type +'] Decision Update for Visit Request Application #' + appName + ' by DSO: ' + newObjectValue, etext, ehtml);
+                    }
                 }
             });
             break;
