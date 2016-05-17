@@ -47,12 +47,29 @@ export default {
                 }
             });
             break;
+        case 'http://rdf.risis.eu/application/decisionDSOA':
+            tmp = resourceURI.split('/');
+            appName = tmp[tmp.length - 1];
+            appLink = 'http://datasets.risis.eu/dataset/'+  encodeURIComponent(graphName)+'/resource/' + encodeURIComponent(resourceURI);
+            notifList.forEach(function(el) {
+                //send to USER, FCB
+                if(el.type !== 'USER' && el.type !== 'DSO' && el.type !== 'PRB'){
+                    etext = 'Dear '+ el.firstName +',\n Final decision for access request application #' + appName + ' decided by "' + username +'" is "'+newObjectValue+'": \n \n '+ appLink +' \n \n Please sign in to RISIS Datasets Portal with your username ('+el.username+'): \n \n http://datasets.risis.eu/ \n \n and check the applications list for further information. \n \n -- on behalf of RISIS Datasets Portal';
+                    ehtml = 'Dear '+ el.firstName +',<br/> Final decision for access request application #' + appName + ' decided by "' + username +'" is "'+newObjectValue+'": <br/><br/> <a href="'+ appLink +'">'+ appLink +'</a> <br/><br/> Please sign in to RISIS Datasets Portal with your username ('+el.username+'): <br/><br/> <a href="http://datasets.risis.eu/">http://datasets.risis.eu/</a> <br/><br/> and check the applications list for further information. <br/><br/> -- on behalf of RISIS Datasets Portal';
+                    sendMail('applicationDecisionChange', 'datasets@risis.eu', el.mbox, 'RISIS ['+el.type +'] Final Decision for Access Request Application #' + appName + ' by FCB:', etext, ehtml);
+                }else{
+                    etext = 'Dear '+ el.firstName +',\n Final decision for your access request application #' + appName + ' is "'+newObjectValue+'": \n \n '+ appLink +' \n \n Please sign in to RISIS Datasets Portal with your username ('+el.username+'): \n \n http://datasets.risis.eu/ \n \n and check the your application details. \n \n -- on behalf of RISIS Datasets Portal';
+                    ehtml = 'Dear '+ el.firstName +',<br/> Final decision for your access request application #' + appName + ' is "'+newObjectValue+'": <br/><br/> <a href="'+ appLink +'">'+ appLink +'</a> <br/><br/> Please sign in to RISIS Datasets Portal with your username ('+el.username+'): <br/><br/> <a href="http://datasets.risis.eu/">http://datasets.risis.eu/</a> <br/><br/> and check the your application details. <br/><br/> -- on behalf of RISIS Datasets Portal';
+                    sendMail('applicationDecisionChange', 'datasets@risis.eu', el.mbox, 'RISIS ['+el.type +'] Final Decision for your Access Request Application #' + appName , etext, ehtml);
+                }
+            });
+            break;
         default:
 
         }
     },
     shouldTrigger: (username, graphName, resourceURI, propertyURI, oldObjectValue, newObjectValue) => {
-        let list = ['http://rdf.risis.eu/application/decisionDSO', 'http://rdf.risis.eu/application/decisionPRB', 'http://rdf.risis.eu/application/decisionFCB'];
+        let list = ['http://rdf.risis.eu/application/decisionDSOA', 'http://rdf.risis.eu/application/decisionDSO', 'http://rdf.risis.eu/application/decisionPRB', 'http://rdf.risis.eu/application/decisionFCB'];
         if(list.indexOf(propertyURI) === -1){
             return 0;
         }else{

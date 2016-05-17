@@ -721,6 +721,15 @@ export default {
                 'http://rdf.risis.eu/application/dataset': {
                     label: ['Dataset']
                 },
+                'http://rdf.risis.eu/application/decisionDSOA': {
+                    label: ['Decision'],
+                    objectIEditor: ['BasicOptionInput'],
+                    options: [
+                        {label: 'not decided yet', value: 'not decided yet'},
+                        {label: 'positive advice', value: 'positive advice'},
+                        {label: 'negative advice', value: 'negative advice'}
+                    ]
+                },
                 'http://rdf.risis.eu/application/decisionDSO': {
                     label: ['Decision'],
                     objectIEditor: ['BasicOptionInput'],

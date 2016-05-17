@@ -106,10 +106,12 @@ class ResourceQuery{
         ?a a ?type . \
         ?a risisV:dataset <' + datasetURI + '> . \
         ?a risisV:dataset ?dataset . \
-        ?a risisV:decisionDSO ?decisionDSO . \
+        OPTIONAL {?a risisV:decisionDSOA ?decisionDSOA .} \
+        OPTIONAL {?a risisV:decisionDSO ?decisionDSOV .} \
         OPTIONAL {?a risisV:decisionPRB ?decisionPRB .} \
         OPTIONAL {?a risisV:decisionFCB ?decisionFCB .} \
         ?a dcterms:created ?created . \
+        BIND(if(BOUND(?decisionDSOA), ?decisionDSOA, ?decisionDSOV) AS ?decisionDSO) \
         } ORDER BY DESC(?created)';
         return this.query;
     }
@@ -124,11 +126,13 @@ class ResourceQuery{
         ?a a ?type . \
         ?a risisV:dataset ?dataset . \
         ?a risisV:dataset ?dataset . \
-        ?a risisV:decisionDSO ?decisionDSO . \
+        OPTIONAL {?a risisV:decisionDSOA ?decisionDSOA .} \
+        OPTIONAL {?a risisV:decisionDSO ?decisionDSOV .} \
         OPTIONAL {?a risisV:decisionPRB ?decisionPRB .} \
         OPTIONAL {?a risisV:decisionFCB ?decisionFCB .} \
         ?a dcterms:created ?created . \
         FILTER (?dataset IN (' + datasetsURIArr.join(',') + ')) \
+        BIND(if(BOUND(?decisionDSOA), ?decisionDSOA, ?decisionDSOV) AS ?decisionDSO) \
         } ORDER BY DESC(?created)';
         return this.query;
     }
@@ -138,10 +142,12 @@ class ResourceQuery{
         SELECT ?a ?type ?dataset ?decisionDSO ?decisionPRB ?decisionFCB ?created from <' + graphName + '> WHERE { \
         ?a a ?type . \
         ?a risisV:dataset ?dataset . \
-        ?a risisV:decisionDSO ?decisionDSO . \
+        OPTIONAL {?a risisV:decisionDSOA ?decisionDSOA .} \
+        OPTIONAL {?a risisV:decisionDSO ?decisionDSOV .} \
         OPTIONAL {?a risisV:decisionPRB ?decisionPRB .} \
         OPTIONAL {?a risisV:decisionFCB ?decisionFCB .} \
         ?a dcterms:created ?created . \
+        BIND(if(BOUND(?decisionDSOA), ?decisionDSOA, ?decisionDSOV) AS ?decisionDSO) \
         } ORDER BY DESC(?created)';
         return this.query;
     }

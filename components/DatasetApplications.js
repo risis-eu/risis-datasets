@@ -25,7 +25,7 @@ class DatasetApplications extends React.Component {
                 <tr className={cssClass} key={index}>
                   <td>
                       <NavLink routeName="datasetApplications" href={'/dataset/' + encodeURIComponent(applicationsGraphName) + '/resource/' + encodeURIComponent(node.uri)}>
-                          {index+1}
+                          {node.id}
                       </NavLink>
                   </td>
                   <td>
@@ -48,7 +48,7 @@ class DatasetApplications extends React.Component {
                           <table className="ui celled table">
                             <thead>
                               <tr>
-                                <th>#</th>
+                                <th>#ID</th>
                                 <th>Type</th>
                                 <th>Dataset</th>
                                 <th>Submission Date</th>

@@ -100,7 +100,7 @@ class ResourceAppAccess extends React.Component {
                                 accessLevel = self.checkAccess(user, self.props.graphName, self.props.resource, node.propertyURI);
                                 if(accessLevel.access){
                                     //temporary hack to allow only decision and comment writeable
-                                    let fieldsW = ['http://rdf.risis.eu/application/decisionDSO', 'http://rdf.risis.eu/application/commentOnDecision'];
+                                    let fieldsW = ['http://rdf.risis.eu/application/decisionDSOA', 'http://rdf.risis.eu/application/commentOnDecision'];
                                     if(fieldsW.indexOf(node.propertyURI) == -1 && (!parseInt(user.isSuperUser))){
                                         configReadOnly = true;
                                     }else{
@@ -132,7 +132,7 @@ class ResourceAppAccess extends React.Component {
                     }else if (node.propertyURI === 'http://rdf.risis.eu/application/applicant'){
                         usertURI= node.instances[0].value;
                         applicantDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
-                    }else if (node.propertyURI === 'http://rdf.risis.eu/application/decisionDSO'){
+                    }else if (node.propertyURI === 'http://rdf.risis.eu/application/decisionDSOA'){
                         decisionDSODIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
                     }else if (node.propertyURI === 'http://rdf.risis.eu/application/commentOnDecision'){
                         commentOnDecDIV = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
