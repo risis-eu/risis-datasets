@@ -81,7 +81,7 @@ class ObjectIViewer extends React.Component {
             hideObject = 1;
         }
         return (
-            <div className="ui" ref="objectIViewer" onClick={this.props.onObjectClick}>
+            <div className="ui" ref="objectIViewer" onClick={this.props.onObjectClick} style={{'wordBreak': 'break-all', 'wordWrap': 'break-word'}}>
                 {hideObject ? <span itemProp={this.props.property}></span> : <div itemProp={this.props.property} className="ui attached message"> {viewer} </div>}
                 {extendedViewer}
             </div>

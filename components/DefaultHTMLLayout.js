@@ -22,6 +22,7 @@ class DefaultHTMLLayout extends React.Component {
                 <script src="/bower_components/json3/lib/json3.min.js"></script>
                 <script src="/bower_components/es6-shim/es6-shim.min.js"></script>
                 <script src="/bower_components/es6-shim/es6-sham.min.js"></script>
+                {/* Above are added only to support IE browser */}
                 <script src="/bower_components/jquery/dist/jquery.min.js"></script>
                 <script src="/bower_components/semantic/dist/components/transition.min.js"></script>
                 <script src="/bower_components/semantic/dist/components/popup.min.js"></script>
@@ -29,7 +30,10 @@ class DefaultHTMLLayout extends React.Component {
                 <script src="/bower_components/semantic/dist/components/checkbox.min.js"></script>
                 <script src="/bower_components/semantic/dist/components/dimmer.min.js"></script>
                 <script src="/bower_components/semantic/dist/components/modal.min.js"></script>
-                <script src={'/public/js/' + this.props.clientFile}>></script>
+                {/* All external vendors bundle*/}
+                <script src={'/public/js/vendor.bundle.js'}></script>
+                {/* Main app bundle */}
+                <script src={'/public/js/' + this.props.clientFile}></script>
             </body>
             </html>
         );
