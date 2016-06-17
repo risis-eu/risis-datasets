@@ -48,7 +48,7 @@ class Home extends React.Component {
         }
     }
     componentDidMount() {
-        let currentComp = this.refs.home.getDOMNode();
+        let currentComp = this.refs.home;
         //enable hints
         /*global $*/
         $(currentComp).find('.hint')
@@ -192,7 +192,7 @@ class Home extends React.Component {
                     <div className="ui">
                         <div className="ui fluid category search">
                           <div className="ui large icon input">
-                            <input className="prompt" type="text" onChange={this.handleSearch.bind(this)} placeholder="Search within RISIS datasets..." style={{width: '500'}}/>
+                            <input className="prompt" type="text" onChange={this.handleSearch.bind(this)} placeholder="Search within RISIS datasets..." style={{width: 500}}/>
                             <i className="search icon"></i>
                           </div>
                           &nbsp;<a className="ui grey circular button" href="/browse">Advanced Search</a>
