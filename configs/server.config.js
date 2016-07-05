@@ -9,5 +9,15 @@ export default {
     },
     dbpediaLookupService: [
         { host: 'lookup.dbpedia.org' }
-    ]
+    ],
+    OAuth: {
+        'risis': {
+            'clientID': 'sms',
+            'clientSecret': 'put your secret key here...',
+            'site': 'https://auth-risis.cortext.net',
+            'tokenPath': '/auth/grant',
+            'authorizationPath': '/auth/authorize',
+            'redirectURI': 'http://localhost:3000/callback'
+        }
+    }
 };
