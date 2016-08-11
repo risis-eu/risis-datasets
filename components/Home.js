@@ -125,7 +125,7 @@ class Home extends React.Component {
                         if(applications[node.g].VisitRequestApplication.decisionFCB === 'negative advice'){
                             cssV = cssV + ' red';
                         }
-                        visitRequestDIV = <div className={cssV}><NavLink style={{color: '#fff'}} routeName="resource" href={'/dataset/' + encodeURIComponent(applicationsGraphName) + '/resource/' + encodeURIComponent(applications[node.g].VisitRequestApplication.uri)}>Visit Request: {applications[node.g].VisitRequestApplication.decisionFCB}</NavLink></div>;
+                        visitRequestDIV = <div className={cssV}><NavLink style={{color: '#fff'}} href={'/dataset/' + encodeURIComponent(applicationsGraphName) + '/resource/' + encodeURIComponent(applications[node.g].VisitRequestApplication.uri)}>Visit Request: {applications[node.g].VisitRequestApplication.decisionFCB}</NavLink></div>;
                     }
                     let cssA = 'ui small button';
                     if(applications[node.g].AccessRequestApplication){
@@ -138,13 +138,13 @@ class Home extends React.Component {
                         if(applications[node.g].AccessRequestApplication.decisionDSO === 'negative advice'){
                             cssA = cssA + ' red';
                         }
-                        accessRequestDIV = <div className={cssA}><NavLink style={{color: '#fff'}} routeName="resource" href={'/dataset/' + encodeURIComponent(applicationsGraphName) + '/resource/' + encodeURIComponent(applications[node.g].AccessRequestApplication.uri)}> Access Request: {applications[node.g].AccessRequestApplication.decisionDSO}</NavLink></div>;
+                        accessRequestDIV = <div className={cssA}><NavLink style={{color: '#fff'}} href={'/dataset/' + encodeURIComponent(applicationsGraphName) + '/resource/' + encodeURIComponent(applications[node.g].AccessRequestApplication.uri)}> Access Request: {applications[node.g].AccessRequestApplication.decisionDSO}</NavLink></div>;
                     }
                 }
                 let iconClass = 'ui large database middle aligned icon';
                 if(user && user.editorOfGraph.indexOf(node.g) !== -1 && node.openingStatus !== 'Opening Soon'){
                     //the user is the owner of Datasets
-                    accessRequestDIV = <NavLink routeName="datasetApplications" href={'/datasetApplications/' + encodeURIComponent(node.g)} className="ui basic orange button"> <i className="ui green browser icon"></i> Check Applications</NavLink>;
+                    accessRequestDIV = <NavLink href={'/datasetApplications/' + encodeURIComponent(node.g)} className="ui basic orange button"> <i className="ui green browser icon"></i> Check Applications</NavLink>;
                     visitRequestDIV = '';
                     iconClass = iconClass +' green animated flash'
                 }else{
@@ -158,7 +158,7 @@ class Home extends React.Component {
                       </div>
                       <i className={iconClass}></i>
                       <div className="content">
-                        <a className="header" routeName="resource" href={'/metadata/' + encodeURIComponent(node.name)}>{node.title}</a>
+                        <a className="header" href={'/metadata/' + encodeURIComponent(node.name)}>{node.title}</a>
                         <div className="description">{node.desc}</div>
                       </div>
                     </div>
