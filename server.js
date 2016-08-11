@@ -116,7 +116,9 @@ server.use((req, res, next) => {
         debug('Rendering Application component into html');
         const markup = ReactDOM.renderToString(createElementWithContext(context));
         const htmlElement = React.createElement(HtmlComponent, {
-            clientFile: env === 'production' ? 'main.min.js' : 'main.js',
+            //clientFile: env === 'production' ? 'main.min.js' : 'main.js',
+            //use main.js for both dev and prod modes
+            clientFile: 'main.js',
             context: context.getComponentContext(),
             state: exposed,
             markup: markup
