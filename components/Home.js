@@ -66,10 +66,14 @@ class Home extends React.Component {
         let out = {};
         this.props.UserApplicationStore.applications.forEach(function(el) {
             if(out[el.dataset]){
-                out[el.dataset][el.type] = {decisionDSO: el.decisionDSO, decisionPRB: el.decisionPRB, decisionFCB: el.decisionFCB, created: el.created, uri: el.uri};
+                if(out[el.dataset][el.type]){
+                    out[el.dataset][el.type].push({decisionDSO: el.decisionDSO, decisionPRB: el.decisionPRB, decisionFCB: el.decisionFCB, created: el.created, uri: el.uri});
+                }else{
+                    out[el.dataset][el.type] = [{decisionDSO: el.decisionDSO, decisionPRB: el.decisionPRB, decisionFCB: el.decisionFCB, created: el.created, uri: el.uri}];
+                }
             }else{
                 out[el.dataset] = {};
-                out[el.dataset][el.type] = {decisionDSO: el.decisionDSO, decisionPRB: el.decisionPRB, decisionFCB: el.decisionFCB, created: el.created, uri: el.uri};
+                out[el.dataset][el.type] = [{decisionDSO: el.decisionDSO, decisionPRB: el.decisionPRB, decisionFCB: el.decisionFCB, created: el.created, uri: el.uri}];
             }
         });
         return out;
@@ -80,7 +84,9 @@ class Home extends React.Component {
         let list;
         let self = this;
         let accessRequestDIV = '';
+        let accessRequestDIVApps = '';
         let visitRequestDIV = '';
+        let visitRequestDIVApps = '';
         if(this.props.DatasetStore.dataset.resources){
             list = this.props.DatasetStore.dataset.resources.map(function(node, index) {
                 //hide example dataset
@@ -114,32 +120,44 @@ class Home extends React.Component {
                     break;
                 }
                 if(applications[node.g]){
-                    let cssV = 'ui small button';
+                    let cssV = 'ui mini button';
                     if(applications[node.g].VisitRequestApplication){
-                        if(applications[node.g].VisitRequestApplication.decisionFCB === 'not decided yet'){
-                            cssV = cssV + ' orange';
-                        }
-                        if(applications[node.g].VisitRequestApplication.decisionFCB === 'positive advice'){
-                            cssV = cssV + ' green';
-                        }
-                        if(applications[node.g].VisitRequestApplication.decisionFCB === 'negative advice'){
-                            cssV = cssV + ' red';
-                        }
-                        visitRequestDIV = <div className={cssV}><NavLink style={{color: '#fff'}} href={'/dataset/' + encodeURIComponent(applicationsGraphName) + '/resource/' + encodeURIComponent(applications[node.g].VisitRequestApplication.uri)}>Visit Request: {applications[node.g].VisitRequestApplication.decisionFCB}</NavLink></div>;
+                        //list all the applications
+                        visitRequestDIVApps = applications[node.g].VisitRequestApplication.map(function(vrapp, vrappindex) {
+                            if(vrapp.decisionFCB === 'not decided yet'){
+                                cssV = cssV + ' orange';
+                            }
+                            if(vrapp.decisionFCB === 'positive advice'){
+                                cssV = cssV + ' green';
+                            }
+                            if(vrapp.decisionFCB === 'negative advice'){
+                                cssV = cssV + ' red';
+                            }
+                            return ( <div key={vrappindex} className={cssV}><NavLink style={{color: '#fff'}} href={'/dataset/' + encodeURIComponent(applicationsGraphName) + '/resource/' + encodeURIComponent(vrapp.uri)}>VR{vrappindex+1}</NavLink></div>);
+                        });
+                    }else{
+                        visitRequestDIVApps='';
                     }
-                    let cssA = 'ui small button';
+                    let cssA = 'ui mini button';
                     if(applications[node.g].AccessRequestApplication){
-                        if(applications[node.g].AccessRequestApplication.decisionDSO === 'not decided yet'){
-                            cssA = cssA + ' orange';
-                        }
-                        if(applications[node.g].AccessRequestApplication.decisionDSO === 'positive advice'){
-                            cssA = cssA + ' green';
-                        }
-                        if(applications[node.g].AccessRequestApplication.decisionDSO === 'negative advice'){
-                            cssA = cssA + ' red';
-                        }
-                        accessRequestDIV = <div className={cssA}><NavLink style={{color: '#fff'}} href={'/dataset/' + encodeURIComponent(applicationsGraphName) + '/resource/' + encodeURIComponent(applications[node.g].AccessRequestApplication.uri)}> Access Request: {applications[node.g].AccessRequestApplication.decisionDSO}</NavLink></div>;
+                        accessRequestDIVApps = applications[node.g].AccessRequestApplication.map(function(arapp, arappindex) {
+                            if(arapp.decisionDSO === 'not decided yet'){
+                                cssA = cssA + ' orange';
+                            }
+                            if(arapp.decisionDSO === 'positive advice'){
+                                cssA = cssA + ' green';
+                            }
+                            if(arapp.decisionDSO === 'negative advice'){
+                                cssA = cssA + ' red';
+                            }
+                            return (<div className={cssA} key={arappindex}><NavLink style={{color: '#fff'}} href={'/dataset/' + encodeURIComponent(applicationsGraphName) + '/resource/' + encodeURIComponent(arapp.uri)}> AR {arappindex+1}</NavLink></div>);
+                        });
+                    }else{
+                        accessRequestDIVApps='';
                     }
+                }else{
+                    visitRequestDIVApps='';
+                    accessRequestDIVApps='';
                 }
                 let iconClass = 'ui large database middle aligned icon';
                 if(user && user.editorOfGraph.indexOf(node.g) !== -1 && node.openingStatus !== 'Opening Soon'){
@@ -153,8 +171,8 @@ class Home extends React.Component {
                 return (
                     <div className="item" key={index}>
                       <div className="right floated">
-                          {accessRequestDIV}
-                          {visitRequestDIV}
+                          {accessRequestDIV} {accessRequestDIVApps}
+                          {visitRequestDIV} {visitRequestDIVApps}
                       </div>
                       <i className={iconClass}></i>
                       <div className="content">
