@@ -1,5 +1,6 @@
 'use strict';
 import {config} from '../../configs/reactor';
+
 class Configurator{
     constructor() {
         this.config = config;
@@ -48,6 +49,9 @@ class Configurator{
         return output;
     }
     prepareResourceConfig(useGeneric, graphName, resourceURI, resourceType) {
+        if(!Array.isArray(resourceType)){
+            resourceType=[resourceType];
+        }
         let config = this.cloneConfig(this.config);
         let output = {};
         //get the generic resource config
@@ -64,7 +68,7 @@ class Configurator{
         //check resource Type scope as well
         for(let res in config.resource) {
             if(config.resource[res].treatAsResourceType){
-                if(resourceType === res){
+                if(resourceType.indexOf(res) !== -1){
                     for(let prop in config.resource[res]) {
                         output[prop] = config.resource[res][prop];
                     }
@@ -87,7 +91,7 @@ class Configurator{
                 //apply config on a specific resource type
                 for(let res in config.dataset_resource[graphName]) {
                     if(config.dataset_resource[graphName][res].treatAsResourceType){
-                        if(resourceType === res){
+                        if(resourceType.indexOf(res) !== -1){
                             for(let prop in config.dataset_resource[graphName][res]) {
                                 output[prop] = config.dataset_resource[graphName][res][prop];
                             }
@@ -107,6 +111,9 @@ class Configurator{
         return finalOutput;
     }
     preparePropertyConfig(useGeneric, graphName, resourceURI, resourceType, propertyURI) {
+        if(!Array.isArray(resourceType)){
+            resourceType=[resourceType];
+        }
         let config = this.cloneConfig(this.config);
         let output = {};
         if(useGeneric){
@@ -184,6 +191,13 @@ class Configurator{
             }
         }
         return finalOutput;
+    }
+    getResourceFocusType(graphName){
+        let out = [];
+        if(config.dataset[graphName] && config.dataset[graphName].resourceFocusType){
+            out = config.dataset[graphName].resourceFocusType;
+        }
+        return out;
     }
 }
 export default Configurator;

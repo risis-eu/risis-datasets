@@ -14,8 +14,11 @@ class FacetQuery{
          ';
         this.query='';
     }
-    getMasterPropertyValues(graphName, propertyURI) {
+    getMasterPropertyValues(graphName, type, propertyURI) {
         let st = '?s <'+ propertyURI + '>  ?v.';
+        //---to support resource focus types
+        let st_extra = this.makeExtraTypeFilters(type);
+        st = st + ' ' + st_extra;
         if(String(graphName)!=='' && graphName){
             /*jshint multistr: true */
             this.query = '\
@@ -38,7 +41,7 @@ class FacetQuery{
         }
         return this.prefixes + this.query;
     }
-    getMultipleFilters(prevSelection) {
+    getMultipleFilters(prevSelection, type) {
         let st = '', filters, tmp, i = 0, hasURIVal = 0, hasLiteralVal = 0, typedLiteralVal = '';
         let typeVal = {};
         filters = [];
@@ -82,10 +85,31 @@ class FacetQuery{
             //no constrain is selected
             st = '?s rdf:type <http://rdfs.org/ns/void#Dataset> .';
         }
-        return st;
+
+        //---to support resource focus types
+        let st_extra = this.makeExtraTypeFilters(type);
+        return st + st_extra;
     }
-    getSideEffects(graphName, propertyURI, prevSelection) {
-        let st = this.getMultipleFilters(prevSelection);
+    makeExtraTypeFilters(type){
+        //---to support resource focus types
+        let st_extra = ' ?s a <'+ type + '> .';
+        //will get all the types
+        if(!type || !type.length || (type.length && !type[0]) ){
+            st_extra = '';
+        }
+        //if we have multiple type, get all of them
+        let typeURIs = [];
+        if(type.length > 1){
+            type.forEach(function(uri) {
+                typeURIs.push('<' + uri + '>');
+            });
+            st_extra = ' ?s a ?type . FILTER (?type IN (' + typeURIs.join(',') + '))';
+        }
+        //-----------------------------------------------
+        return st_extra;
+    }
+    getSideEffects(graphName, type, propertyURI, prevSelection) {
+        let st = this.getMultipleFilters(prevSelection, type);
         st = st + '?s <'+ propertyURI + '>  ?v.';
         if(String(graphName)!=='' && graphName){
             /*jshint multistr: true */
@@ -110,8 +134,8 @@ class FacetQuery{
         }
         return this.prefixes + this.query;
     }
-    countSecondLevelPropertyValues(graphName, propertyURI, prevSelection) {
-        let st = this.getMultipleFilters(prevSelection);
+    countSecondLevelPropertyValues(graphName, type, propertyURI, prevSelection) {
+        let st = this.getMultipleFilters(prevSelection, type);
         if(String(graphName)!=='' && graphName){
             /*jshint multistr: true */
             this.query = '\
@@ -135,9 +159,9 @@ class FacetQuery{
         }
         return this.prefixes + this.query;
     }
-    getSecondLevelPropertyValues(graphName, propertyURI, prevSelection, limit, offset) {
+    getSecondLevelPropertyValues(graphName, type, propertyURI, prevSelection, limit, offset) {
         let noffset = (offset-1)*limit;
-        let st = this.getMultipleFilters(prevSelection);
+        let st = this.getMultipleFilters(prevSelection, type);
         if(String(graphName)!=='' && graphName){
             /*jshint multistr: true */
             this.query = '\
