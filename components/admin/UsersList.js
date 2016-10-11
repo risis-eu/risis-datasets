@@ -31,7 +31,7 @@ class UsersList extends React.Component {
       }
       let i = 0;
       let membership = [];
-      let DSODIV, PRBDIV, FCBDIV;
+      let DSODIV, PRBDIV, FCBDIV, SMSTEAMDIV;
       if(this.props.UserStore.users){
         list = this.props.UserStore.users.map(function(node, index) {
             membership = node.membership.split(',');
@@ -49,6 +49,11 @@ class UsersList extends React.Component {
                 FCBDIV = <span className="ui mini purple tag label" title="Facility Coordination Board">FCB</span>;
             }else{
                 FCBDIV = '';
+            }
+            if(membership.indexOf('http://rdf.risis.eu/user/SMSTeam') !== -1){
+                SMSTEAMDIV = <span className="ui mini teal tag label" title="SMS Team">SMS Team</span>;
+            }else{
+                SMSTEAMDIV = '';
             }
             if(parseInt(node.isActive)){
                 dbClass='green large user icon';
@@ -68,7 +73,7 @@ class UsersList extends React.Component {
                   <div className="item fadeIn" key={index}>
                       <div className="ui horizontal list">
                           <NavLink className="item" routeName="resource" href={'/dataset/'+ encodeURIComponent(currentComponent.props.UserStore.graphName) +'/resource/' + encodeURIComponent(node.v)} >
-                          <div className="content"> <span className="ui black circular label">{i}</span> <i className={dbClass}></i> {node.firstName} {node.lastName} ({node.username}) {DSODIV} {PRBDIV} {FCBDIV} </div>
+                          <div className="content"> <span className="ui black circular label">{i}</span> <i className={dbClass}></i> {node.firstName} {node.lastName} ({node.username}) {DSODIV} {PRBDIV} {FCBDIV} {SMSTEAMDIV} </div>
                           </NavLink>
                            {actBtn}
                       </div>
