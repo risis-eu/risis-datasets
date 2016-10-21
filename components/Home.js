@@ -222,7 +222,7 @@ class Home extends React.Component {
               <div className="ui row">
                 <div className="column">
 
-                    <div className="ui relaxed divided list segment">
+                    <div className="ui relaxed divided list segment" style={{paddingTop: 10, paddingBottom: 5}}>
                         {list}
                     </div>
                 </div>
