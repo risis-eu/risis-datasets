@@ -7,6 +7,7 @@ import Configurator from './utils/Configurator';
 import rp from 'request-promise';
 /*-------------config-------------*/
 const outputFormat = 'application/sparql-results+json';
+const headers = {'Accept': 'application/sparql-results+json'};
 let user;
 /*-----------------------------------*/
 let endpointParameters, cGraphName, graphName, query, queryObject, utilObject, configurator, propertyURI;
@@ -43,10 +44,10 @@ export default {
             }
             //resource focus type
             let rftconfig = configurator.getResourceFocusType(graphName);
-            query = queryObject.getSideEffects(cGraphName, rftconfig, decodeURIComponent(params.selection.propertyURI), params.selection.prevSelection);
+            query = queryObject.getSideEffects(endpointParameters, cGraphName, rftconfig.type, decodeURIComponent(params.selection.propertyURI), params.selection.prevSelection);
             //build http uri
             //send request
-            rp.get({uri: getHTTPQuery('read', query, endpointParameters, outputFormat)}).then(function(res){
+            rp.get({uri: getHTTPQuery('read', query, endpointParameters, outputFormat), headers: headers}).then(function(res){
                 callback(null, {
                     graphName: graphName,
                     page: 1,
@@ -91,10 +92,10 @@ export default {
             }
             //resource focus type
             let rftconfig = configurator.getResourceFocusType(graphName);
-            query = queryObject.getMasterPropertyValues(cGraphName, rftconfig, decodeURIComponent(params.selection.value));
+            query = queryObject.getMasterPropertyValues(endpointParameters, cGraphName, rftconfig.type, decodeURIComponent(params.selection.value));
             //build http uri
             //send request
-            rp.get({uri: getHTTPQuery('read', query, endpointParameters, outputFormat)}).then(function(res){
+            rp.get({uri: getHTTPQuery('read', query, endpointParameters, outputFormat), headers: headers}).then(function(res){
                 callback(null, {
                     graphName: graphName,
                     page: 1,
@@ -138,20 +139,20 @@ export default {
             }
             if(params.mode === 'init'){
                 //get all resources
-                query = queryObject.countSecondLevelPropertyValues(cGraphName, rftconfig, 0, {});
+                query = queryObject.countSecondLevelPropertyValues(endpointParameters, cGraphName, rftconfig.type, 0, {});
             }else{
-                query = queryObject.countSecondLevelPropertyValues(cGraphName, rftconfig, decodeURIComponent(params.selection.propertyURI), params.selection.prevSelection);
+                query = queryObject.countSecondLevelPropertyValues(endpointParameters, cGraphName, rftconfig.type, decodeURIComponent(params.selection.propertyURI), params.selection.prevSelection);
             }
             //console.log(query);
             //build http uri
             //send request
-            rp.get({uri: getHTTPQuery('read', query, endpointParameters, outputFormat)}).then(function(res){
-                let query2 = queryObject.getSecondLevelPropertyValues(cGraphName, rftconfig, decodeURIComponent(params.selection.propertyURI), params.selection.prevSelection, maxOnPage, params.page);
+            rp.get({uri: getHTTPQuery('read', query, endpointParameters, outputFormat), headers: headers}).then(function(res){
+                let query2 = queryObject.getSecondLevelPropertyValues(endpointParameters, cGraphName, rftconfig, decodeURIComponent(params.selection.propertyURI), params.selection.prevSelection, maxOnPage, params.page);
                  //console.log(query2);
-                rp.get({uri: getHTTPQuery('read', query2, endpointParameters, outputFormat)}).then(function(res2){
+                rp.get({uri: getHTTPQuery('read', query2, endpointParameters, outputFormat), headers: headers}).then(function(res2){
                     callback(null, {
                         graphName: graphName,
-                        resourceFocusType: rftconfig,
+                        resourceFocusType: rftconfig.type,
                         page: params.page,
                         facets: {items: utilObject.parseSecondLevelPropertyValues(graphName, res2)},
                         total: utilObject.parseCountResourcesByType(res)

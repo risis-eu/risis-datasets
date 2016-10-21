@@ -7,6 +7,7 @@ import Configurator from './utils/Configurator';
 import rp from 'request-promise';
 /*-------------config-------------*/
 const outputFormat = 'application/sparql-results+json';
+const headers = {'Accept': 'application/sparql-results+json'};
 let user;
 /*-----------------------------------*/
 let endpointParameters, cGraphName, graphName, query, queryObject, utilObject, configurator, propertyURI;
@@ -49,7 +50,7 @@ export default {
             //SPARQL QUERY
             query = queryObject.getDatasetsList(keyword);
             //send request
-            rp.get({uri: getHTTPQuery('read', query, endpointParameters, outputFormat)}).then(function(res){
+            rp.get({uri: getHTTPQuery('read', query, endpointParameters, outputFormat), headers: headers}).then(function(res){
                 callback(null, {
                     graphName: graphName,
                     resources: utilObject.parseDatasetsList(res),
@@ -90,7 +91,7 @@ export default {
             query = queryObject.countResourcesByType(cGraphName, rconfig.resourceFocusType);
             //build http uri
             //send request
-            rp.get({uri: getHTTPQuery('read', query, endpointParameters, outputFormat)}).then(function(res){
+            rp.get({uri: getHTTPQuery('read', query, endpointParameters, outputFormat), headers: headers}).then(function(res){
                 callback(null, {
                     graphName: graphName,
                     total: utilObject.parseCountResourcesByType(res)

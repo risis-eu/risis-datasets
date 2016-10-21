@@ -10,6 +10,7 @@ import UploadedView from './viewer/individual/UploadedView';
 import FileSizeView from './viewer/individual/FileSizeView';
 import LanguageView from './viewer/individual/LanguageView';
 import TwoLetterCountryView from './viewer/individual/TwoLetterCountryView';
+import BasicDateTimeView from './viewer/individual/BasicDateTimeView';
 
 class ObjectIViewer extends React.Component {
     render() {
@@ -50,6 +51,9 @@ class ObjectIViewer extends React.Component {
             break;
             case 'BasicImageView':
                 viewer = <BasicImageView spec={this.props.spec} config={this.props.config}/>;
+            break;
+            case 'BasicDateTimeView':
+                viewer = <BasicDateTimeView spec={this.props.spec} config={this.props.config}/>;
             break;
             case 'BasicLinkedIndividualView':
                 viewer = <BasicLinkedIndividualView graphName={this.props.graphName} spec={this.props.spec} config={this.props.config} propertyPath={propertyPath} category={category}/>;

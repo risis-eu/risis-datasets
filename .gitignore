@@ -9,3 +9,4 @@ plugins/email/config.js
 uploaded/*.pdf
 uploaded/*.doc
 uploaded/*.docx
+*.lock

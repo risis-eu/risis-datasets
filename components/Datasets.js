@@ -61,7 +61,7 @@ class Datasets extends React.Component {
                                 brws = <a className="ui grey label" href={'/browse/' + encodeURIComponent(graph)} title="browse"><i className="zoom icon"></i>browse</a>;
                             }
                             dss.push(graph);
-                            output.push(<div className="ui item" key={graph}> <div className="content"> <i className={'ui icon cubes ' + color} ></i> <a className="ui blank link" href={'/dataset/1/' + encodeURIComponent(graph)} title="go to resource list">{graph}</a> {focus} {brws} {dfl}</div> </div>);
+                            output.push(<div className="ui item" key={graph}> <div className="content"> <i className={'ui icon cubes ' + color} ></i> <a className="ui blank link" href={'/dataset/1/' + encodeURIComponent(graph)} title="go to resource list">{config[s][graph].datasetLabel ? config[s][graph].datasetLabel : graph}</a> {focus} {brws} {dfl}</div> </div>);
                         }
                     }
                 }
@@ -93,14 +93,14 @@ class Datasets extends React.Component {
             }
         }
         optionsList = dss.map(function(option, index) {
-            return <option key={index} value={(option)}> {option} </option>;
+            return <option key={index} value={(option)}> {(config.dataset[option] && config.dataset[option].datasetLabel) ? config.dataset[option].datasetLabel : option} </option>;
         });
         return (
             <div className="ui page grid" ref="datasets">
                 <div className="ui column">
                     {dss.length ? <div>{info}</div> : ''}
                     <div className="ui segment">
-                        <h1>Datasets</h1>
+                        <h2><span className="ui big black circular label">{dss.length}</span> Datasets</h2>
                         <div className="ui big divided list">
                             {output}
                         </div>
