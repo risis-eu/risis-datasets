@@ -506,13 +506,10 @@ module.exports = function handleAuthentication(server) {
                  method: 'POST',
                  uri: recaptchaValidationURL,
                  body: {
-                     secret: recaptchaSecret,
-                     response: req.body['g-recaptcha-response']
+                     'secret': recaptchaSecret,
+                     'response': req.body['g-recaptcha-response']
                  },
-                 json: true, // Automatically stringifies the body to JSON
-                 headers: {
-                     'content-type': 'application/x-www-form-urlencoded' // Set automatically
-                 }
+                 json: true // Automatically stringifies the body to JSON
              };
              rp(recpostOptions).then(function(recres){
                  let recapRes = JSON.parse(recres);
