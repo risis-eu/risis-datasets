@@ -506,7 +506,7 @@ module.exports = function handleAuthentication(server) {
          }else{
              //successfull
              //first check the recaptcha
-             recaptcha.validate(req.body['g-recaptcha-response'])
+             recaptcha.validateRequest({body: {'g-recaptcha-response':req.body['g-recaptcha-response']}})
             .then(function(){
               // validated and secure
               console.log('validated!');
