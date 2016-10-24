@@ -501,24 +501,24 @@ module.exports = function handleAuthentication(server) {
          }else{
              //successfull
              //first check the recaptcha
-             let recaptchaValidationURL = 'https://www.google.com/recaptcha/api/siteverify';
-             let recpostOptions = {
-                 method: 'POST',
-                 uri: recaptchaValidationURL,
-                 body: {
-                     'secret': recaptchaSecret,
-                     'response': req.body['g-recaptcha-response']
-                 },
-                 json: true // Automatically stringifies the body to JSON
-             };
-             rp(recpostOptions).then(function(recres){
-                 let recapRes = JSON.parse(recres);
-                 console.log(recapRes);
-                 if(recapRes.success !== undefined && !recapRes.success){
-                     //error in recaptcha validation
-                     res.render('register', {appShortTitle: appShortTitle, appFullTitle: appFullTitle, recaptchaSiteKey: recaptchaSiteKey, data: req.body, errorMsg: 'Error... Captcha is not validated! You seem to be a robot...'});
 
-                 }else{
+            //  let recaptchaValidationURL = 'https://www.google.com/recaptcha/api/siteverify';
+            //  let recpostOptions = {
+            //      method: 'POST',
+            //      uri: recaptchaValidationURL,
+            //      body: JSON.stringify({
+            //          secret: recaptchaSecret,
+            //          response: req.body['g-recaptcha-response']
+            //      })
+            //  };
+            //  rp(recpostOptions).then(function(recres){
+            //      let recapRes = JSON.parse(recres);
+            //      console.log(recapRes);
+            //      if(recapRes.success !== undefined && !recapRes.success){
+            //          //error in recaptcha validation
+            //          res.render('register', {appShortTitle: appShortTitle, appFullTitle: appFullTitle, recaptchaSiteKey: recaptchaSiteKey, data: req.body, errorMsg: 'Error... Captcha is not validated! You seem to be a robot...'});
+
+                 //}else{
 
                      //it was successful
                      //second: check if user already exists
@@ -558,7 +558,7 @@ module.exports = function handleAuthentication(server) {
                      });
 
 
-                 }
+                 //}
              }).catch(function (errRecap) {
                  console.log(errRecap);
              });
