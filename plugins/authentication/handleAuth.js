@@ -512,6 +512,7 @@ module.exports = function handleAuthentication(server) {
              };
              rp(recpostOptions).then(function(recres){
                  let recapRes = JSON.parse(recres);
+                 console.log(recapRes);
                  if(recapRes.success !== undefined && !recapRes.success){
                      //error in recaptcha validation
                      res.render('register', {appShortTitle: appShortTitle, appFullTitle: appFullTitle, recaptchaSiteKey: recaptchaSiteKey, data: req.body, errorMsg: 'Error... Captcha is not validated! You seem to be a robot...'});
