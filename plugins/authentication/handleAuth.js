@@ -505,7 +505,7 @@ module.exports = function handleAuthentication(server) {
              let recpostOptions = {
                  method: 'POST',
                  uri: recaptchaValidationURL,
-                 body: JSON.stringify({
+                 form: JSON.stringify({
                      secret: recaptchaSecret,
                      response: req.body['g-recaptcha-response']
                  })
