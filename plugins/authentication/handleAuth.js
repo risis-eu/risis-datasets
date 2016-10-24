@@ -559,9 +559,10 @@ module.exports = function handleAuthentication(server) {
 
 
                  //}
-             }).catch(function (errRecap) {
-                 console.log(errRecap);
-             });
+
+            //  }).catch(function (errRecap) {
+            //      console.log(errRecap);
+            //  });
 
          }
      });
