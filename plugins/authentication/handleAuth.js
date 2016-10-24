@@ -468,13 +468,23 @@ module.exports = function handleAuthentication(server) {
         }
      });
     server.get('/register', function(req, res) {
+        let recaptchaSiteKey = '';
+        if(config.recaptcha){
+            recaptchaSiteKey = config.recaptcha.recaptchaSiteKey[0];
+        }
         if(!req.isAuthenticated()){
-            res.render('register', {appShortTitle: appShortTitle, appFullTitle: appFullTitle});
+            res.render('register', {appShortTitle: appShortTitle, appFullTitle: appFullTitle, recaptchaSiteKey: recaptchaSiteKey});
         }else{
             return res.redirect('/');
         }
      });
      server.post('/register', function(req, res, next) {
+         let recaptchaSiteKey = '';
+         let recaptchaSecret = '';
+         if(config.recaptcha){
+             recaptchaSiteKey = config.recaptcha.recaptchaSiteKey[0];
+             recaptchaSecret = config.recaptcha.recaptchaSecret[0];
+         }
          var error= '';
          if(req.body.password !== req.body.cpassword){
              error = 'Error! password mismatch...';
@@ -487,44 +497,70 @@ module.exports = function handleAuthentication(server) {
          }
          if(error){
              console.log(error);
-             res.render('register', {appShortTitle: appShortTitle, appFullTitle: appFullTitle, data: req.body, errorMsg: 'Error... '+error});
+             res.render('register', {appShortTitle: appShortTitle, appFullTitle: appFullTitle, recaptchaSiteKey: recaptchaSiteKey, data: req.body, errorMsg: 'Error... '+error});
          }else{
              //successfull
-             //first check if user already exists
-             /*jshint multistr: true */
-             var query = getUserExistsQuery(req.body.username, req.body.email);
-             var endpoint = helper.getEndpointParameters([generalConfig.authGraphName[0]]);
-             var rpPath = helper.getHTTPQuery('read', query, endpoint, outputFormat);
-             //send request
-             rp.get({uri: rpPath}).then(function(resq){
-                 var parsed = JSON.parse(resq);
-                 if(parsed.results.bindings.length){
-                     if(parsed.results.bindings[0].exists.value ==='0'){
-                         //register as new user
-                         console.log('start registration');
-                         query = getUserRegistrationQuery(endpoint, req.body);
-                         rpPath = helper.getHTTPQuery('update', query, endpoint, outputFormat);
-                         rp.post({uri: rpPath}).then(function(){
-                             console.log('User is created!');
-                             //send email notifications
-                             if(generalConfig.enableEmailNotifications){
-                                 handleEmail.sendMail('userRegistration', req.body.email, '', '', '', '');
-                             }
-                             return res.redirect('/confirmation');
-                         }).catch(function (err2) {
-                             console.log(err2);
-                         });
-                     }else{
-                         res.render('register', {appShortTitle: appShortTitle, appFullTitle: appFullTitle, data: req.body, errorMsg: 'Error... User already exists!'});
-                         console.log('User already exists!');
-                     }
+             //first check the recaptcha
+             let recaptchaValidationURL = 'https://www.google.com/recaptcha/api/siteverify';
+             let recpostOptions = {
+                 method: 'POST',
+                 uri: recaptchaValidationURL,
+                 body: {
+                     secret: recaptchaSecret,
+                     response: req.body['g-recaptcha-response']
+                 }
+             };
+             rp(recpostOptions).then(function(recres){
+                 let recapRes = JSON.parse(recres);
+                 if(recapRes.success !== undefined && !recapRes.success){
+                     //error in recaptcha validation
+                     res.render('register', {appShortTitle: appShortTitle, appFullTitle: appFullTitle, recaptchaSiteKey: recaptchaSiteKey, data: req.body, errorMsg: 'Error... Captcha is not validated! You seem to be a robot...'});
 
                  }else{
-                     res.render('register', {appShortTitle: appShortTitle, appFullTitle: appFullTitle, data: req.body, errorMsg: 'Error... Unknown Error!'});
+
+                     //it was successful
+                     //second: check if user already exists
+                     /*jshint multistr: true */
+                     var query = getUserExistsQuery(req.body.username, req.body.email);
+                     var endpoint = helper.getEndpointParameters([generalConfig.authGraphName[0]]);
+                     var rpPath = helper.getHTTPQuery('read', query, endpoint, outputFormat);
+                     //send request
+                     rp.get({uri: rpPath}).then(function(resq){
+                         var parsed = JSON.parse(resq);
+                         if(parsed.results.bindings.length){
+                             if(parsed.results.bindings[0].exists.value ==='0'){
+                                 //register as new user
+                                 console.log('start registration');
+                                 query = getUserRegistrationQuery(endpoint, req.body);
+                                 rpPath = helper.getHTTPQuery('update', query, endpoint, outputFormat);
+                                 rp.post({uri: rpPath}).then(function(){
+                                     console.log('User is created!');
+                                     //send email notifications
+                                     if(generalConfig.enableEmailNotifications){
+                                         handleEmail.sendMail('userRegistration', req.body.email, '', '', '', '');
+                                     }
+                                     return res.redirect('/confirmation');
+                                 }).catch(function (err2) {
+                                     console.log(err2);
+                                 });
+                             }else{
+                                 res.render('register', {appShortTitle: appShortTitle, appFullTitle: appFullTitle, recaptchaSiteKey: recaptchaSiteKey, data: req.body, errorMsg: 'Error... User already exists!'});
+                                 console.log('User already exists!');
+                             }
+
+                         }else{
+                             res.render('register', {appShortTitle: appShortTitle, appFullTitle: appFullTitle, recaptchaSiteKey: recaptchaSiteKey, data: req.body, errorMsg: 'Error... Unknown Error!'});
+                         }
+                     }).catch(function (errq) {
+                         console.log(errq);
+                     });
+
+
                  }
-             }).catch(function (errq) {
-                 console.log(errq);
+             }).catch(function (errRecap) {
+                 console.log(errRecap);
              });
+
          }
      });
 };

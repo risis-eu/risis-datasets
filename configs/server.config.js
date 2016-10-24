@@ -22,5 +22,9 @@ export default {
             'authorizationPath': '/auth/authorize',
             'redirectURI': 'http://localhost:3000/callback'
         }
+    },
+    recaptcha: {
+        recaptchaSiteKey: ['put your site key here...'],
+        recaptchaSecret: ['put your secret key here...']
     }
 };

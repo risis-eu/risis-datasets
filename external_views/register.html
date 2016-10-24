@@ -3,6 +3,7 @@
 		<meta charSet="utf-8" />
 		<meta name="viewport" content="width=device-width, user-scalable=no" />
 		<link href="/bower_components/semantic/dist/semantic.min.css" rel="stylesheet" type="text/css" />
+		<script src='https://www.google.com/recaptcha/api.js'></script>
 		<title>{{appFullTitle}}| User Registration Page</title>
 	</head>
 	<body>
@@ -90,6 +91,12 @@
 								<div class="ui icon input">
 									<input type="password" name="cpassword">
 									<i class="lock icon"></i>
+								</div>
+							</div>
+							<div class="twelve wide field">
+								<label></label>
+								<div class="ui icon input">
+									<div class="g-recaptcha" data-sitekey="{{recaptchaSiteKey}}"></div>
 								</div>
 							</div>
 							<div class="twelve wide field required">
