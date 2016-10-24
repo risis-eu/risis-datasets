@@ -13,6 +13,11 @@ passportConfig.enable(passport);
 var handleEmail = require('../../plugins/email/handleEmail');
 var rp = require('request-promise');
 var config = require('../../configs/server');
+var reCAPTCHA=require('recaptcha2')
+var recaptcha=new reCAPTCHA({
+    siteKey: config.recaptcha.recaptchaSiteKey,
+    secretKey: config.recaptcha.recaptchaSecret
+})
 var generalConfig = require('../../configs/general');
 var httpOptions, g;
 if(config.sparqlEndpoint[generalConfig.authGraphName[0]]){
@@ -501,6 +506,15 @@ module.exports = function handleAuthentication(server) {
          }else{
              //successfull
              //first check the recaptcha
+             recaptcha.validate(req.body['g-recaptcha-response'])
+            .then(function(){
+              // validated and secure
+              console.log('validated!');
+            })
+            .catch(function(errorCodes){
+              // invalid
+              console.log(recaptcha.translateErrors(errorCodes));// translate error codes to human readable text
+            });
              let recaptchaValidationURL = 'https://www.google.com/recaptcha/api/siteverify';
              let recpostOptions = {
                  method: 'POST',
