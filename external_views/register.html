@@ -5,6 +5,9 @@
 		<link href="/bower_components/semantic/dist/semantic.min.css" rel="stylesheet" type="text/css" />
 		<script src='https://www.google.com/recaptcha/api.js'></script>
 		<title>{{appFullTitle}}| User Registration Page</title>
+		{{#recaptchaSiteKey}}
+			<script src='https://www.google.com/recaptcha/api.js'></script>
+		{{/recaptchaSiteKey}}
 	</head>
 	<body>
 		<div>
@@ -96,7 +99,9 @@
 							<div class="twelve wide field">
 								<label></label>
 								<div class="ui icon input">
-									<div class="g-recaptcha" data-sitekey="{{recaptchaSiteKey}}"></div>
+									{{#recaptchaSiteKey}}
+										<div class="g-recaptcha" data-sitekey="{{recaptchaSiteKey}}"></div>
+									{{/recaptchaSiteKey}}
 								</div>
 							</div>
 							<div class="twelve wide field required">

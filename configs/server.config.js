@@ -23,8 +23,10 @@ export default {
             'redirectURI': 'http://localhost:3000/callback'
         }
     },
-    recaptcha: {
-        recaptchaSiteKey: ['put your site key here...'],
-        recaptchaSecret: ['put your secret key here...']
+    //it is used only if you enabled recaptcha feature for user authentication
+    //get keys from https://www.google.com/recaptcha
+    googleRecaptchaService: {
+        siteKey: ['put your google recaptcha site key here...'],
+        secretKey: ['put your google recaptcha secret key here...']
     }
 };
