@@ -10,6 +10,9 @@ export default {
     //graph that stores users data, must be loaded beforehand
     authGraphName: ['http://rdf.risis.eu/sms/users.ttl#'],
     //graph that stores applications to access RISIS datasets
+    //if enabled will allow a recaptcha box in the registration form
+    //note: if it is enabled, you need to set the key parameteres for recaptcha in the  server.js file
+    useGoogleRecaptcha: 1,
     applicationsGraphName: ['http://applications.risis.eu'],
     //the domain name under which basic dynamic resources and user resources will be defined
     baseResourceDomain: ['http://risis.eu'],
