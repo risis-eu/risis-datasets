@@ -797,6 +797,18 @@ export default {
                 'http://rdf.risis.eu/application/projectSummary': {
                     label: ['Project Summary']
                 },
+                'http://rdf.risis.eu/application/scientificBg': {
+                    label: ['Scientific Background']
+                },
+                'http://rdf.risis.eu/application/isNewUserOfData': {
+                    label: ['Is a new user of the dataset?']
+                },
+                'http://rdf.risis.eu/application/isProjectLeader': {
+                    label: ['Is the leader of the project?']
+                },
+                'http://rdf.risis.eu/application/isVirtualUser': {
+                    label: ['Is Remote (virtual) user?']
+                },
                 'http://rdf.risis.eu/application/hostingLocation': {
                     label: ['Hosting Location']
                 },

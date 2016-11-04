@@ -58,27 +58,18 @@
 							</div>
 							<div class="twelve wide field required">
 								<label>Position/Status</label>
-								<div class="ui icon input">
-									<select class="ui input" name="position">
-										<option value="Undergraduate">
-											Undergraduate
-										</option>
-										<option value="Post-graduate">
-											Post-graduate
-										</option>
-										<option value="Post-doctorant ">
-											Post-doctorant
-										</option>
-										<option value="Technician">
-											Technician
-										</option>
-										<option value="Experienced Researcher">
-											Experienced Researcher
-										</option>
-										<option value="Other">
-											Other
-										</option>
-									</select>
+								<div class="ui selection dropdown">
+									<input type="hidden" name="position">
+									<i class="dropdown icon"></i>
+									<div class="default text">Position/Status</div>
+									<div class="menu">
+									  <div class="item" data-value="Undergraduate">Undergraduate</div>
+									  <div class="item" data-value="Post-graduate">Post-graduate</div>
+									  <div class="item" data-value="Post-doctorant">Post-doctorant</div>
+									  <div class="item" data-value="Technician">Technician</div>
+									  <div class="item" data-value="Experienced Researcher">Experienced Researcher</div>
+									  <div class="item" data-value="Other">Other</div>
+									</div>
 								</div>
 							</div>
 							<div class="twelve wide field required">
@@ -138,6 +129,12 @@
 				</div>
 			</div>
 		</div>
-
+		<script src="/bower_components/jquery/dist/jquery.min.js"></script>
+		<script src="/bower_components/semantic/dist/components/dropdown.min.js"></script>
+		<script src="/bower_components/semantic/dist/components/transition.min.js"></script>
+		<script src="/bower_components/semantic/dist/components/popup.min.js"></script>
+		<script>
+			$('.ui.dropdown').dropdown();
+		</script>
 	</body>
 </html>

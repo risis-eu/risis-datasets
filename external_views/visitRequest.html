@@ -101,7 +101,7 @@
 							<div class="twelve wide field required">
 								<label>Duration (days)</label>
 								<div class="ui icon input">
-									<input type="text" placeholder="Duration" name="visitDuration" value="{{data.visitDuration}}"/>
+									<input type="text" placeholder="Duration of stay (0 for the remote users)" name="visitDuration" value="{{data.visitDuration}}"/>
 								</div>
 							</div>
 							<h3 class="ui dividing orange header">Requested Budget (euros)</h3>
@@ -131,15 +131,87 @@
 							<div class="twelve wide field">
 								<label>Remarks to the Budget</label>
 								<div class="ui icon input">
-									<textarea type="text" placeholder="Budget Remarks" name="budgetRemarks">{{data.budgetRemarks}}</textarea>
+									<textarea type="text" placeholder="Budget Remarks or any other additional information" name="budgetRemarks">{{data.budgetRemarks}}</textarea>
 								</div>
 							</div>
 							<h3 class="ui dividing orange header">Applicants Data</h3>
+							<div class="ui twelve wide field required form">
+								<label>Scientific Background</label>
+								<div class="ui selection dropdown">
+									<input type="hidden" name="scientificBg">
+									<i class="dropdown icon"></i>
+									<div class="default text">Scientific Background</div>
+									<div class="menu">
+									  <div class="item" data-value="Physics">Physics : Astro / Atomic / Condensed matter / High energy / Nuclear / Plasma / Quantum / Other
+									  Chemistry</div>
+									  <div class="item" data-value="Life Science">Life Science: Food / Agriculture & Fisheries / Medecine / Veterinary / Molecular biology / Other</div>
+									  <div class="item" data-value="Earth Science">Earth Science: Global change / Ecosystem & Biodiversity / Natural disaster / Marine science / Other</div>
+									  <div class="item" data-value="Engineering">Engineering: Aeronautics / Space / New processes / Nano / Transport / Other</div>
+									  <div class="item" data-value="Mathematics">Mathematics</div>
+									  <div class="item" data-value="ICT">ICT: for business & citizen / Trust & Security / Networks / Computing / Component / Interface / Other</div>
+									  <div class="item" data-value="Material Sciences">Material Sciences: Knowledge based multifunctional materials / Other</div>
+									  <div class="item" data-value="Energy">Energy: Sustainable energy systems / Fusion / Other</div>
+									  <div class="item" data-value="Humanities">Humanities: Arts / History /Languages / Other</div>
+									  <div class="item" data-value="Social Sciences">Social Sciences: Economics / Political sciences / Educational sciences / Law / Demography / Other</div>
+									</div>
+								</div>
+							</div>
 							<div class="ui twelve wide field required form">
 								<label>CV (in <b>PDF</b> format, Max. 500KB)</label>
 								<div class="ui icon input">
 									<input type="file" name="cvAnnex" id="cvAnnex">
 								</div>
+							</div>
+							<div class="ui twelve wide field required form">
+								<div class="inline fields">
+								    <label>Are you a new user of the dataset?</label>
+								    <div class="field">
+								      <div class="ui radio checkbox">
+								        <input type="radio" value="Yes" name="isNewUserOfData" checked="checked">
+								        <label>Yes</label>
+								      </div>
+								    </div>
+								    <div class="field">
+								      <div class="ui radio checkbox">
+								        <input type="radio" value="No" name="isNewUserOfData">
+								        <label>No</label>
+								      </div>
+								    </div>
+								  </div>
+							</div>
+							<div class="ui twelve wide field required form">
+								<div class="inline fields">
+								    <label>Are you the leader of your project?</label>
+								    <div class="field">
+								      <div class="ui radio checkbox">
+								        <input type="radio" value="Yes" name="isProjectLeader" checked="checked">
+								        <label>Yes</label>
+								      </div>
+								    </div>
+								    <div class="field">
+								      <div class="ui radio checkbox">
+								        <input type="radio" value="No" name="isProjectLeader">
+								        <label>No</label>
+								      </div>
+								    </div>
+								  </div>
+							</div>
+							<div class="ui twelve wide field required form">
+								<div class="inline fields">
+								    <label>Are you a remote (virtual) user?</label>
+								    <div class="field">
+								      <div class="ui radio checkbox">
+								        <input type="radio" value="Yes" name="isVirtualUser">
+								        <label>Yes</label>
+								      </div>
+								    </div>
+								    <div class="field">
+								      <div class="ui radio checkbox">
+								        <input type="radio" value="No" name="isVirtualUser" checked="checked">
+								        <label>No</label>
+								      </div>
+								    </div>
+								  </div>
 							</div>
 							<div class="field">
 								<input class="ui submit orange button" type="submit" value="Submit Request"/>
@@ -152,11 +224,11 @@
 			</div>
 		</div>
 		<script src="/bower_components/jquery/dist/jquery.min.js"></script>
-		<script src="/bower_components/semantic-ui/dist/components/transition.min.js"></script>
-		<script src="/bower_components/semantic-ui/dist/components/popup.min.js"></script>
-		<script src="/bower_components/semantic-ui/dist/components/dropdown.min.js"></script>
+		<script src="/bower_components/semantic/dist/components/dropdown.min.js"></script>
+		<script src="/bower_components/semantic/dist/components/transition.min.js"></script>
+		<script src="/bower_components/semantic/dist/components/popup.min.js"></script>
 		<script>
-		$('.ui.dropdown').dropdown();
+			$('.ui.dropdown').dropdown();
 		</script>
 	</body>
 </html>
