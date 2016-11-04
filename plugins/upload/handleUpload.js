@@ -404,7 +404,7 @@ module.exports = function handleUpload(server) {
                                             }
                                         }
                                         //console.log(etext);
-                                        //handleEmail.sendMail('datasetVisitRequest', 'datasets@risis.eu', el.mbox, 'RISIS ['+el.type +'] New Visit Request to ' + req.params.name, etext, etext);
+                                        handleEmail.sendMail('datasetVisitRequest', 'datasets@risis.eu', el.mbox, 'RISIS ['+el.type +'] New Visit Request to ' + req.params.name, etext, etext);
                                     });
                                 }).catch(function (err4) {
                                     console.log(err4);
