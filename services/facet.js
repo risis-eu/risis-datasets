@@ -1,5 +1,5 @@
 'use strict';
-import {getEndpointParameters, getHTTPQuery} from './utils/helpers';
+import {getEndpointParameters, getHTTPQuery, getHTTPGetURL} from './utils/helpers';
 import {defaultGraphName, enableAuthentication} from '../configs/general';
 import FacetQuery from './sparql/FacetQuery';
 import FacetUtil from './utils/FacetUtil';
@@ -47,7 +47,7 @@ export default {
             query = queryObject.getSideEffects(endpointParameters, cGraphName, rftconfig.type, decodeURIComponent(params.selection.propertyURI), params.selection.prevSelection);
             //build http uri
             //send request
-            rp.get({uri: getHTTPQuery('read', query, endpointParameters, outputFormat), headers: headers}).then(function(res){
+            rp.get({uri: getHTTPGetURL(getHTTPQuery('read', query, endpointParameters, outputFormat)), headers: headers}).then(function(res){
                 callback(null, {
                     graphName: graphName,
                     page: 1,
@@ -95,7 +95,7 @@ export default {
             query = queryObject.getMasterPropertyValues(endpointParameters, cGraphName, rftconfig.type, decodeURIComponent(params.selection.value));
             //build http uri
             //send request
-            rp.get({uri: getHTTPQuery('read', query, endpointParameters, outputFormat), headers: headers}).then(function(res){
+            rp.get({uri: getHTTPGetURL(getHTTPQuery('read', query, endpointParameters, outputFormat)), headers: headers}).then(function(res){
                 callback(null, {
                     graphName: graphName,
                     page: 1,
@@ -146,10 +146,10 @@ export default {
             //console.log(query);
             //build http uri
             //send request
-            rp.get({uri: getHTTPQuery('read', query, endpointParameters, outputFormat), headers: headers}).then(function(res){
+            rp.get({uri: getHTTPGetURL(getHTTPQuery('read', query, endpointParameters, outputFormat)), headers: headers}).then(function(res){
                 let query2 = queryObject.getSecondLevelPropertyValues(endpointParameters, cGraphName, rftconfig, decodeURIComponent(params.selection.propertyURI), params.selection.prevSelection, maxOnPage, params.page);
                  //console.log(query2);
-                rp.get({uri: getHTTPQuery('read', query2, endpointParameters, outputFormat), headers: headers}).then(function(res2){
+                rp.get({uri: getHTTPGetURL(getHTTPQuery('read', query2, endpointParameters, outputFormat)), headers: headers}).then(function(res2){
                     callback(null, {
                         graphName: graphName,
                         resourceFocusType: rftconfig.type,

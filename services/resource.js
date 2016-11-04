@@ -1,5 +1,5 @@
 'use strict';
-import {getEndpointParameters, getHTTPQuery} from './utils/helpers';
+import {getEndpointParameters, getHTTPQuery, getHTTPGetURL} from './utils/helpers';
 import {runMailTrigger, shouldTrigger} from './utils/triggers';
 import {defaultGraphName, enableLogs, enableAuthentication, authGraphName, applicationsGraphName, enableEmailNotifications} from '../configs/general';
 import ResourceQuery from './sparql/ResourceQuery';
@@ -23,7 +23,7 @@ if(enableLogs){
 const outputFormat = 'application/sparql-results+json';
 const headers = {'Accept': 'application/sparql-results+json'};
 /*-----------------------------------*/
-let endpointParameters, category, cGraphName, graphName, propertyURI, resourceURI, objectURI, objectValue, query, queryObject, utilObject, configurator, propertyPath;
+let endpointParameters, category, cGraphName, graphName, propertyURI, resourceURI, objectURI, objectValue, query, queryObject, utilObject, configurator, propertyPath, HTTPQueryObject;
 queryObject = new ResourceQuery();
 utilObject = new ResourceUtil();
 
@@ -63,7 +63,7 @@ export default {
             // console.log(query);
             //build http uri
             //send request
-            rp.get({uri: getHTTPQuery('read', query, endpointParameters, outputFormat), headers: headers}).then(function(res){
+            rp.get({uri: getHTTPGetURL(getHTTPQuery('read', query, endpointParameters, outputFormat)), headers: headers}).then(function(res){
                 //exceptional case for user properties: we hide some admin props from normal users
                 let {props, title, resourceType, rconfig} = utilObject.parseProperties(res, graphName, resourceURI, category, propertyPath);
                 if(graphName === authGraphName[0] && !parseInt(user.isSuperUser)){
@@ -112,7 +112,7 @@ export default {
             query = queryObject.getPrefixes() + queryObject.getProperties(cGraphName, objectURI);
             //build http uri
             //send request
-            rp.get({uri: getHTTPQuery('read', query, endpointParameters, outputFormat), headers: headers}).then(function(res){
+            rp.get({uri: getHTTPGetURL(getHTTPQuery('read', query, endpointParameters, outputFormat)), headers: headers}).then(function(res){
                 let {props, objectType} = utilObject.parseObjectProperties(res, graphName, resourceURI, propertyURI);
                 callback(null, {
                     objectURI: objectURI,
@@ -270,7 +270,8 @@ export default {
             query = queryObject.getPrefixes() + queryObject.getAddTripleQuery(endpointParameters, cGraphName, params.resourceURI, params.propertyURI, params.objectValue, params.valueType, params.dataType);
             //build http uri
             //send request
-            rp.post({uri: getHTTPQuery('update', query, endpointParameters, outputFormat)}).then(function(res){
+            HTTPQueryObject = getHTTPQuery('update', query, endpointParameters, outputFormat);
+            rp.post({uri: HTTPQueryObject.uri, form: HTTPQueryObject.params}).then(function(res){
                 if(enableLogs){
                     log.info('\n User: ' + user.accountName + ' \n Query: \n' + query);
                 }
@@ -313,7 +314,8 @@ export default {
             }
             //build http uri
             //send request
-            rp.post({uri: getHTTPQuery('update', query, endpointParameters, outputFormat)}).then(function(res){
+            HTTPQueryObject = getHTTPQuery('update', query, endpointParameters, outputFormat);
+            rp.post({uri: HTTPQueryObject.uri, form: HTTPQueryObject.params}).then(function(res){
                 if(enableLogs){
                     log.info('\n User: ' + user.accountName + ' \n Query: \n' + query);
                 }
@@ -355,7 +357,8 @@ export default {
             query = queryObject.getPrefixes() + queryObject.getUpdateTripleQuery(endpointParameters, cGraphName, params.resourceURI, params.propertyURI, params.oldObjectValue, params.newObjectValue, params.valueType, params.dataType);
             //build http uri
             //send request
-            rp.post({uri: getHTTPQuery('update', query, endpointParameters, outputFormat)}).then(function(res){
+            HTTPQueryObject = getHTTPQuery('update', query, endpointParameters, outputFormat);
+            rp.post({uri: HTTPQueryObject.uri, form: HTTPQueryObject.params}).then(function(res){
                 if(enableLogs){
                     log.info('\n User: ' + user.accountName + ' \n Query: \n' + query);
                 }
@@ -452,7 +455,8 @@ export default {
             query = queryObject.getPrefixes() + queryObject.getUpdateObjectTriplesForSesame(endpointParameters, cGraphName, params.resourceURI, params.propertyURI, params.oldObjectValue, params.newObjectValue, params.valueType, params.dataType, params.detailData);
             //build http uri
             //send request
-            rp.post({uri: getHTTPQuery('update', query, endpointParameters, outputFormat)}).then(function(res){
+            HTTPQueryObject = getHTTPQuery('update', query, endpointParameters, outputFormat);
+            rp.post({uri: HTTPQueryObject.uri, form: HTTPQueryObject.params}).then(function(res){
                 if(enableLogs){
                     log.info('\n User: ' + user.accountName + ' \n Query: \n' + query);
                 }
@@ -491,7 +495,8 @@ export default {
             query = queryObject.getPrefixes() + queryObject.getUpdateTriplesQuery(endpointParameters, cGraphName, params.resourceURI, params.propertyURI, params.changes);
             //build http uri
             //send request
-            rp.post({uri: getHTTPQuery('update', query, endpointParameters, outputFormat)}).then(function(res){
+            HTTPQueryObject = getHTTPQuery('update', query, endpointParameters, outputFormat);
+            rp.post({uri: HTTPQueryObject.uri, form: HTTPQueryObject.params}).then(function(res){
                 if(enableLogs){
                     log.info('\n User: ' + user.accountName + ' \n Query: \n' + query);
                 }
@@ -533,7 +538,8 @@ export default {
             query = queryObject.getPrefixes() + queryObject.getDeleteTripleQuery(endpointParameters, cGraphName, params.resourceURI, params.propertyURI, params.objectValue, params.valueType, params.dataType);
             //build http uri
             //send request
-            rp.post({uri: getHTTPQuery('update', query, endpointParameters, outputFormat)}).then(function(res){
+            HTTPQueryObject = getHTTPQuery('update', query, endpointParameters, outputFormat);
+            rp.post({uri: HTTPQueryObject.uri, form: HTTPQueryObject.params}).then(function(res){
                 if(enableLogs){
                     log.info('\n User: ' + user.accountName + ' \n Query: \n' + query);
                 }
@@ -570,7 +576,8 @@ export default {
             query = queryObject.getPrefixes() + queryObject.getDeleteTriplesQuery(endpointParameters, cGraphName, params.resourceURI, params.propertyURI, params.changes);
             //build http uri
             //send request
-            rp.post({uri: getHTTPQuery('update', query, endpointParameters, outputFormat)}).then(function(res){
+            HTTPQueryObject = getHTTPQuery('update', query, endpointParameters, outputFormat);
+            rp.post({uri: HTTPQueryObject.uri, form: HTTPQueryObject.params}).then(function(res){
                 if(enableLogs){
                     log.info('\n User: ' + user.accountName + ' \n Query: \n' + query);
                 }
