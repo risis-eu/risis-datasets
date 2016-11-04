@@ -280,7 +280,9 @@ class ResourceAppVisit extends React.Component {
                                         {applicantDIV}
                                         <h2 className="ui dividing header orange">Project</h2>
                                         {projectTitleDIV}
+                                        {projectAcronymDIV}
                                         {projectSummaryDIV}
+                                        {projectObjectivesDIV}
                                         {dataRequestedDIV}
                                         {projectDescAnnexsDIV}
             							<h2 className="ui dividing orange header">Visit Data</h2>
@@ -293,7 +295,11 @@ class ResourceAppVisit extends React.Component {
                                         {totalBudgetDIV}
                                         {budgetRemarksDIV}
                                         <h2 className="ui dividing orange header">Annex</h2>
-                                        {cvAnnexDIV}
+                                            {scientificBgDIV}
+                                            {cvAnnexDIV}
+                                            {isNewUserOfDataDIV}
+                                            {isProjectLeaderDIV}
+                                            {isVirtualUserDIV}
                                         <h2 className="ui dividing brown header">Decision by Dataset Coordinator <a className="ui big brown label basic" href="http://risis.eu/wp-content/uploads/2016/04/RISIS_eval_visits_.doc"> <i className="download icon"></i> Evaluation Form</a></h2>
                                         {evaluationDSODIV}
                                         {decisionDSODIV}

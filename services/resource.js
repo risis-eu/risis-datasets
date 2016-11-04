@@ -144,7 +144,7 @@ export default {
             // console.log(query);
             //build http uri
             //send request
-            rp.get({uri: getHTTPQuery('read', query, endpointParameters, outputFormat)}).then(function(res){
+            rp.get({uri: getHTTPGetURL(getHTTPQuery('read', query, endpointParameters, outputFormat))}).then(function(res){
                 //exceptional case for user properties: we hide some admin props from normal users
                 let applications = utilObject.parseUserApplications(res);
                 //------------------------------------
@@ -178,7 +178,7 @@ export default {
             console.log(query);
             //build http uri
             //send request
-            rp.get({uri: getHTTPQuery('read', query, endpointParameters, outputFormat)}).then(function(res){
+            rp.get({uri: getHTTPGetURL(getHTTPQuery('read', query, endpointParameters, outputFormat))}).then(function(res){
                 //exceptional case for user properties: we hide some admin props from normal users
                 let applications = utilObject.parseDatasetApplications(res);
                 //------------------------------------
@@ -208,8 +208,9 @@ export default {
             }
             endpointParameters = getEndpointParameters(applicationsGraphName);
             if(parseInt(req.user.isSuperUser) || req.user.member.indexOf('http://rdf.risis.eu/user/PRB') !== -1 || req.user.member.indexOf('http://rdf.risis.eu/user/FCB') !== -1){
-                //we show all the applications
+            //we show all the applications
                 query = queryObject.getPrefixes() + queryObject.getAllApplications(applicationsGraphName);
+                //console.log(query);
             }else{
                 if(req.user.member.indexOf('http://rdf.risis.eu/user/DatasetCoordinators') !==-1){
                     //we only show the applications for the corresponding Dataset
@@ -222,7 +223,7 @@ export default {
             // console.log(query);
             //build http uri
             //send request
-            rp.get({uri: getHTTPQuery('read', query, endpointParameters, outputFormat)}).then(function(res){
+            rp.get({uri: getHTTPGetURL(getHTTPQuery('read', query, endpointParameters, outputFormat))}).then(function(res){
                 //exceptional case for user properties: we hide some admin props from normal users
                 let applications = utilObject.parseDatasetApplications(res);
                 //------------------------------------
@@ -369,15 +370,15 @@ export default {
                         let notifList = [];
                         notifList.push({'type': 'FCB', 'firstName': 'Admin', 'mbox': 'datasets@risis.eu', 'username': 'admin'});
                         let queryEx = queryObject.getPrefixes() + queryObject.getFCBPRM(authGraphName) ;
-                        rp.get({uri: getHTTPQuery('read', queryEx, endpointParameters, outputFormat)}).then(function(resEx){
+                        rp.get({uri: getHTTPGetURL(getHTTPQuery('read', queryEx, endpointParameters, outputFormat))}).then(function(resEx){
                             notifList = utilObject.parseFCBPRB(resEx).concat(notifList);
                             //get Dataset coordintors
                             let queryEx2 = queryObject.getPrefixes() + queryObject.getDSOForApp(authGraphName, applicationsGraphName, params.resourceURI) ;
-                            rp.get({uri: getHTTPQuery('read', queryEx2, endpointParameters, outputFormat)}).then(function(resEx2){
+                            rp.get({uri: getHTTPGetURL(getHTTPQuery('read', queryEx2, endpointParameters, outputFormat))}).then(function(resEx2){
                                 notifList = utilObject.parseDSOApp(resEx2).concat(notifList);
                                 //get applicant
                                 let queryEx3 = queryObject.getPrefixes() + queryObject.getUserForApp(authGraphName, applicationsGraphName, params.resourceURI) ;
-                                rp.get({uri: getHTTPQuery('read', queryEx3, endpointParameters, outputFormat)}).then(function(resEx3){
+                                rp.get({uri: getHTTPGetURL(getHTTPQuery('read', queryEx3, endpointParameters, outputFormat))}).then(function(resEx3){
                                     notifList = utilObject.parseAppUser(resEx3).concat(notifList);
                                     //handle the trigger here
                                     //console.log(notifList);
