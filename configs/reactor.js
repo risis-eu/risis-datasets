@@ -13,7 +13,8 @@ export default {
             'http://rdf.risis.eu/sms/users.ttl#': {
                 readOnly: 0,
                 usePropertyCategories: 0,
-                resourceReactor: ['ResourceUser']
+                resourceReactor: ['ResourceUser'],
+                resourceLabelProperty: ['http://xmlns.com/foaf/0.1/firstName', 'http://xmlns.com/foaf/0.1/lastName']
             },
             'http://applications.risis.eu': {
                 readOnly: 0,
@@ -926,8 +927,17 @@ export default {
                     hint: ['Position/Role in the organization. E.g. professor, lecturer, phd student, post doc, researcher, other...']
                 },
                 'http://www.w3.org/2001/vcard-rdf/3.0#role': {
-                    label: ['Position'],
-                    hint: ['Position/Role in the organization. E.g. professor, lecturer, phd student, post doc, researcher, other...']
+                    label: ['Position/Status'],
+                    hint: ['Position or Research Status in the organization. E.g. professor, lecturer, phd student, post doc, researcher, other...'],
+                    objectIEditor: ['BasicOptionInput'],
+                    options: [
+                        {label: 'Undergraduate', value: 'Undergraduate'},
+                        {label: 'Post-graduate', value: 'Post-graduate'},
+                        {label: 'Post-doctorant', value: 'Post-doctorant'},
+                        {label: 'Technician', value: 'Technician'},
+                        {label: 'Experienced Researcher', value: 'Experienced Researcher'}
+                    ],
+                    allowUserDefinedValue: 1
                 },
                 'http://vivoweb.org/ontology/core#orcidId': {
                     label: ['ORCID ID']
@@ -936,6 +946,38 @@ export default {
                     label: ['Postal Address'],
                     objectIEditor: ['BasicTextareaInput'],
                     hint: ['Full address of institutional affiliation']
+                },
+                'http://xmlns.com/foaf/0.1/gender': {
+                    label: ['Gender'],
+                    objectIEditor: ['BasicOptionInput'],
+                    options: [
+                        {label: 'Unknown', value: 'Unknown'},
+                        {label: 'Female', value: 'Female'},
+                        {label: 'Male', value: 'Male'},
+                        {label: 'Etc.', value: 'Etc.'}
+                    ]
+                },
+                'http://dbpedia.org/ontology/birthYear': {
+                    label: ['Birth Year'],
+                    objectIEditor: ['BasicCalendarInput']
+                },
+                'http://dbpedia.org/ontology/nationality': {
+                    label: ['Nationality'],
+                },
+                'http://rdf.risis.eu/user/organizationType': {
+                    label: ['Organization Type'],
+                    objectIEditor: ['BasicOptionInput'],
+                    options: [
+                        {label: 'Unknown', value: 'Unknown'},
+                        {label: 'University', value: 'University'},
+                        {label: 'Public Research Organization', value: 'Public Research Organization'},
+                        {label: 'SME', value: 'SME'},
+                        {label: 'Other private organization', value: 'Other private organization'}
+                    ],
+                    allowUserDefinedValue: 1
+                },
+                'http://dbpedia.org/ontology/country': {
+                    label: ['Country'],
                 }
             }
         },

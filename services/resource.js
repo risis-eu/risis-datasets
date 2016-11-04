@@ -175,7 +175,7 @@ export default {
             }
             endpointParameters = getEndpointParameters(applicationsGraphName);
             query = queryObject.getPrefixes() + queryObject.getDatasetApplications(applicationsGraphName, graphName);
-            // console.log(query);
+            console.log(query);
             //build http uri
             //send request
             rp.get({uri: getHTTPQuery('read', query, endpointParameters, outputFormat)}).then(function(res){

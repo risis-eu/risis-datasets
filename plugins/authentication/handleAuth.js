@@ -125,10 +125,12 @@ var getUserRegistrationQuery = function (endpoint, reqObject){
         PREFIX ldr: <https://github.com/ali1k/ld-reactor/blob/master/vocabulary/index.ttl#> \
         PREFIX vCard: <http://www.w3.org/2001/vcard-rdf/3.0#> \
         PREFIX foaf: <http://xmlns.com/foaf/0.1/> \
+        PREFIX dbo: <http://dbpedia.org/ontology/> \
+        PREFIX risisUV: <http://rdf.risis.eu/user/> \
         PREFIX vivo: <http://vivoweb.org/ontology/core#> \
         PREFIX dcterms: <http://purl.org/dc/terms/> \
         INSERT DATA INTO <'+ generalConfig.authGraphName[0] +'> { \
-        <'+ resourceURI + '> a foaf:Person; foaf:firstName """'+reqObject.firstname+'"""; foaf:lastName """'+reqObject.lastname+'"""; foaf:organization """'+reqObject.organization+'"""; vCard:role """'+reqObject.position+'"""; vivo:orcidId <'+orcidid+'> ; foaf:member <http://rdf.risis.eu/user/RISISUsers> ; vCard:adr """'+reqObject.address+'"""; foaf:mbox <mailto:'+reqObject.email+'>; dcterms:created "' + currentDate + '"^^xsd:dateTime; foaf:accountName """'+reqObject.username+'"""; ldr:password """'+passwordHash.generate(reqObject.password)+'"""; ldr:isActive "'+isActive+'"^^xsd:Integer; ldr:isSuperUser "0"^^xsd:Integer; ldr:editorOfGraph <'+dgraphURI+'>; ldr:editorOfResource <'+dresourceURI+'>; ldr:editorOfProperty <'+blanknode+'1> , <'+blanknode+'2> , <'+blanknode+'3> , <'+blanknode+'4> , <'+blanknode+'5> , <'+blanknode+'6>  , <'+blanknode+'7>  . \
+        <'+ resourceURI + '> a foaf:Person; foaf:firstName """'+reqObject.firstname+'"""; foaf:lastName """'+reqObject.lastname+'"""; foaf:organization """'+reqObject.organization+'"""; dbo:birthYear "0000-00-00" ; dbo:nationality "Unknown" ; dbo:city "Unknown" ; dbo:country "Unknown" ; foaf:gender "Unknown" ; risisUV:organizationType "Unknown" ; vCard:role """'+reqObject.position+'"""; vivo:orcidId <'+orcidid+'> ; foaf:member <http://rdf.risis.eu/user/RISISUsers> ; vCard:adr """'+reqObject.address+'"""; foaf:mbox <mailto:'+reqObject.email+'>; dcterms:created "' + currentDate + '"^^xsd:dateTime; foaf:accountName """'+reqObject.username+'"""; ldr:password """'+passwordHash.generate(reqObject.password)+'"""; ldr:isActive "'+isActive+'"^^xsd:Integer; ldr:isSuperUser "0"^^xsd:Integer; ldr:editorOfGraph <'+dgraphURI+'>; ldr:editorOfResource <'+dresourceURI+'>; ldr:editorOfProperty <'+blanknode+'1> , <'+blanknode+'2> , <'+blanknode+'3> , <'+blanknode+'4> , <'+blanknode+'5> , <'+blanknode+'6>  , <'+blanknode+'7> , <'+blanknode+'8> , <'+blanknode+'9> , <'+blanknode+'10> , <'+blanknode+'11> , <'+blanknode+'12> , <'+blanknode+'13> . \
         <'+blanknode+'1> ldr:resource <'+resourceURI+'> ; ldr:property foaf:firstName . \
         <'+blanknode+'2> ldr:resource <'+resourceURI+'> ; ldr:property foaf:lastName . \
         <'+blanknode+'3> ldr:resource <'+resourceURI+'> ; ldr:property vCard:role . \
@@ -136,6 +138,12 @@ var getUserRegistrationQuery = function (endpoint, reqObject){
         <'+blanknode+'5> ldr:resource <'+resourceURI+'> ; ldr:property foaf:organization . \
         <'+blanknode+'6> ldr:resource <'+resourceURI+'> ; ldr:property ldr:password . \
         <'+blanknode+'7> ldr:resource <'+resourceURI+'> ; ldr:property vivo:orcidId . \
+        <'+blanknode+'8> ldr:resource <'+resourceURI+'> ; ldr:property dbo:birthYear . \
+        <'+blanknode+'9> ldr:resource <'+resourceURI+'> ; ldr:property dbo:nationality . \
+        <'+blanknode+'10> ldr:resource <'+resourceURI+'> ; ldr:property dbo:city . \
+        <'+blanknode+'11> ldr:resource <'+resourceURI+'> ; ldr:property dbo:country . \
+        <'+blanknode+'12> ldr:resource <'+resourceURI+'> ; ldr:property foaf:gender . \
+        <'+blanknode+'13> ldr:resource <'+resourceURI+'> ; ldr:property risisUV:organizationType . \
         } \
         ';
     }

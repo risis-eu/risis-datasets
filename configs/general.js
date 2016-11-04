@@ -17,7 +17,7 @@ export default {
     //the domain name under which basic dynamic resources and user resources will be defined
     baseResourceDomain: ['http://risis.eu'],
     //will allow super users to confirm and activate regiastered users
-    enableUserConfirmation: 1,
+    enableUserConfirmation: 0,
     //will enable email notifications
     enableEmailNotifications: 1,
     //will put all update actions in log folder

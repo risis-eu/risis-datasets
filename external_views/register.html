@@ -57,9 +57,28 @@
 								</div>
 							</div>
 							<div class="twelve wide field required">
-								<label>Position</label>
+								<label>Position/Status</label>
 								<div class="ui icon input">
-									<input type="text" placeholder="Position (professor, lecturer, phd student, post doc, researcher, other)" name="position" value="{{data.position}}"/>
+									<select class="ui input" name="position">
+										<option value="Undergraduate">
+											Undergraduate
+										</option>
+										<option value="Post-graduate">
+											Post-graduate
+										</option>
+										<option value="Post-doctorant ">
+											Post-doctorant
+										</option>
+										<option value="Technician">
+											Technician
+										</option>
+										<option value="Experienced Researcher">
+											Experienced Researcher
+										</option>
+										<option value="Other">
+											Other
+										</option>
+									</select>
 								</div>
 							</div>
 							<div class="twelve wide field required">

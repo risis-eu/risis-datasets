@@ -52,6 +52,7 @@ class Resource extends React.Component {
         }
     }
     render() {
+        let div1, div2, div3, div4, div5, div6, div7, div8, div9, div10, div11, div12, div13, div14, div15, div16;
         let readOnly = 1;
         let user = this.context.getUser();
         let self = this;
@@ -101,9 +102,44 @@ class Resource extends React.Component {
                         }
                     }
                 }
-                return (
-                    <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
-                );
+                if(node.propertyURI === 'http://xmlns.com/foaf/0.1/firstName'){
+                    div1 = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
+                }else if (node.propertyURI === 'http://xmlns.com/foaf/0.1/lastName'){
+                    div2 = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
+                }else if (node.propertyURI === 'http://xmlns.com/foaf/0.1/gender'){
+                    div3 = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
+                }else if (node.propertyURI === 'http://dbpedia.org/ontology/birthYear'){
+                    div4 = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
+                }else if (node.propertyURI === 'http://dbpedia.org/ontology/nationality'){
+                    div5 = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
+                }else if (node.propertyURI === 'http://xmlns.com/foaf/0.1/organization'){
+                    div6 = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
+                }else if (node.propertyURI === 'http://rdf.risis.eu/user/organizationType'){
+                    div7 = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
+                }else if (node.propertyURI === 'http://www.w3.org/2001/vcard-rdf/3.0#role'){
+                    div8 = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
+                }else if (node.propertyURI === 'http://rdf.risis.eu/user/researchStatus'){
+                    div9 = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
+                }else if (node.propertyURI === 'http://www.w3.org/2001/vcard-rdf/3.0#adr'){
+                    div10 = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
+                }else if (node.propertyURI === 'http://dbpedia.org/ontology/city'){
+                    div11 = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
+                }else if (node.propertyURI === 'http://dbpedia.org/ontology/country'){
+                    div12 = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
+                }else if (node.propertyURI === 'http://vivoweb.org/ontology/core#orcidId'){
+                    div13 = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
+                }else if (node.propertyURI === 'http://xmlns.com/foaf/0.1/mbox'){
+                    div14 = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
+                }else if (node.propertyURI === 'http://xmlns.com/foaf/0.1/accountName'){
+                    div15 = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
+                }else if (node.propertyURI === 'https://github.com/ali1k/ld-reactor/blob/master/vocabulary/index.ttl#password'){
+                    div16 = <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
+                }else{
+                    return (
+                        <PropertyReactor key={index} enableAuthentication={self.props.enableAuthentication} spec={node} readOnly={configReadOnly} config={node.config} graphName={self.props.graphName} resource={self.props.resource} property={node.propertyURI} propertyPath= {self.props.propertyPath}/>
+                    );
+                }
+
             }
         });
         let currentCategory, mainDIV, tabsDIV, tabsContentDIV;
@@ -141,6 +177,23 @@ class Resource extends React.Component {
             mainDIV = <div className="ui segment">
                             <div className="ui grid">
                                 <div className="column ui list">
+                                    {div1}
+                                    {div2}
+                                    {div3}
+                                    {div4}
+                                    {div5}
+                                    {div6}
+                                    {div7}
+                                    {div8}
+                                    {div9}
+                                    {div13}
+                                    {div10}
+                                    {div11}
+                                    {div12}
+
+                                    {div14}
+                                    {div15}
+                                    {div16}
                                     {list}
                                 </div>
                             </div>

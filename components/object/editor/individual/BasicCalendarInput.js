@@ -12,6 +12,9 @@ class BasicCalendarInput extends React.Component {
     constructor(props) {
         super(props);
         let v = this.props.spec.value;
+        if(v === '0000-00-00'){
+            v = this.createDefaultValue();
+        }
         if(this.props.spec.isDefault){
             v = this.createDefaultValue();
         }
