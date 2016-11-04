@@ -806,6 +806,12 @@ export default {
                 'http://rdf.risis.eu/application/isProjectLeader': {
                     label: ['Is the leader of the project?']
                 },
+                'http://rdf.risis.eu/application/projectAcronym': {
+                    label: ['Project Acronym']
+                },
+                'http://rdf.risis.eu/application/projectObjectives': {
+                    label: ['Project Objectives']
+                },
                 'http://rdf.risis.eu/application/isVirtualUser': {
                     label: ['Is Remote (virtual) user?']
                 },
