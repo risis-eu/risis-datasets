@@ -159,6 +159,39 @@ export default {
                 }
                 callback(null, {user: '', applications: []});
             });
+        } else if (resource === 'resource.userProfileStatus') {
+            //control access on authentication
+            if(enableAuthentication){
+                if(!req.user){
+                    callback(null, {user: '', applications: []});
+                    return 0;
+                }else{
+                    user = req.user;
+                }
+            }else{
+                callback(null, {user: '', applications: []});
+                return 0;
+            }
+            endpointParameters = getEndpointParameters(authGraphName);
+            query = queryObject.getPrefixes() + queryObject.getUserProfileStatus(authGraphName, user.id);
+            // console.log(query);
+            //build http uri
+            //send request
+            rp.get({uri: getHTTPGetURL(getHTTPQuery('read', query, endpointParameters, outputFormat))}).then(function(res){
+                //exceptional case for user properties: we hide some admin props from normal users
+                let requiredFields = utilObject.parseUserProfileStatus(res);
+                //------------------------------------
+                callback(null, {
+                    user: user.id,
+                    requiredFields: requiredFields,
+                });
+            }).catch(function (err) {
+                console.log(err);
+                if(enableLogs){
+                    log.error('\n User: ' + user.accountName + '\n Status Code: \n' + err.statusCode + '\n Error Msg: \n' + err.message);
+                }
+                callback(null, {user: '', requiredFields: {}});
+            });
         }else if (resource === 'resource.datasetApplications') {
             graphName = decodeURIComponent(params.dataset);
             //control access on authentication

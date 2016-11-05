@@ -108,6 +108,19 @@ class ResourceQuery{
         } ORDER BY DESC(?created)';
         return this.query;
     }
+    getUserProfileStatus(graphName, userURI) {
+        /*jshint multistr: true */
+        this.query = '\
+        SELECT ?birthYear ?gender ?nationality ?organizationType ?city ?country from <' + graphName + '> WHERE { \
+        <'+userURI+'> <http://dbpedia.org/ontology/birthYear> ?birthYear ; \
+        <http://xmlns.com/foaf/0.1/gender> ?gender ; \
+        <http://dbpedia.org/ontology/nationality> ?nationality ; \
+        <http://rdf.risis.eu/user/organizationType> ?organizationType ; \
+        <http://dbpedia.org/ontology/city> ?city ; \
+        <http://dbpedia.org/ontology/country> ?country . \
+        }';
+        return this.query;
+    }
     getDatasetApplications(graphName, datasetURI) {
         /*jshint multistr: true */
         this.query = '\

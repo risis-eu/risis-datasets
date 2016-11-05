@@ -7,6 +7,7 @@ import {connectToStores} from 'fluxible-addons-react';
 import {navigateAction, NavLink} from 'fluxible-router';
 import loadUserApplications from '../actions/loadUserApplications';
 import loadDatasetsList from '../actions/loadDatasetsList';
+import loadUserProfileStatus from '../actions/loadUserProfileStatus';
 
 class Home extends React.Component {
     constructor(props) {
@@ -60,6 +61,7 @@ class Home extends React.Component {
         let user = this.context.getUser();
         if(user){
             this.context.executeAction(loadUserApplications, {});
+            //this.context.executeAction(loadUserProfileStatus, {});
         }
     }
     prepareDatasetApplication(){

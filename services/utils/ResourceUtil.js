@@ -57,6 +57,25 @@ class ResourceUtil{
         }
         return output;
     }
+    parseUserProfileStatus(body){
+        let output = {};
+        let parsed = JSON.parse(body);
+        if(parsed.head.vars[0]=== 'callret-0'){
+            //no results!
+            return 0;
+        }else{
+            parsed.results.bindings.forEach(function(el) {
+                output['birthYear'] = el.birthYear.value;
+                output['gender'] = el.gender.value;
+                output['nationality'] = el.nationality.value;
+                output['organizationType'] = el.organizationType.value;
+                output['city'] = el.city.value;
+                output['country'] = el.country.value;
+            });
+            return output;
+        }
+        return output;
+    }
     parseDatasetApplications(body){
         let tmp, output = [];
         let parsed = JSON.parse(body);
