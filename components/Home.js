@@ -45,7 +45,14 @@ class Home extends React.Component {
         if(!user){
             $('.ui.modal').modal('show');
         }else{
-            location.href = '/visitRequest/' + name;
+            let rf = this.props.UserApplicationStore.requiredFields;
+            console.log(rf);
+            if(rf && rf.length){
+                alert('Please go to your user profile and fill in the following information in order to be able to apply for a visit request: '+ rf.join(','));
+            }else{
+                location.href = '/visitRequest/' + name;
+            }
+
         }
     }
     componentDidMount() {
@@ -61,7 +68,8 @@ class Home extends React.Component {
         let user = this.context.getUser();
         if(user){
             this.context.executeAction(loadUserApplications, {});
-            //this.context.executeAction(loadUserProfileStatus, {});
+            //first check if user profile is complete enough
+            this.context.executeAction(loadUserProfileStatus, {});
         }
     }
     prepareDatasetApplication(){
