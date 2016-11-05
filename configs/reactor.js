@@ -977,7 +977,7 @@ export default {
                 },
                 'http://dbpedia.org/ontology/birthYear': {
                     label: ['Birth Year'],
-                    objectIEditor: ['BasicCalendarInput']
+                    //objectIEditor: ['BasicCalendarInput']
                 },
                 'http://dbpedia.org/ontology/nationality': {
                     label: ['Nationality'],

@@ -41,14 +41,30 @@ class Home extends React.Component {
         }
     }
     handleVisitRequest(name, resourceURI) {
+        let self = this;
         let user = this.context.getUser();
         if(!user){
             $('.ui.modal').modal('show');
         }else{
             let rf = this.props.UserApplicationStore.requiredFields;
-            console.log(rf);
             if(rf && rf.length){
-                alert('Please go to your user profile and fill in the following information in order to be able to apply for a visit request: '+ rf.join(','));
+                //alert(''+rf.join(','));
+                swal({
+                    title: 'Information Required!',
+                    text: 'Please complete the following information in your profile in order to be able to apply for a visit request:<br/> <b>'+rf.join(',') + '</b>',
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Go to My Profile >>',
+                    cancelButtonText: 'Cancel',
+                    confirmButtonClass: 'ui big primary button',
+                    cancelButtonClass: 'ui grey button'
+                }).then(function() {
+                    self.context.executeAction(navigateAction, {
+                        url: '/dataset/' + encodeURIComponent(user.graphName) + '/resource/' + encodeURIComponent(user.id)
+                    });
+                }, function(dismiss) {
+
+                })
             }else{
                 location.href = '/visitRequest/' + name;
             }

@@ -14,6 +14,7 @@ class DefaultHTMLLayout extends React.Component {
                 <meta name="viewport" content="width=device-width, user-scalable=no" />
                 <link href="/bower_components/semantic/dist/semantic.min.css" rel="stylesheet" type="text/css" />
                 <link href="/bower_components/animate.css/animate.min.css" rel="stylesheet" type="text/css" />
+                <link rel="stylesheet" type="text/css" href="/bower_components/sweetalert2/dist/sweetalert2.min.css" />
                 {/* Vendors css bundle */
                     this.props.addAssets ? <link href="/public/css/vendor.bundle.css" rel="stylesheet" type="text/css" />: <style></style>
                 }
@@ -36,6 +37,8 @@ class DefaultHTMLLayout extends React.Component {
                 <script src="/bower_components/semantic/dist/components/checkbox.min.js"></script>
                 <script src="/bower_components/semantic/dist/components/dimmer.min.js"></script>
                 <script src="/bower_components/semantic/dist/components/modal.min.js"></script>
+                <script src="/bower_components/es6-promise/es6-promise.auto.min.js"></script>
+                <script src="/bower_components/sweetalert2/dist/sweetalert2.min.js"></script>
                 {/* All external vendors bundle*/
                     this.props.addAssets ? <script src={'/public/js/vendor.bundle.js'}></script> : ''}
                 {/* Main app bundle */}
