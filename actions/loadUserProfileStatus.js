@@ -5,7 +5,7 @@ export default function loadUserProfileStatus(context, payload, done) {
         } else {
             let requiredFields = [];
             if(res.requiredFields){
-                if(res.requiredFields.birthYear === '0000-00-00'){
+                if(res.requiredFields.birthYear === '0000' || res.requiredFields.birthYear === '0000-00-00' || res.requiredFields.birthYear === '000-00-00'){
                     requiredFields.push('Birth Year');
                 }
                 if(res.requiredFields.gender === 'Unknown'){
