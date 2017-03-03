@@ -220,16 +220,25 @@ class Home extends React.Component {
                             Welcome to RISIS Datasets Portal!
                           </div>
                           <div>
-                              Access to RISIS datasets is offered through a two-step process:
+                              Access to given datasets or platforms, is free of charge and is offered through a two-step process:
                               <ul>
                                   <li>
                                       <b>Accreditation</b>: researchers need to register and agree on the conditions of use (good use of data, authorship, mentions to the RISIS project, agreement of posting results and aggregated datasets produced on RISIS website) via signing a charter of good use.
                                   </li>
                                   <li>
-                                      <b>Selection</b>: researchers need to develop a project based upon the mobilisation of one or more datasets. Projects are reviewed both by the relevant dataset producers and by the RISIS project review board that will give the final agreement for access.
+                                      <b>Selection</b>: researchers need to develop a project based upon the mobilisation of one or more datasets. Projects are reviewed both by the relevant dataset producers and by the RISIS project review board that will give the final agreement for access
                                   </li>
                               </ul>
-                              * Cost for travel and on site stay (when needed) will be covered by the <a href="http://risis.eu">RISIS project</a>.
+                              Depending on the dataset to be accessed, two ways of accessing data can be distinguished:
+                              <ul>
+                                  <li>
+                                      Some datasets can only be accessed on site by a physical visit to the dataset location ("<b>visit route</b>"). The visit route can be applied for below, mainly with a short research proposal (200 words). However, a physical visit can be replaced by distant access to data (e.g by email or file transfer platforms) on behalf of joint considerations between the dataset owner and the user when it is considered as more comfortable, and when it is legally eligible.
+                                  </li>
+                                  <li>
+                                      Some datasets also offer an "<b>access route</b>" (next to the "visit route") where the dataset (or major parts of it) can be accessed online after registration and a short description of the research purpose.
+                                  </li>
+                              </ul>
+                              * Cost for travel and on site stay (when needed) will be covered by the <a href="http://risis.eu">RISIS project</a> (see <a href="http://risis.eu/risis-registration/">Rules for visits and re-imbursement </a>).
                           </div>
                         </div>
                     }
