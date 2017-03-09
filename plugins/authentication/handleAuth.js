@@ -71,6 +71,7 @@ var getUserRegistrationQuery = function (endpoint, reqObject){
     var dresourceURI = generalConfig.baseResourceDomain + '/resource/' + rnd;
     var dgraphURI = generalConfig.baseResourceDomain + '/graph/' + rnd;
     var blanknode = generalConfig.baseResourceDomain + '/editorship/' + rnd;
+    var nblanknode = generalConfig.baseResourceDomain + '/viewedit/' + rnd;
     var editorofgraph='';
     var orcidid;
     if(reqObject.orcidid) {
@@ -130,7 +131,7 @@ var getUserRegistrationQuery = function (endpoint, reqObject){
         PREFIX vivo: <http://vivoweb.org/ontology/core#> \
         PREFIX dcterms: <http://purl.org/dc/terms/> \
         INSERT DATA INTO <'+ generalConfig.authGraphName[0] +'> { \
-        <'+ resourceURI + '> a foaf:Person , ldr:User; foaf:firstName """'+reqObject.firstname+'"""; foaf:lastName """'+reqObject.lastname+'"""; foaf:organization """'+reqObject.organization+'"""; dbo:birthYear "0000" ; dbo:nationality "Unknown" ; dbo:city "Unknown" ; dbo:country "Unknown" ; foaf:gender "Unknown" ; risisUV:organizationType "Unknown" ; vCard:role """'+reqObject.position+'"""; vivo:orcidId <'+orcidid+'> ; foaf:member <http://rdf.risis.eu/user/RISISUsers> ; vCard:adr """'+reqObject.address+'"""; foaf:mbox <mailto:'+reqObject.email+'>; dcterms:created "' + currentDate + '"^^xsd:dateTime; foaf:accountName """'+reqObject.username+'"""; ldr:password """'+passwordHash.generate(reqObject.password)+'"""; ldr:isActive "'+isActive+'"^^xsd:Integer; ldr:isSuperUser "0"^^xsd:Integer; ldr:editorOfGraph <'+dgraphURI+'>; ldr:editorOfResource <'+dresourceURI+'>; ldr:editorOfProperty <'+blanknode+'1> , <'+blanknode+'2> , <'+blanknode+'3> , <'+blanknode+'4> , <'+blanknode+'5> , <'+blanknode+'6>  , <'+blanknode+'7> , <'+blanknode+'8> , <'+blanknode+'9> , <'+blanknode+'10> , <'+blanknode+'11> , <'+blanknode+'12> , <'+blanknode+'13> . \
+        <'+ resourceURI + '> a foaf:Person , ldr:User; foaf:firstName """'+reqObject.firstname+'"""; foaf:lastName """'+reqObject.lastname+'"""; foaf:organization """'+reqObject.organization+'"""; dbo:birthYear "0000" ; dbo:nationality "Unknown" ; dbo:city "Unknown" ; dbo:country "Unknown" ; foaf:gender "Unknown" ; risisUV:organizationType "Unknown" ; vCard:role """'+reqObject.position+'"""; vivo:orcidId <'+orcidid+'> ; foaf:member <http://rdf.risis.eu/user/RISISUsers> ; vCard:adr """'+reqObject.address+'"""; foaf:mbox <mailto:'+reqObject.email+'>; dcterms:created "' + currentDate + '"^^xsd:dateTime; foaf:accountName """'+reqObject.username+'"""; ldr:password """'+passwordHash.generate(reqObject.password)+'"""; ldr:isActive "'+isActive+'"^^xsd:Integer; ldr:isSuperUser "0"^^xsd:Integer; ldr:editorOfGraph <'+dgraphURI+'>; ldr:editorOfResource <'+dresourceURI+'>; ldr:viewerOf <'+nblanknode+'0> ; ldr:editorOf <'+nblanknode+'1> , <'+nblanknode+'2> , <'+nblanknode+'3> , <'+nblanknode+'4> , <'+nblanknode+'5> , <'+nblanknode+'6>  , <'+nblanknode+'7> , <'+nblanknode+'8> , <'+nblanknode+'9> , <'+nblanknode+'10> , <'+nblanknode+'11> , <'+nblanknode+'12> , <'+nblanknode+'13> ; ldr:editorOfProperty <'+blanknode+'1> , <'+blanknode+'2> , <'+blanknode+'3> , <'+blanknode+'4> , <'+blanknode+'5> , <'+blanknode+'6>  , <'+blanknode+'7> , <'+blanknode+'8> , <'+blanknode+'9> , <'+blanknode+'10> , <'+blanknode+'11> , <'+blanknode+'12> , <'+blanknode+'13> . \
         <'+blanknode+'1> ldr:resource <'+resourceURI+'> ; ldr:property foaf:firstName . \
         <'+blanknode+'2> ldr:resource <'+resourceURI+'> ; ldr:property foaf:lastName . \
         <'+blanknode+'3> ldr:resource <'+resourceURI+'> ; ldr:property vCard:role . \
@@ -144,6 +145,19 @@ var getUserRegistrationQuery = function (endpoint, reqObject){
         <'+blanknode+'11> ldr:resource <'+resourceURI+'> ; ldr:property dbo:country . \
         <'+blanknode+'12> ldr:resource <'+resourceURI+'> ; ldr:property foaf:gender . \
         <'+blanknode+'13> ldr:resource <'+resourceURI+'> ; ldr:property risisUV:organizationType . \
+        <'+nblanknode+'1> ldr:scope "RP" ; ldr:resource <'+resourceURI+'> ; ldr:property foaf:firstName . \
+        <'+nblanknode+'2> ldr:scope "RP" ; ldr:resource <'+resourceURI+'> ; ldr:property foaf:lastName . \
+        <'+nblanknode+'3> ldr:scope "RP" ; ldr:resource <'+resourceURI+'> ; ldr:property vCard:role . \
+        <'+nblanknode+'4> ldr:scope "RP" ; ldr:resource <'+resourceURI+'> ; ldr:property vCard:adr . \
+        <'+nblanknode+'5> ldr:scope "RP" ; ldr:resource <'+resourceURI+'> ; ldr:property foaf:organization . \
+        <'+nblanknode+'6> ldr:scope "RP" ; ldr:resource <'+resourceURI+'> ; ldr:property ldr:password . \
+        <'+nblanknode+'7> ldr:scope "RP" ; ldr:resource <'+resourceURI+'> ; ldr:property vivo:orcidId . \
+        <'+nblanknode+'8> ldr:scope "RP" ; ldr:resource <'+resourceURI+'> ; ldr:property dbo:birthYear . \
+        <'+nblanknode+'9> ldr:scope "RP" ; ldr:resource <'+resourceURI+'> ; ldr:property dbo:nationality . \
+        <'+nblanknode+'10> ldr:scope "RP" ; ldr:resource <'+resourceURI+'> ; ldr:property dbo:city . \
+        <'+nblanknode+'11> ldr:scope "RP" ; ldr:resource <'+resourceURI+'> ; ldr:property dbo:country . \
+        <'+nblanknode+'12> ldr:scope "RP" ; ldr:resource <'+resourceURI+'> ; ldr:property foaf:gender . \
+        <'+nblanknode+'13> ldr:scope "RP" ; ldr:resource <'+resourceURI+'> ; ldr:property risisUV:organizationType . \
         } \
         ';
     }
