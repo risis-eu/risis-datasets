@@ -873,6 +873,7 @@ export default {
                         {label: 'Dataset Coordinators', value: 'http://rdf.risis.eu/user/DatasetCoordinators'},
                         {label: 'Project Review Board', value: 'http://rdf.risis.eu/user/PRB'},
                         {label: 'FCB', value: 'http://rdf.risis.eu/user/FCB'},
+                        {label: 'SMS Visitor', value: 'http://rdf.risis.eu/user/SMSVisitor'},
                         {label: 'SMS Team', value: 'http://rdf.risis.eu/user/SMSTeam'}
                     ],
                     defaultValue: ['http://rdf.risis.eu/user/RISISUsers'],

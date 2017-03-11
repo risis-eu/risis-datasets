@@ -31,7 +31,7 @@ class UsersList extends React.Component {
       }
       let i = 0;
       let membership = [];
-      let DSODIV, PRBDIV, FCBDIV, SMSTEAMDIV;
+      let DSODIV, PRBDIV, FCBDIV, SMSTEAMDIV, SMSVISITOR;
       if(this.props.UserStore.users){
         list = this.props.UserStore.users.map(function(node, index) {
             membership = node.membership.split(',');
@@ -54,6 +54,11 @@ class UsersList extends React.Component {
                 SMSTEAMDIV = <span className="ui mini teal tag label" title="SMS Team">SMS Team</span>;
             }else{
                 SMSTEAMDIV = '';
+            }
+            if(membership.indexOf('http://rdf.risis.eu/user/SMSVisitor') !== -1){
+                SMSVISITOR = <span className="ui mini blue tag label" title="SMS Team">SMS Visitor</span>;
+            }else{
+                SMSVISITOR = '';
             }
             if(parseInt(node.isActive)){
                 dbClass='green large user icon';
