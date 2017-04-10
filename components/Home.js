@@ -225,7 +225,7 @@ class Home extends React.Component {
 
                                 &nbsp;&nbsp;&nbsp;&nbsp; ii) Selection: researchers need to proposes a project (200 words proposal) based upon the mobilisation of one or more datasets. Projects are reviewed both by the relevant dataset producers and by the RISIS project review board that will give the final agreement for access.<br/><br/>
 
-                            All datasets can be accessed via the <b>visit request option</b> (see below), usually intending an on site physical visit* by the applicant to the host organisation of the dataset. However, a physical visit can also be replaced by distant access to data (e.g by some data delivered by email or file transfer platforms) on behalf of joint considerations between the dataset owner and the user when it is considered as more comfortable, and when it is legally eligible.
+                                All datasets can be accessed via the <b>visit request option</b> (see below),  intending an on site physical visit, with costs covered by RISIS*, by the applicant to the host organisation of the dataset.
 
                                 Some datasets also offer an <b>online access option</b> where the dataset (or major parts of it) can be accessed online after registration and a short description of the research prurpose.
                                 <br/><br/>
